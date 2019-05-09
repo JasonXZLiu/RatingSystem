@@ -1,7 +1,7 @@
 import React from "react";
-import CardView from "./CardView";
+import Card from "../cardView/Card";
 
-const LIMIT = 2;
+const LIMIT = 8;
 
 const ButtonRowStyle = {
   margin: "auto"
@@ -11,14 +11,14 @@ const ButtonStyle = {
   margin: "1rem 1rem 1rem 1rem"
 };
 
-class Board extends React.Component {
+class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
 
     let idx = 0;
     let min = LIMIT > props.persons.length ? props.persons.length : LIMIT;
     let sublist = props.persons.slice(0, min);
-    this.state = { idx, min, sublist };
+    this.state = { idx, min, sublist, ...this.state };
   }
 
   onBack = () => {
@@ -44,7 +44,7 @@ class Board extends React.Component {
   render = () => {
     return (
       <div>
-        <CardView list={this.state.sublist} />
+        <Card list={this.state.sublist} />
         <div className="row">
           <div style={ButtonRowStyle}>
             <button
@@ -70,4 +70,4 @@ class Board extends React.Component {
   };
 }
 
-export default Board;
+export default Leaderboard;
