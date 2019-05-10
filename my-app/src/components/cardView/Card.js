@@ -3,7 +3,8 @@ import PlayerOverviewDialog from "../playerOverviewModal/PlayerOverviewDialog";
 
 const CardStyle = {
   width: "90%",
-  margin: "1rem 2rem 1rem 2rem"
+  margin: "1rem 2rem 1rem 2rem",
+  textAlign: "center"
 };
 
 class Card extends React.Component {

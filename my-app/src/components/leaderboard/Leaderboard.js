@@ -16,8 +16,8 @@ class Leaderboard extends React.Component {
     super(props);
 
     let idx = 0;
-    let min = LIMIT > props.persons.length ? props.persons.length : LIMIT;
-    let sublist = props.persons.slice(0, min);
+    let min = LIMIT > props.leaders.length ? props.leaders.length : LIMIT;
+    let sublist = props.leaders.slice(0, min);
     this.state = { idx, min, sublist, ...this.state };
   }
 
@@ -26,17 +26,17 @@ class Leaderboard extends React.Component {
       let idx = this.state.idx - this.state.min;
       this.setState((state, props) => ({
         idx,
-        sublist: this.props.persons.slice(idx, this.state.idx)
+        sublist: this.props.leaders.slice(idx, this.state.idx)
       }));
     }
   };
 
   onNext = () => {
-    if (this.state.idx + this.state.min < this.props.persons.length) {
+    if (this.state.idx + this.state.min < this.props.leaders.length) {
       let idx = this.state.idx + this.state.min;
       this.setState((state, props) => ({
         idx,
-        sublist: this.props.persons.slice(idx, idx + this.state.min)
+        sublist: this.props.leaders.slice(idx, idx + this.state.min)
       }));
     }
   };
