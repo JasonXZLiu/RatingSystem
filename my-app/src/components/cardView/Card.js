@@ -1,5 +1,5 @@
 import React from "react";
-import PlayerOverviewDialog from "../playerOverviewModal/PlayerOverviewDialog";
+import PlayerOverviewDialog from "../playerOverviewDialog/PlayerOverviewDialog";
 
 const CardStyle = {
   width: "90%",

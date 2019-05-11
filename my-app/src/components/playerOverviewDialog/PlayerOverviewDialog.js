@@ -22,12 +22,15 @@ const tableViewStyle = {
   margin: "auto"
 };
 
-const tableHeader = ["Date", "Tournament", "Name", "Rating", "Win/Loss"];
-const matchHistory = [
-  ["05/09/19", "World Juniors", "Grizz1", "1261", "W"],
-  ["05/09/19", "Canadian Nationals", "Grizz2", "3452", "W"],
-  ["05/09/19", "MYTTC League", "Grizz3", "2346", "L"]
+const MATCH_HISTORY_HEADER = [
+  "Date",
+  "Tournament",
+  "Name",
+  "Rating",
+  "Win/Loss",
+  "Rating Change"
 ];
+
 class PlayerOverviewDialog extends React.Component {
   render() {
     const { onClose, player, classes, ...other } = this.props;
@@ -58,7 +61,7 @@ class PlayerOverviewDialog extends React.Component {
         <DialogContent>
           <TableView
             styling={tableViewStyle}
-            table={{ headers: tableHeader, rows: matchHistory }}
+            table={{ headers: MATCH_HISTORY_HEADER, rows: player.matchHistory }}
           />
         </DialogContent>
       </Dialog>
