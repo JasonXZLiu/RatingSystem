@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@material-ui/core";
 
 const NavBarStyle = {
   padding: "0.5rem 18rem 0.5rem 18rem",
@@ -34,7 +35,7 @@ class NavBar extends React.Component {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" to="./pages/">
                 Tournaments
               </a>
             </li>
