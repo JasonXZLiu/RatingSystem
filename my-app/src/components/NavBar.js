@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const NavBarStyle = {
-  padding: "0.5rem 18rem 0.5rem 18rem",
+  padding: "0.5% 10%",
   margin: "0rem 0rem 1rem 0rem"
 };
 
@@ -13,9 +13,9 @@ class NavBar extends React.Component {
         className="navbar navbar-expand-lg navbar-light bg-light"
         style={NavBarStyle}
       >
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           ReactApp
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -30,19 +30,19 @@ class NavBar extends React.Component {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="/">
                 Home <span className="sr-only">(current)</span>
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" to="./pages/">
+              <Link className="nav-link" to="./tournaments">
                 Tournaments
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="./rating">
                 Ratings
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
