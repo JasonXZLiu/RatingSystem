@@ -16,27 +16,17 @@ class LeaderboardPage extends React.Component {
     super(props);
 
     const players = getPlayers();
-    this.state = { searchValue: "", players, filteredPlayers: players };
+    this.state = { searchValue: "", players };
   }
 
   handleSearchFieldChange = e => {
-    const curPlayers = this.state.players;
-    const filteredPlayers = curPlayers.filter(player =>
-      this.handleSearch(player.name, e.target.value)
-    );
     this.setState({
-      filteredPlayers
+      filterValue: e.target.value
     });
-  };
-
-  handleSearch = (value, target) => {
-    return target === "" || value.toLowerCase().includes(target.toLowerCase());
   };
 
   render = () => {
     const { classes } = this.props;
-    const { filteredPlayers } = this.state;
-    console.log(filteredPlayers);
     return (
       <div>
         <NavBar />
@@ -45,7 +35,10 @@ class LeaderboardPage extends React.Component {
             handleSearchFieldChange={this.handleSearchFieldChange}
           />
           <h1 className={classes.leaderboardTitle}>Leaders</h1>
-          <Leaderboard leaders={this.state.filteredPlayers} />
+          <Leaderboard
+            leaders={this.state.players}
+            filterValue={this.state.filterValue}
+          />
         </div>
       </div>
     );

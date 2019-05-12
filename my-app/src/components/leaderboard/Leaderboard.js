@@ -1,10 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Card from "../cardView/Card";
 
 const LIMIT = 8;
 let idx = 0,
   nextIdx = 0,
   MIN = 0,
+  filteredLeaders = [],
   sublist = [];
 
 const ButtonRowStyle = {
@@ -43,8 +45,16 @@ class Leaderboard extends React.Component {
     });
   };
 
+  handleSearch = (value, target) => {
+    return target === "" || value.toLowerCase().includes(target.toLowerCase());
+  };
+
   render = () => {
-    sublist = this.props.leaders.slice(idx, nextIdx);
+    // filter the list based on the search value
+    const filteredLeaders = this.props.leaders.filter(player =>
+      this.handleSearch(player.name, this.props.filterValue)
+    );
+    sublist = filteredLeaders.slice(idx, nextIdx);
     return (
       <div>
         <Card list={sublist} />
@@ -72,5 +82,14 @@ class Leaderboard extends React.Component {
     );
   };
 }
+
+Leaderboard.propTypes = {
+  leaders: PropTypes.array.isRequired,
+  filterValue: PropTypes.string
+};
+
+Leaderboard.defaultProps = {
+  filterValue: ""
+};
 
 export default Leaderboard;

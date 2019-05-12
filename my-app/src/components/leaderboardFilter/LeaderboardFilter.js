@@ -17,7 +17,7 @@ class LeaderboardFilter extends React.Component {
           <Grid item xs={8}>
             <TextField
               id="outlined-search"
-              label="Search field"
+              label="Search by name"
               type="search"
               margin="normal"
               variant="outlined"
