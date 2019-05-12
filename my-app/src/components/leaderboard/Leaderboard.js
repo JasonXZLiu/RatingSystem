@@ -1,7 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Card from "../cardView/Card";
 
 const LIMIT = 8;
+let idx = 0,
+  nextIdx = 0,
+  MIN = 0,
+  filteredLeaders = [],
+  sublist = [];
 
 const ButtonRowStyle = {
   margin: "auto"
@@ -15,36 +21,66 @@ class Leaderboard extends React.Component {
   constructor(props) {
     super(props);
 
-    let idx = 0;
-    let min = LIMIT > props.leaders.length ? props.leaders.length : LIMIT;
-    let sublist = props.leaders.slice(0, min);
-    this.state = { idx, min, sublist, ...this.state };
+    MIN = LIMIT > this.props.leaders.length ? this.props.leaders.length : LIMIT;
+    nextIdx = MIN;
   }
 
   onBack = () => {
-    if (this.state.idx - this.state.min >= 0) {
-      let idx = this.state.idx - this.state.min;
-      this.setState((state, props) => ({
-        idx,
-        sublist: this.props.leaders.slice(idx, this.state.idx)
-      }));
+    if (idx - MIN >= 0) {
+      idx = idx - MIN;
+      nextIdx = idx + MIN;
     }
+    this.setState({
+      change: 1
+    });
   };
 
   onNext = () => {
-    if (this.state.idx + this.state.min < this.props.leaders.length) {
-      let idx = this.state.idx + this.state.min;
-      this.setState((state, props) => ({
-        idx,
-        sublist: this.props.leaders.slice(idx, idx + this.state.min)
-      }));
+    if (idx + MIN < filteredLeaders.length) {
+      idx = idx + MIN;
+      nextIdx = idx + MIN;
     }
+    this.setState({
+      change: 1
+    });
+  };
+
+  searchByStringValue = (value, target) => {
+    return target === "" || value.toLowerCase().includes(target.toLowerCase());
+  };
+
+  searchByNumberValue = (value, target) => {
+    return target === "" || value <= target;
+  };
+
+  filterPlayers = () => {
+    let filterBySearchValue =
+      this.props.leaders.filter(player =>
+        this.searchByStringValue(player.name, this.props.searchValue)
+      ) || [];
+    let filterByGenderValue = filterBySearchValue.filter(player =>
+      this.searchByStringValue(player.gender, this.props.genderValue)
+    );
+    let filterByProvinceValue = filterByGenderValue.filter(player =>
+      this.searchByStringValue(player.province, this.props.provinceValue)
+    );
+    let filterByCategoryValue = filterByProvinceValue.filter(player =>
+      this.searchByNumberValue(player.age, this.props.categoryValue)
+    );
+    MIN =
+      LIMIT > filterByCategoryValue.length
+        ? filterByCategoryValue.length
+        : LIMIT;
+    return filterByCategoryValue;
   };
 
   render = () => {
+    // filter the list based on the search value
+    filteredLeaders = this.filterPlayers();
+    sublist = filteredLeaders.slice(idx, nextIdx);
     return (
       <div>
-        <Card list={this.state.sublist} />
+        <Card list={sublist} />
         <div className="row">
           <div style={ButtonRowStyle}>
             <button
@@ -69,5 +105,20 @@ class Leaderboard extends React.Component {
     );
   };
 }
+
+Leaderboard.propTypes = {
+  leaders: PropTypes.array.isRequired,
+  searchValue: PropTypes.string,
+  genderValue: PropTypes.string,
+  provinceValue: PropTypes.string,
+  categoryValue: PropTypes.string
+};
+
+Leaderboard.defaultProps = {
+  searchValue: "",
+  genderValue: "",
+  provinceValue: "",
+  categoryValue: ""
+};
 
 export default Leaderboard;
