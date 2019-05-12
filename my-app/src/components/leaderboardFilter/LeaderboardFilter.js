@@ -1,12 +1,19 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import DropdownSelector from "../selectors/DropdownSelector";
+import get from "../../util/Repository";
 
 class LeaderboardFilter extends React.Component {
   render = () => {
-    const { handleSearchFieldChange } = this.props;
+    const {
+      handleSearchFieldChange,
+      handleSelectorChange,
+      genderValue,
+      categoryValue,
+      provinceValue
+    } = this.props;
     return (
-      <div style={{ width: "100%", padding: "0 5%" }}>
+      <div style={{ width: "100%", padding: "0 5%", marginBottom: "2rem" }}>
         <Grid
           container
           alignItems="center"
@@ -14,7 +21,7 @@ class LeaderboardFilter extends React.Component {
           justify="center"
           spacing={16}
         >
-          <Grid item xs={8}>
+          <Grid item xs={6}>
             <TextField
               id="outlined-search"
               label="Search by name"
@@ -22,10 +29,29 @@ class LeaderboardFilter extends React.Component {
               margin="normal"
               variant="outlined"
               onChange={handleSearchFieldChange}
+              style={{ width: "80%" }}
             />
           </Grid>
-          <Grid item xs={4}>
-            <DropdownSelector />
+          <Grid item xs={2}>
+            <DropdownSelector
+              data={get("CATEGORY")}
+              value={categoryValue}
+              handleSelectorChange={handleSelectorChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <DropdownSelector
+              data={get("PROVINCE")}
+              value={provinceValue}
+              handleSelectorChange={handleSelectorChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <DropdownSelector
+              data={get("GENDER")}
+              value={genderValue}
+              handleSelectorChange={handleSelectorChange}
+            />
           </Grid>
         </Grid>
       </div>

@@ -36,7 +36,7 @@ class Leaderboard extends React.Component {
   };
 
   onNext = () => {
-    if (idx + MIN < this.props.leaders.length) {
+    if (idx + MIN < filteredLeaders.length) {
       idx = idx + MIN;
       nextIdx = idx + MIN;
     }
@@ -45,15 +45,38 @@ class Leaderboard extends React.Component {
     });
   };
 
-  handleSearch = (value, target) => {
+  searchByStringValue = (value, target) => {
     return target === "" || value.toLowerCase().includes(target.toLowerCase());
+  };
+
+  searchByNumberValue = (value, target) => {
+    return target === "" || value <= target;
+  };
+
+  filterPlayers = () => {
+    let filterBySearchValue =
+      this.props.leaders.filter(player =>
+        this.searchByStringValue(player.name, this.props.searchValue)
+      ) || [];
+    let filterByGenderValue = filterBySearchValue.filter(player =>
+      this.searchByStringValue(player.gender, this.props.genderValue)
+    );
+    let filterByProvinceValue = filterByGenderValue.filter(player =>
+      this.searchByStringValue(player.province, this.props.provinceValue)
+    );
+    let filterByCategoryValue = filterByProvinceValue.filter(player =>
+      this.searchByNumberValue(player.age, this.props.categoryValue)
+    );
+    MIN =
+      LIMIT > filterByCategoryValue.length
+        ? filterByCategoryValue.length
+        : LIMIT;
+    return filterByCategoryValue;
   };
 
   render = () => {
     // filter the list based on the search value
-    const filteredLeaders = this.props.leaders.filter(player =>
-      this.handleSearch(player.name, this.props.filterValue)
-    );
+    filteredLeaders = this.filterPlayers();
     sublist = filteredLeaders.slice(idx, nextIdx);
     return (
       <div>
@@ -85,11 +108,17 @@ class Leaderboard extends React.Component {
 
 Leaderboard.propTypes = {
   leaders: PropTypes.array.isRequired,
-  filterValue: PropTypes.string
+  searchValue: PropTypes.string,
+  genderValue: PropTypes.string,
+  provinceValue: PropTypes.string,
+  categoryValue: PropTypes.string
 };
 
 Leaderboard.defaultProps = {
-  filterValue: ""
+  searchValue: "",
+  genderValue: "",
+  provinceValue: "",
+  categoryValue: ""
 };
 
 export default Leaderboard;

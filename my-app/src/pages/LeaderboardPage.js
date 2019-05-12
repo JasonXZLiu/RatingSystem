@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import Leaderboard from "../components/leaderboard/Leaderboard";
 import LeaderboardFilter from "../components/leaderboardFilter/LeaderboardFilter";
-import getPlayers from "../util/Repository";
+import get from "../util/Repository";
 
 const style = {
   leaderboardTitle: {
@@ -15,14 +15,36 @@ class LeaderboardPage extends React.Component {
   constructor(props) {
     super(props);
 
-    const players = getPlayers();
+    const players = get("PLAYERS");
     this.state = { searchValue: "", players };
   }
 
   handleSearchFieldChange = e => {
     this.setState({
-      filterValue: e.target.value
+      searchValue: e.target.value
     });
+  };
+
+  handleSelectorChange = (e, title) => {
+    switch (title) {
+      case "Gender":
+        this.setState({
+          genderValue: e.target.value
+        });
+        break;
+      case "Province":
+        this.setState({
+          provinceValue: e.target.value
+        });
+        break;
+      case "Category":
+        this.setState({
+          categoryValue: e.target.value
+        });
+        break;
+      default:
+        break;
+    }
   };
 
   render = () => {
@@ -33,11 +55,18 @@ class LeaderboardPage extends React.Component {
         <div className="container">
           <LeaderboardFilter
             handleSearchFieldChange={this.handleSearchFieldChange}
+            handleSelectorChange={this.handleSelectorChange}
+            genderValue={this.state.genderValue}
+            provinceValue={this.state.provinceValue}
+            categoryValue={this.state.categoryValue}
           />
           <h1 className={classes.leaderboardTitle}>Leaders</h1>
           <Leaderboard
             leaders={this.state.players}
-            filterValue={this.state.filterValue}
+            searchValue={this.state.searchValue}
+            genderValue={this.state.genderValue}
+            provinceValue={this.state.provinceValue}
+            categoryValue={this.state.categoryValue}
           />
         </div>
       </div>
