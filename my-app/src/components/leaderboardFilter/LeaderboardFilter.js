@@ -19,7 +19,7 @@ class LeaderboardFilter extends React.Component {
           alignItems="center"
           direction="row"
           justify="center"
-          spacing={16}
+          spacing={12}
         >
           <Grid item xs={6}>
             <TextField
@@ -37,6 +37,7 @@ class LeaderboardFilter extends React.Component {
               data={get("CATEGORY")}
               value={categoryValue}
               handleSelectorChange={handleSelectorChange}
+              style={{ width: "80%" }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -44,6 +45,7 @@ class LeaderboardFilter extends React.Component {
               data={get("PROVINCE")}
               value={provinceValue}
               handleSelectorChange={handleSelectorChange}
+              style={{ width: "80%" }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -51,6 +53,7 @@ class LeaderboardFilter extends React.Component {
               data={get("GENDER")}
               value={genderValue}
               handleSelectorChange={handleSelectorChange}
+              style={{ width: "80%" }}
             />
           </Grid>
         </Grid>

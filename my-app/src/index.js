@@ -4,11 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 
 const MyApp = () => {
-  return (
-    <div>
-      <App />
-    </div>
-  );
+  return <App />;
 };
 
 render(<MyApp />, document.getElementById("root"));
