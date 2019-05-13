@@ -1,14 +1,14 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import DropdownSelector from "../selectors/DropdownSelector";
-import get from "../../util/Repository";
+import get from "../util/Repository";
 
 class LeaderboardFilter extends React.Component {
   render = () => {
     const {
       handleSearchFieldChange,
       handleSelectorChange,
-      genderValue,
+      sexValue,
       categoryValue,
       provinceValue
     } = this.props;
@@ -51,7 +51,7 @@ class LeaderboardFilter extends React.Component {
           <Grid item xs={2}>
             <DropdownSelector
               data={get("GENDER")}
-              value={genderValue}
+              value={sexValue}
               handleSelectorChange={handleSelectorChange}
               style={{ width: "80%" }}
             />

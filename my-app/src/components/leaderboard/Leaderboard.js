@@ -58,10 +58,10 @@ class Leaderboard extends React.Component {
       this.props.leaders.filter(player =>
         this.searchByStringValue(player.name, this.props.searchValue)
       ) || [];
-    let filterByGenderValue = filterBySearchValue.filter(player =>
-      this.searchByStringValue(player.gender, this.props.genderValue)
+    let filterBySexValue = filterBySearchValue.filter(player =>
+      this.searchByStringValue(player.sex, this.props.sexValue)
     );
-    let filterByProvinceValue = filterByGenderValue.filter(player =>
+    let filterByProvinceValue = filterBySexValue.filter(player =>
       this.searchByStringValue(player.province, this.props.provinceValue)
     );
     let filterByCategoryValue = filterByProvinceValue.filter(player =>
@@ -109,14 +109,14 @@ class Leaderboard extends React.Component {
 Leaderboard.propTypes = {
   leaders: PropTypes.array.isRequired,
   searchValue: PropTypes.string,
-  genderValue: PropTypes.string,
+  sexValue: PropTypes.string,
   provinceValue: PropTypes.string,
   categoryValue: PropTypes.string
 };
 
 Leaderboard.defaultProps = {
   searchValue: "",
-  genderValue: "",
+  sexValue: "",
   provinceValue: "",
   categoryValue: ""
 };

@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import Leaderboard from "../components/leaderboard/Leaderboard";
 import LeaderboardFilter from "../components/leaderboardFilter/LeaderboardFilter";
+// import getPlayers from "../controllers/playerController.js";
 import get from "../util/Repository";
 
 const style = {
@@ -16,7 +17,19 @@ class LeaderboardPage extends React.Component {
     super(props);
 
     const players = get("PLAYERS");
+    // const players = getPlayers();
+    // console.log(getPlayers());
     this.state = { searchValue: "", players };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(get("PLAYERS"));
+    if (nextProps.state === "desiredState") {
+      const players = get("PLAYERS");
+      this.setState({
+        players
+      });
+    }
   }
 
   handleSearchFieldChange = e => {
@@ -27,9 +40,9 @@ class LeaderboardPage extends React.Component {
 
   handleSelectorChange = (e, title) => {
     switch (title) {
-      case "Gender":
+      case "Sex":
         this.setState({
-          genderValue: e.target.value
+          sexValue: e.target.value
         });
         break;
       case "Province":
@@ -49,6 +62,13 @@ class LeaderboardPage extends React.Component {
 
   render = () => {
     const { classes } = this.props;
+    const {
+      players,
+      searchValue,
+      sexValue,
+      provinceValue,
+      categoryValue
+    } = this.state;
     return (
       <div>
         <NavBar />
@@ -56,17 +76,17 @@ class LeaderboardPage extends React.Component {
           <LeaderboardFilter
             handleSearchFieldChange={this.handleSearchFieldChange}
             handleSelectorChange={this.handleSelectorChange}
-            genderValue={this.state.genderValue}
-            provinceValue={this.state.provinceValue}
-            categoryValue={this.state.categoryValue}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
           />
           <h1 className={classes.leaderboardTitle}>Leaders</h1>
           <Leaderboard
-            leaders={this.state.players}
-            searchValue={this.state.searchValue}
-            genderValue={this.state.genderValue}
-            provinceValue={this.state.provinceValue}
-            categoryValue={this.state.categoryValue}
+            leaders={players}
+            searchValue={searchValue}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
           />
         </div>
       </div>
