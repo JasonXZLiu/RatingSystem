@@ -18,10 +18,8 @@ const ButtonStyle = {
 };
 
 class Leaderboard extends React.Component {
-  constructor(props) {
-    super(props);
-
-    MIN = LIMIT > this.props.leaders.length ? this.props.leaders.length : LIMIT;
+  componentWillReceiveProps(nextProps) {
+    MIN = LIMIT > nextProps.leaders.length ? nextProps.leaders.length : LIMIT;
     nextIdx = MIN;
   }
 
@@ -75,7 +73,6 @@ class Leaderboard extends React.Component {
   };
 
   render = () => {
-    // filter the list based on the search value
     filteredLeaders = this.filterPlayers();
     sublist = filteredLeaders.slice(idx, nextIdx);
     return (

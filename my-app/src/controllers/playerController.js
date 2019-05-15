@@ -1,17 +1,13 @@
-import $ from "jquery";
+const basePath = "https://8a8f46a4.ngrok.io";
 
-const basePath = "https://3cbea487.ngrok.io";
+export async function getPlayers() {
+  return await fetch(basePath + "/players").then(res =>
+    res.json().then(data => data)
+  );
+}
 
-const getPlayers = () => {
-  $.ajax({
-    url: basePath + "/players",
-    success: function(result) {
-      if (result.isOK === false) alert(result.message);
-    },
-    async: false
-  }).done(function(data) {
-    return JSON.parse(data).players;
-  });
-};
-
-export default getPlayers;
+export async function getRatings() {
+  return await fetch(basePath + "/ratings").then(res =>
+    res.json().then(data => data)
+  );
+}

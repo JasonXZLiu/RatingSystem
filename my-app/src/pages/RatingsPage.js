@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import TableView from "../components/tableView/TableView";
-import get from "../util/Repository";
+import { getRatings } from "../controllers/playerController.js";
 
 const style = {
   ratingTitle: {
@@ -28,8 +28,11 @@ class RatingsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    const ratings = get("RATINGS");
-    this.state = { searchValue: "", ratings };
+    this.state = { searchValue: "", ratings: [] };
+  }
+
+  componentDidMount() {
+    getRatings().then(response => this.setState({ ratings: response }));
   }
 
   handleSearchFieldChange = e => {
@@ -63,6 +66,8 @@ class RatingsPage extends React.Component {
   render = () => {
     const { classes } = this.props;
     const { ratings } = this.state;
+    console.log(getRatings());
+    console.log(ratings);
     return (
       <div>
         <NavBar />

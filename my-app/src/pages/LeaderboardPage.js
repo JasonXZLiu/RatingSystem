@@ -3,8 +3,7 @@ import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import Leaderboard from "../components/leaderboard/Leaderboard";
 import LeaderboardFilter from "../components/leaderboardFilter/LeaderboardFilter";
-// import getPlayers from "../controllers/playerController.js";
-import get from "../util/Repository";
+import { getPlayers } from "../controllers/playerController.js";
 
 const style = {
   leaderboardTitle: {
@@ -15,20 +14,16 @@ const style = {
 class LeaderboardPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { searchValue: "", players: [] };
+  }
 
-    const players = get("PLAYERS");
-    // const players = getPlayers();
-    // console.log(getPlayers());
-    this.state = { searchValue: "", players };
+  componentDidMount() {
+    getPlayers().then(response => this.setState({ players: response }));
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(get("PLAYERS"));
     if (nextProps.state === "desiredState") {
-      const players = get("PLAYERS");
-      this.setState({
-        players
-      });
+      getPlayers().then(response => this.setState({ players: response }));
     }
   }
 
