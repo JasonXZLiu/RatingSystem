@@ -10,6 +10,13 @@ function getPlayers(params) {
   return data.players;
 }
 
+function getMatchHistoryById(params) {
+  const id = params.playerId;
+  const data = JSON.parse(getJSON());
+  const player = data.players.filter(player => player.id == id);
+  return player;
+}
+
 function getRatings(params) {
   const data = JSON.parse(getJSON());
   let players = data.players;
@@ -32,5 +39,6 @@ function getRatings(params) {
 
 module.exports = {
   getPlayers: getPlayers,
+  getMatchHistoryById: getMatchHistoryById,
   getRatings: getRatings
 };

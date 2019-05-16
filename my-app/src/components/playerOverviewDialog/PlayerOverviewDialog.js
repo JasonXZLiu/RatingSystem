@@ -8,6 +8,7 @@ import {
   Grid
 } from "@material-ui/core";
 import TableView from "../tableView/TableView";
+import { getMatchHistoryById } from "../../controllers/playerController";
 
 const styles = {
   dialog: {
@@ -25,16 +26,17 @@ const tableViewStyle = {
 const MATCH_HISTORY_HEADER = [
   "Date",
   "Tournament",
-  "Name",
-  "Rating",
-  "Win/Loss",
+  "Opponent",
+  "Opponent Rating",
+  "Result",
   "Rating Change"
 ];
 
 class PlayerOverviewDialog extends React.Component {
   render() {
     const { onClose, player, classes, ...other } = this.props;
-
+    const matchHistory = getMatchHistoryById(player.id);
+    const table = { headers: MATCH_HISTORY_HEADER, rows: matchHistory };
     return (
       <Dialog
         onClose={onClose}
@@ -59,10 +61,7 @@ class PlayerOverviewDialog extends React.Component {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <TableView
-            styling={tableViewStyle}
-            table={{ headers: MATCH_HISTORY_HEADER, rows: player.matchHistory }}
-          />
+          <TableView styling={tableViewStyle} table={table} />
         </DialogContent>
       </Dialog>
     );

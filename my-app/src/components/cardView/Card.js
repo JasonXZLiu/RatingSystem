@@ -18,7 +18,7 @@ class Card extends React.Component {
 
   handleModalShow = player => {
     this.setState({
-      open: player.name
+      open: player.id
     });
   };
 
@@ -33,7 +33,7 @@ class Card extends React.Component {
       <div className="row">
         {this.props.list.map(player => {
           return (
-            <div key={player.name} className="col-sm-3">
+            <div key={player.id} className="col-sm-3">
               <div className="card" style={CardStyle}>
                 <div className="card-body">
                   <h5 className="card-title">{player.name}</h5>
@@ -46,7 +46,8 @@ class Card extends React.Component {
                     View Match History
                   </button>
                   <PlayerOverviewDialog
-                    open={this.state.open === player.name ? true : false}
+                    key={player.id}
+                    open={this.state.open === player.id ? true : false}
                     player={player}
                     onClose={this.handleModalClose}
                   />

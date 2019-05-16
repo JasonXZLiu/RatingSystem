@@ -10,7 +10,8 @@ let idx = 0;
 class TableView extends React.Component {
   render = () => {
     const { styling, table } = this.props;
-    const displayRows = table.rows.splice(idx, idx + LIMIT);
+    const displayRows = table.rows.splice(idx, LIMIT + idx);
+    console.log(table);
     return (
       <table className="table" style={styling}>
         <TableHeader header={table.headers} />

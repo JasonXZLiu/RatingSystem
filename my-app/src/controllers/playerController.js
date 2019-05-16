@@ -6,6 +6,18 @@ export async function getPlayers() {
   );
 }
 
+export async function getMatchHistoryById(playerId) {
+  return await fetch(basePath + "/players/" + playerId).then(res =>
+    res.json().then(data => data)
+  );
+}
+
+export async function getPlayerInfoById() {
+  return await fetch(basePath + "/players").then(res =>
+    res.json().then(data => data)
+  );
+}
+
 export async function getRatings() {
   return await fetch(basePath + "/ratings").then(res =>
     res.json().then(data => data)

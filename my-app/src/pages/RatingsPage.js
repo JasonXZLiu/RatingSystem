@@ -66,8 +66,6 @@ class RatingsPage extends React.Component {
   render = () => {
     const { classes } = this.props;
     const { ratings } = this.state;
-    console.log(getRatings());
-    console.log(ratings);
     return (
       <div>
         <NavBar />

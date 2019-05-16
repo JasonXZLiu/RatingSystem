@@ -4,6 +4,7 @@ const app = express();
 const port = 3030;
 
 const PLAYERS = "PLAYERS";
+const PLAYER_BY_ID = "PLAYER_BY_ID";
 const RATINGS = "RATINGS";
 const SEX_FILTER = "SEX_FILTER";
 const PROVINCE_FILTER = "PROVINCE_FILTER";
@@ -17,6 +18,12 @@ app.get("/players", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.json(getData(PLAYERS));
+});
+
+app.get("/players/:playerId", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(PLAYER_BY_ID, req.params));
 });
 
 app.get("/ratings", (req, res) => {
