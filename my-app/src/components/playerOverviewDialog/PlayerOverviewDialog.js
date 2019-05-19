@@ -7,8 +7,8 @@ import {
   DialogContent,
   Grid
 } from "@material-ui/core";
-import TableView from "../tableView/TableView";
-import { getMatchHistoryById } from "../../controllers/playerController";
+import { getPlayerById } from "../../controllers/playerController";
+import RatingChart from "../ratingChart/RatingChart";
 
 const styles = {
   dialog: {
@@ -18,25 +18,27 @@ const styles = {
   }
 };
 
-const tableViewStyle = {
-  width: "95%",
-  margin: "auto"
-};
-
-const MATCH_HISTORY_HEADER = [
-  "Date",
-  "Tournament",
-  "Opponent",
-  "Opponent Rating",
-  "Result",
-  "Rating Change"
-];
-
 class PlayerOverviewDialog extends React.Component {
-  render() {
-    const { onClose, player, classes, ...other } = this.props;
-    const matchHistory = getMatchHistoryById(player.id);
-    const table = { headers: MATCH_HISTORY_HEADER, rows: matchHistory };
+  constructor(props) {
+    super(props);
+
+    this.state = { player: [] };
+    getPlayerById(props.player.id).then(response =>
+      this.setState({ player: response })
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      getPlayerById(this.props.player.id).then(response => {
+        this.setState({ player: response });
+      });
+    }
+  }
+
+  render = () => {
+    const { onClose, classes, ...other } = this.props;
+    const { player } = this.state;
     return (
       <Dialog
         onClose={onClose}
@@ -61,11 +63,11 @@ class PlayerOverviewDialog extends React.Component {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <TableView styling={tableViewStyle} table={table} />
+          <RatingChart />
         </DialogContent>
       </Dialog>
     );
-  }
+  };
 }
 
 PlayerOverviewDialog.propTypes = {

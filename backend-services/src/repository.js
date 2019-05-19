@@ -1,7 +1,8 @@
 const playerRepository = require("./playerRepository/playerRepository");
-const getRatings = playerRepository.getRatings;
 const getPlayers = playerRepository.getPlayers;
+const getPlayerById = playerRepository.getPlayerById;
 const getMatchHistoryById = playerRepository.getMatchHistoryById;
+const getRatings = playerRepository.getRatings;
 const filterRepository = require("./filterRepository/filterRepository");
 const getSex = filterRepository.getSex;
 const getCategory = filterRepository.getCategory;
@@ -19,7 +20,7 @@ function getData(request, params) {
     case PLAYERS:
       return getPlayers();
     case PLAYER_BY_ID:
-      return getMatchHistoryById(params);
+      return getPlayerById(params);
     case RATINGS:
       return getRatings(params);
     case SEX_FILTER:

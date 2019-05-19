@@ -14,15 +14,13 @@ const style = {
 class LeaderboardPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchValue: "", players: [] };
-  }
 
-  componentDidMount() {
+    this.state = { searchValue: "", players: [] };
     getPlayers().then(response => this.setState({ players: response }));
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.state === "desiredState") {
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
       getPlayers().then(response => this.setState({ players: response }));
     }
   }
@@ -75,7 +73,7 @@ class LeaderboardPage extends React.Component {
             provinceValue={provinceValue}
             categoryValue={categoryValue}
           />
-          <h1 className={classes.leaderboardTitle}>Leaders</h1>
+          <h1 className={classes.leaderboardTitle}>Top 50 Players</h1>
           <Leaderboard
             leaders={players}
             searchValue={searchValue}

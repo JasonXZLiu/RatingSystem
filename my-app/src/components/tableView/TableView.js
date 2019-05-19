@@ -9,15 +9,18 @@ let idx = 0;
 
 class TableView extends React.Component {
   render = () => {
-    const { styling, table } = this.props;
-    const displayRows = table.rows.splice(idx, LIMIT + idx);
-    console.log(table);
+    const { styling, headers, rows } = this.props;
+    console.log(rows);
+    const displayRows = rows.splice(idx, LIMIT + idx);
+    let count = 0;
+
     return (
       <table className="table" style={styling}>
-        <TableHeader header={table.headers} />
+        <TableHeader header={headers} />
         <tbody>
           {displayRows.map(row => {
-            return <RowView key={row} headers={table.headers} rowValue={row} />;
+            count++;
+            return <RowView key={count} headers={headers} rowValue={row} />;
           })}
         </tbody>
       </table>
@@ -26,7 +29,8 @@ class TableView extends React.Component {
 }
 
 TableView.propTypes = {
-  table: PropTypes.object.isRequired
+  headers: PropTypes.array.isRequired,
+  rows: PropTypes.array.isRequired
 };
 
 export default TableView;

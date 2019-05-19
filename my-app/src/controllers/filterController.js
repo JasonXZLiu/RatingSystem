@@ -1,4 +1,4 @@
-const basePath = "https://8a8f46a4.ngrok.io";
+import { basePath } from "./index";
 
 export async function getSexFilter() {
   return await fetch(basePath + "/filter/sex").then(res =>

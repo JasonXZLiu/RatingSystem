@@ -1,4 +1,4 @@
-const basePath = "https://8a8f46a4.ngrok.io";
+import { basePath } from "./index";
 
 export async function getPlayers() {
   return await fetch(basePath + "/players").then(res =>
@@ -7,13 +7,14 @@ export async function getPlayers() {
 }
 
 export async function getMatchHistoryById(playerId) {
+  console.log(playerId);
   return await fetch(basePath + "/players/" + playerId).then(res =>
     res.json().then(data => data)
   );
 }
 
-export async function getPlayerInfoById() {
-  return await fetch(basePath + "/players").then(res =>
+export async function getPlayerById(playerId) {
+  return await fetch(basePath + "/players/" + playerId).then(res =>
     res.json().then(data => data)
   );
 }

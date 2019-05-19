@@ -4,10 +4,6 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import RatingsPage from "./pages/RatingsPage";
 import NoMatch from "./pages/404";
 
-const Leaderboard = props => {
-  return <LeaderboardPage state={props.location.state} />;
-};
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +21,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Leaderboard} />
+          <Route exact path="/" component={LeaderboardPage} />
           <Route path="/rating" component={RatingsPage} />
           <Route path="/tournaments" component={LeaderboardPage} />
           <Route component={NoMatch} />

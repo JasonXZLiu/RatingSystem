@@ -1,38 +1,29 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
-import TableView from "../components/tableView/TableView";
 import { getRatings } from "../controllers/playerController.js";
+import LeaderboardFilter from "../components/leaderboardFilter/LeaderboardFilter";
+import RatingsTable from "../components/ratingsTable/RatingsTable";
 
 const style = {
   ratingTitle: {
     color: "#005cb2",
     margin: "2rem 0 1rem 0"
-  },
-  tableView: {
-    width: "80%",
-    margin: "auto"
   }
 };
-
-const RATING_HEADER = [
-  "Ranking",
-  "Name",
-  "Province",
-  "Sex",
-  "Rating",
-  "Last Played"
-];
 
 class RatingsPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = { searchValue: "", ratings: [] };
+    getRatings().then(response => this.setState({ ratings: response }));
   }
 
-  componentDidMount() {
-    getRatings().then(response => this.setState({ ratings: response }));
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      getRatings().then(response => this.setState({ ratings: response }));
+    }
   }
 
   handleSearchFieldChange = e => {
@@ -65,18 +56,31 @@ class RatingsPage extends React.Component {
 
   render = () => {
     const { classes } = this.props;
-    const { ratings } = this.state;
+    const {
+      ratings,
+      searchValue,
+      sexValue,
+      provinceValue,
+      categoryValue
+    } = this.state;
     return (
       <div>
         <NavBar />
         <div className="container">
+          <LeaderboardFilter
+            handleSearchFieldChange={this.handleSearchFieldChange}
+            handleSelectorChange={this.handleSelectorChange}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
+          />
           <h1 className={classes.ratingTitle}>Ratings</h1>
-          <TableView
-            className={classes.tableView}
-            table={{
-              headers: RATING_HEADER,
-              rows: ratings
-            }}
+          <RatingsTable
+            ratings={ratings}
+            searchValue={searchValue}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
           />
         </div>
       </div>
