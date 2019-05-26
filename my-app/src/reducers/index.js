@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import { playersStore } from "../pages/ratings/RatingsReducer";
+import { playerStore } from "../pages/player/PlayerReducer";
+import { ratingStore } from "../pages/ratings/RatingsReducer";
 import { leaderboard } from "../pages/leaderboard/LeaderboardReducer";
 
 export default combineReducers({
   leaderboard,
-  playersStore
+  ratingStore,
+  playerStore
 });

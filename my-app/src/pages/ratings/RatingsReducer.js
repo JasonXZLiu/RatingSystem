@@ -1,6 +1,6 @@
 import {
-  ACTION_REQUEST_PLAYERS,
-  ACTION_RECEIVE_PLAYERS
+  ACTION_REQUEST_RATINGS,
+  ACTION_RECEIVE_RATINGS
 } from "./RatingsAction";
 
 const initialState = {
@@ -11,14 +11,14 @@ const initialState = {
   categoryValue: null
 };
 
-export const playersStore = (state = initialState, action) => {
+export const ratingStore = (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_REQUEST_PLAYERS:
+    case ACTION_REQUEST_RATINGS:
       return {
         ...state,
         isFetching: true
       };
-    case ACTION_RECEIVE_PLAYERS:
+    case ACTION_RECEIVE_RATINGS:
       return {
         ...state,
         isFetching: false,

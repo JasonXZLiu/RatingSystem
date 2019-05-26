@@ -25,7 +25,6 @@ class RatingsPage extends Component {
   }
 
   handleSearchFieldChange = e => {
-    const { playersStore } = this.props;
     const { sexValue, provinceValue, categoryValue } = this.state;
     const searchValue = e.target.value;
     this.props.fetchPlayersAction({
@@ -84,8 +83,8 @@ class RatingsPage extends Component {
   };
 
   render = () => {
-    const { classes, playersStore } = this.props;
-    const { players, isFetching } = playersStore;
+    const { classes, ratingStore } = this.props;
+    const { players, isFetching } = ratingStore;
     const { sexValue, provinceValue, categoryValue } = this.state;
     return (
       <div>
@@ -111,8 +110,8 @@ class RatingsPage extends Component {
   };
 }
 
-const mapStateToProps = ({ playersStore }) => ({
-  playersStore
+const mapStateToProps = ({ ratingStore }) => ({
+  ratingStore
 });
 
 export default connect(

@@ -7,7 +7,6 @@ import {
   DialogContent,
   Grid
 } from "@material-ui/core";
-import TableView from "../../../components/tableView/TableView";
 import RowView from "../../../components/tableView/rowView/RowView";
 import TableHeader from "../../../components/tableView/TableHeader";
 
