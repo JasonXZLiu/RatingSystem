@@ -4,15 +4,23 @@ import { withStyles } from "@material-ui/core";
 import RowView from "./rowView/RowView";
 import TableHeader from "./TableHeader";
 
+const LIMIT = 15;
+let idx = 0;
+
 class TableView extends React.Component {
   render = () => {
-    const { styling, table } = this.props;
+    const { styling, headers, rows } = this.props;
+    console.log(rows);
+    const displayRows = rows.splice(idx, LIMIT + idx);
+    let count = 0;
+
     return (
       <table className="table" style={styling}>
-        <TableHeader header={table.headers} />
+        <TableHeader header={headers} />
         <tbody>
-          {table.rows.map(row => {
-            return <RowView key={row} rowValue={row} />;
+          {displayRows.map(row => {
+            count++;
+            return <RowView key={count} headers={headers} rowValue={row} />;
           })}
         </tbody>
       </table>
@@ -21,18 +29,8 @@ class TableView extends React.Component {
 }
 
 TableView.propTypes = {
-  table: PropTypes.object.isRequired
-};
-
-TableView.defaultProps = {
-  table: {
-    headers: ["#", "First", "Last", "Handle"],
-    rows: [
-      ["1", "Mark", "Otto", "@mdo"],
-      ["2", "Jacob", "Thornton", "@fat"],
-      ["3", "Larry", "the Bird", "@twitter"]
-    ]
-  }
+  headers: PropTypes.array.isRequired,
+  rows: PropTypes.array.isRequired
 };
 
 export default TableView;

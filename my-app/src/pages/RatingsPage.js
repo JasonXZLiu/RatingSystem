@@ -1,22 +1,29 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
 import NavBar from "../components/NavBar";
-import Leaderboard from "../components/leaderboard/Leaderboard";
+import { getRatings } from "../controllers/playerController.js";
 import LeaderboardFilter from "../components/leaderboardFilter/LeaderboardFilter";
-import get from "../util/Repository";
+import RatingsTable from "../components/ratingsTable/RatingsTable";
 
 const style = {
-  leaderboardTitle: {
-    color: "#005cb2"
+  ratingTitle: {
+    color: "#005cb2",
+    margin: "2rem 0 1rem 0"
   }
 };
 
-class LeaderboardPage extends React.Component {
+class RatingsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    const players = get("PLAYERS");
-    this.state = { searchValue: "", players };
+    this.state = { searchValue: "", ratings: [] };
+    getRatings().then(response => this.setState({ ratings: response }));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      getRatings().then(response => this.setState({ ratings: response }));
+    }
   }
 
   handleSearchFieldChange = e => {
@@ -27,9 +34,9 @@ class LeaderboardPage extends React.Component {
 
   handleSelectorChange = (e, title) => {
     switch (title) {
-      case "Gender":
+      case "Sex":
         this.setState({
-          genderValue: e.target.value
+          sexValue: e.target.value
         });
         break;
       case "Province":
@@ -49,6 +56,13 @@ class LeaderboardPage extends React.Component {
 
   render = () => {
     const { classes } = this.props;
+    const {
+      ratings,
+      searchValue,
+      sexValue,
+      provinceValue,
+      categoryValue
+    } = this.state;
     return (
       <div>
         <NavBar />
@@ -56,17 +70,17 @@ class LeaderboardPage extends React.Component {
           <LeaderboardFilter
             handleSearchFieldChange={this.handleSearchFieldChange}
             handleSelectorChange={this.handleSelectorChange}
-            genderValue={this.state.genderValue}
-            provinceValue={this.state.provinceValue}
-            categoryValue={this.state.categoryValue}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
           />
-          <h1 className={classes.leaderboardTitle}>Leaders</h1>
-          <Leaderboard
-            leaders={this.state.players}
-            searchValue={this.state.searchValue}
-            genderValue={this.state.genderValue}
-            provinceValue={this.state.provinceValue}
-            categoryValue={this.state.categoryValue}
+          <h1 className={classes.ratingTitle}>Ratings</h1>
+          <RatingsTable
+            ratings={ratings}
+            searchValue={searchValue}
+            sexValue={sexValue}
+            provinceValue={provinceValue}
+            categoryValue={categoryValue}
           />
         </div>
       </div>
@@ -74,4 +88,4 @@ class LeaderboardPage extends React.Component {
   };
 }
 
-export default withStyles(style)(LeaderboardPage);
+export default withStyles(style)(RatingsPage);

@@ -1,17 +1,51 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import DropdownSelector from "../selectors/DropdownSelector";
-import get from "../../util/Repository";
+import {
+  getSexFilter,
+  getProvinceFilter,
+  getCategoryFilter
+} from "../../controllers/filterController";
 
 class LeaderboardFilter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const initialState = {
+      input: "",
+      options: []
+    };
+    this.state = {
+      categoryFilter: initialState,
+      sexFilter: initialState,
+      provinceFilter: initialState
+    };
+  }
+
+  componentDidMount() {
+    getSexFilter()
+      .then(response => this.setState({ sexFilter: response }))
+      .then(data =>
+        getProvinceFilter().then(response =>
+          this.setState({ provinceFilter: response })
+        )
+      )
+      .then(
+        getCategoryFilter().then(response =>
+          this.setState({ categoryFilter: response })
+        )
+      );
+  }
+
   render = () => {
     const {
       handleSearchFieldChange,
       handleSelectorChange,
-      genderValue,
+      sexValue,
       categoryValue,
       provinceValue
     } = this.props;
+    const { sexFilter, categoryFilter, provinceFilter } = this.state;
     return (
       <div style={{ width: "100%", padding: "0 5%", marginBottom: "2rem" }}>
         <Grid
@@ -34,7 +68,7 @@ class LeaderboardFilter extends React.Component {
           </Grid>
           <Grid item xs={2}>
             <DropdownSelector
-              data={get("CATEGORY")}
+              data={categoryFilter}
               value={categoryValue}
               handleSelectorChange={handleSelectorChange}
               style={{ width: "80%" }}
@@ -42,7 +76,7 @@ class LeaderboardFilter extends React.Component {
           </Grid>
           <Grid item xs={2}>
             <DropdownSelector
-              data={get("PROVINCE")}
+              data={provinceFilter}
               value={provinceValue}
               handleSelectorChange={handleSelectorChange}
               style={{ width: "80%" }}
@@ -50,8 +84,8 @@ class LeaderboardFilter extends React.Component {
           </Grid>
           <Grid item xs={2}>
             <DropdownSelector
-              data={get("GENDER")}
-              value={genderValue}
+              data={sexFilter}
+              value={sexValue}
               handleSelectorChange={handleSelectorChange}
               style={{ width: "80%" }}
             />

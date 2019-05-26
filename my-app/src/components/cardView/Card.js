@@ -16,9 +16,9 @@ class Card extends React.Component {
     };
   }
 
-  handleModalShow = player => {
+  handleModalShow = playerId => {
     this.setState({
-      open: player.name
+      open: playerId
     });
   };
 
@@ -29,32 +29,28 @@ class Card extends React.Component {
   };
 
   render = () => {
+    const { player } = this.props;
     return (
-      <div className="row">
-        {this.props.list.map(player => {
-          return (
-            <div key={player.name} className="col-sm-3">
-              <div className="card" style={CardStyle}>
-                <div className="card-body">
-                  <h5 className="card-title">{player.name}</h5>
-                  <p className="card-text">{player.rating}</p>
-                  <button
-                    type="button"
-                    className="btn btn-outline-info"
-                    onClick={() => this.handleModalShow(player)}
-                  >
-                    View Match History
-                  </button>
-                  <PlayerOverviewDialog
-                    open={this.state.open === player.name ? true : false}
-                    player={player}
-                    onClose={this.handleModalClose}
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      <div key={player.id} className="col-sm-3">
+        <div className="card" style={CardStyle}>
+          <div className="card-body">
+            <h5 className="card-title">{player.name}</h5>
+            <p className="card-text">{player.rating}</p>
+            <button
+              type="button"
+              className="btn btn-outline-info"
+              onClick={() => this.handleModalShow(player.id)}
+            >
+              View Player Overview
+            </button>
+            <PlayerOverviewDialog
+              key={player.id}
+              open={this.state.open === player.id ? true : false}
+              player={player}
+              onClose={this.handleModalClose}
+            />
+          </div>
+        </div>
       </div>
     );
   };

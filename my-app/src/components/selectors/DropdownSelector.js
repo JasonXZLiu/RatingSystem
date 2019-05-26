@@ -41,7 +41,10 @@ class DropdownSelector extends React.Component {
 }
 
 DropdownSelector.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    input: PropTypes.string,
+    options: PropTypes.array
+  }).isRequired,
   value: PropTypes.string,
   handleSelectorChange: PropTypes.func.isRequired
 };
