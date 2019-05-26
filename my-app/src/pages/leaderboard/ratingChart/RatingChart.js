@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   LineChart,
   CartesianGrid,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-class RatingChart extends React.Component {
+class RatingChart extends Component {
   render = () => {
     const { player } = this.props;
     const data = [

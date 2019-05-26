@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 const NavBarStyle = {
@@ -6,7 +6,7 @@ const NavBarStyle = {
   margin: "0rem 0rem 1rem 0rem"
 };
 
-class NavBar extends React.Component {
+class NavBar extends Component {
   render = () => {
     return (
       <nav

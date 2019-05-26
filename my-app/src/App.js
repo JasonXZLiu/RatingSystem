@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import LeaderboardPage from "./pages/LeaderboardPage";
-import RatingsPage from "./pages/RatingsPage";
+import LeaderboardPage from "./pages/leaderboard/LeaderboardPage";
+import RatingsPage from "./pages/ratings/RatingsPage";
 import NoMatch from "./pages/404";
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};

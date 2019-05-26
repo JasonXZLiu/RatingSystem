@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import TableView from "../tableView/TableView";
+import TableView from "../../../components/tableView/TableView";
 import classNames from "classnames";
 
 const LIMIT = 25;
@@ -24,26 +24,13 @@ const RATING_HEADER = [
   "Last Played"
 ];
 
-class RatingsTable extends React.Component {
+class RatingsTable extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       idx: 0,
-      MIN: 0,
-      nextIdx: 0,
-      filteredRatings: []
+      nextIdx: 0
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      const MIN =
-        LIMIT > this.props.ratings.length ? this.props.ratings.length : LIMIT;
-      const nextIdx = MIN;
-      this.setState({ MIN, nextIdx });
-      this.filterRatings();
-    }
   }
 
   onBack = () => {
@@ -78,32 +65,11 @@ class RatingsTable extends React.Component {
     return target === "" || value <= target;
   };
 
-  filterRatings = () => {
-    let filterBySearchValue =
-      this.props.ratings.filter(rating =>
-        this.searchByStringValue(rating.name, this.props.searchValue)
-      ) || [];
-    let filterBySexValue = filterBySearchValue.filter(rating =>
-      this.searchByStringValue(rating.sex, this.props.sexValue)
-    );
-    let filterByProvinceValue = filterBySexValue.filter(rating =>
-      this.searchByStringValue(rating.province, this.props.provinceValue)
-    );
-    let filterByCategoryValue = filterByProvinceValue.filter(rating =>
-      this.searchByNumberValue(rating.age, this.props.categoryValue)
-    );
-    const MIN =
-      LIMIT > filterByCategoryValue.length
-        ? filterByCategoryValue.length
-        : LIMIT;
-    this.setState({ MIN, filteredRatings: filterByCategoryValue });
-  };
-
   render = () => {
-    const { idx, nextIdx, filteredRatings } = this.state;
-    const { classes } = this.props;
-    const sublist = filteredRatings.slice(idx, nextIdx);
-    console.log(sublist);
+    const { idx, nextIdx } = this.state;
+    const { classes, filteredPlayers } = this.props;
+    const MIN = filteredPlayers.length > LIMIT ? LIMIT : filteredPlayers.length;
+    const sublist = filteredPlayers.slice(idx, nextIdx === 0 && MIN);
     const table = {
       headers: RATING_HEADER,
       rows: sublist
@@ -137,7 +103,7 @@ class RatingsTable extends React.Component {
 }
 
 RatingsTable.propTypes = {
-  ratings: PropTypes.array.isRequired,
+  filteredPlayers: PropTypes.array.isRequired,
   searchValue: PropTypes.string,
   sexValue: PropTypes.string,
   provinceValue: PropTypes.string,

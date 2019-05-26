@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import NavBar from "./NavBar";
 
-class PageTemplate extends React.Component {
+class PageTemplate extends Component {
   render = () => {
     return (
       <div>

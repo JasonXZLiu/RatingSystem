@@ -38,11 +38,32 @@ function getRatings(params) {
   let count = 0;
   players.map(player => {
     count++;
-    player.lastplayed = player.matchHistory && player.matchHistory[0].date;
+    player.lastPlayed = player.matchHistory && player.matchHistory[0].date;
     player.ranking = count;
   });
   return players;
 }
+
+// filterRatings = () => {
+//     let filterBySearchValue =
+//       this.props.ratings.filter(rating =>
+//         this.searchByStringValue(rating.name, this.props.searchValue)
+//       ) || [];
+//     let filterBySexValue = filterBySearchValue.filter(rating =>
+//       this.searchByStringValue(rating.sex, this.props.sexValue)
+//     );
+//     let filterByProvinceValue = filterBySexValue.filter(rating =>
+//       this.searchByStringValue(rating.province, this.props.provinceValue)
+//     );
+//     let filterByCategoryValue = filterByProvinceValue.filter(rating =>
+//       this.searchByNumberValue(rating.age, this.props.categoryValue)
+//     );
+//     const MIN =
+//       LIMIT > filterByCategoryValue.length
+//         ? filterByCategoryValue.length
+//         : LIMIT;
+//     this.setState({ MIN, filteredRatings: filterByCategoryValue });
+//   };
 
 module.exports = {
   getPlayers: getPlayers,

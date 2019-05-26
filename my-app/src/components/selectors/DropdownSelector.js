@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { FormControl, InputLabel, Select } from "@material-ui/core";
 
-class DropdownSelector extends React.Component {
+class DropdownSelector extends Component {
   constructor(props) {
     super(props);
     this.state = { value: "" };
