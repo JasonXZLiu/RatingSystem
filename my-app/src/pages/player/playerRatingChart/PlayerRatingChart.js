@@ -10,7 +10,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-class RatingChart extends Component {
+class PlayerRatingChart extends Component {
   render = () => {
     const { player } = this.props;
     const data = [
@@ -61,4 +61,4 @@ class RatingChart extends Component {
   };
 }
 
-export default RatingChart;
+export default PlayerRatingChart;

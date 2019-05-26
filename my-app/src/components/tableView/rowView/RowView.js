@@ -19,12 +19,13 @@ class RowView extends Component {
 
   render = () => {
     const { hover } = this.state;
-    const { headers, rowValue } = this.props;
+    const { headers, rowValue, onClick } = this.props;
     let count = -1;
     return (
       <tr
         onMouseEnter={this.toggle}
         onMouseLeave={this.toggle}
+        onClick={onClick}
         style={{ background: hover ? "#E8EAF6" : "" }}
       >
         {headers.map(header => {

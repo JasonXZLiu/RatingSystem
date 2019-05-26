@@ -24,6 +24,8 @@ const RATING_HEADER = [
   "Last Played"
 ];
 
+const playerUrl = "/player";
+
 class RatingsTable extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +74,7 @@ class RatingsTable extends Component {
     const sublist = filteredPlayers.slice(idx, nextIdx === 0 && MIN);
     const table = {
       headers: RATING_HEADER,
+      url: playerUrl,
       rows: sublist
     };
     return (
