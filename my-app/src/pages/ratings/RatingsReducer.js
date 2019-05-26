@@ -4,7 +4,11 @@ import {
 } from "./RatingsAction";
 
 const initialState = {
-  players: []
+  players: [],
+  searchValue: null,
+  sexValue: null,
+  provinceValue: null,
+  categoryValue: null
 };
 
 export const playersStore = (state = initialState, action) => {

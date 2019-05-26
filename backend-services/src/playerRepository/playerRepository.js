@@ -24,6 +24,29 @@ function getMatchHistoryById(params) {
   return player;
 }
 
+function searchByStringValue(value, target) {
+  return (
+    target === "undefined" || value.toLowerCase().includes(target.toLowerCase())
+  );
+}
+function searchByNumberValue(value, target) {
+  return target === "undefined" || value <= parseInt(target);
+}
+
+function filterRatings(ratings, params) {
+  return (
+    ratings
+      .filter(rating => searchByStringValue(rating.name, params.searchValue))
+      .filter(rating => searchByStringValue(rating.sex, params.sexValue))
+      .filter(rating =>
+        searchByStringValue(rating.province, params.provinceValue)
+      )
+      .filter(rating =>
+        searchByNumberValue(rating.age, params.categoryValue)
+      ) || []
+  );
+}
+
 function getRatings(params) {
   const data = JSON.parse(getJSON());
   let players = data.players;
@@ -41,29 +64,9 @@ function getRatings(params) {
     player.lastPlayed = player.matchHistory && player.matchHistory[0].date;
     player.ranking = count;
   });
-  return players;
+  if (params) return filterRatings(players, params);
+  else return players;
 }
-
-// filterRatings = () => {
-//     let filterBySearchValue =
-//       this.props.ratings.filter(rating =>
-//         this.searchByStringValue(rating.name, this.props.searchValue)
-//       ) || [];
-//     let filterBySexValue = filterBySearchValue.filter(rating =>
-//       this.searchByStringValue(rating.sex, this.props.sexValue)
-//     );
-//     let filterByProvinceValue = filterBySexValue.filter(rating =>
-//       this.searchByStringValue(rating.province, this.props.provinceValue)
-//     );
-//     let filterByCategoryValue = filterByProvinceValue.filter(rating =>
-//       this.searchByNumberValue(rating.age, this.props.categoryValue)
-//     );
-//     const MIN =
-//       LIMIT > filterByCategoryValue.length
-//         ? filterByCategoryValue.length
-//         : LIMIT;
-//     this.setState({ MIN, filteredRatings: filterByCategoryValue });
-//   };
 
 module.exports = {
   getPlayers: getPlayers,

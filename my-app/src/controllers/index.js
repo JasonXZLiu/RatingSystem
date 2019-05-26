@@ -5,12 +5,12 @@ import {
   ACTION_RECEIVE_LEADERS
 } from "../pages/leaderboard/LeaderboardAction";
 
-export const basePath = "https://062d3a5f.ngrok.io";
+export const basePath = "https://cefcf35d.ngrok.io";
 
 export const fetch = (action, params) => {
   switch (action) {
     case ACTION_REQUEST_PLAYERS:
-      return getRatings();
+      return getRatings(params);
     case ACTION_REQUEST_LEADERS:
       return getPlayers();
     case ACTION_RECEIVE_LEADERS:
