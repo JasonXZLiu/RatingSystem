@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Card from "../cardView/Card";
+import Card from "../../../components/cardView/Card";
+import PlayerOverviewDialog from "../playerOverviewDialog/PlayerOverviewDialog";
 
 const LIMIT = 8;
 
@@ -12,7 +13,7 @@ const ButtonStyle = {
   margin: "1rem 1rem 1rem 1rem"
 };
 
-class Leaderboard extends React.Component {
+class LeaderboardTable extends Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +21,8 @@ class Leaderboard extends React.Component {
       idx: 0,
       MIN: 0,
       nextIdx: 0,
-      filteredLeaders: []
+      filteredLeaders: [],
+      open: false
     };
   }
 
@@ -58,6 +60,18 @@ class Leaderboard extends React.Component {
     }
   };
 
+  handleModalShow = playerId => {
+    this.setState({
+      open: playerId
+    });
+  };
+
+  handleModalClose = () => {
+    this.setState({
+      open: ""
+    });
+  };
+
   searchByStringValue = (value, target) => {
     return target === "" || value.toLowerCase().includes(target.toLowerCase());
   };
@@ -88,15 +102,35 @@ class Leaderboard extends React.Component {
   };
 
   render = () => {
-    const { idx, nextIdx, filteredLeaders } = this.state;
+    const { idx, nextIdx, filteredLeaders, open } = this.state;
     const sublist = filteredLeaders.slice(idx, nextIdx);
-    console.log(sublist);
     return (
       <div>
         <div className="row">
-          {sublist.map(player => (
-            <Card key={player.id} list={sublist} player={player} />
-          ))}
+          {sublist.map(player => {
+            const card = {
+              id: player.id,
+              title: player.name,
+              content: player.rating,
+              text: "View Player Overview"
+            };
+            return (
+              <Card
+                key={player.id}
+                card={card}
+                open={() => this.handleModalShow(player.id)}
+                action={
+                  open === player.id && (
+                    <PlayerOverviewDialog
+                      key={player.id}
+                      leader={player}
+                      onClose={this.handleModalClose}
+                    />
+                  )
+                }
+              />
+            );
+          })}
         </div>
         <div className="row">
           <div style={ButtonRowStyle}>
@@ -123,7 +157,7 @@ class Leaderboard extends React.Component {
   };
 }
 
-Leaderboard.propTypes = {
+LeaderboardTable.propTypes = {
   leaders: PropTypes.array.isRequired,
   searchValue: PropTypes.string,
   sexValue: PropTypes.string,
@@ -131,11 +165,11 @@ Leaderboard.propTypes = {
   categoryValue: PropTypes.string
 };
 
-Leaderboard.defaultProps = {
+LeaderboardTable.defaultProps = {
   searchValue: "",
   sexValue: "",
   provinceValue: "",
   categoryValue: ""
 };
 
-export default Leaderboard;
+export default LeaderboardTable;

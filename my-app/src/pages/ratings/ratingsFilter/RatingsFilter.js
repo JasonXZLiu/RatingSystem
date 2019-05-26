@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import { Grid, TextField } from "@material-ui/core";
-import DropdownSelector from "../selectors/DropdownSelector";
+import DropdownSelector from "../../../components/selectors/DropdownSelector";
 import {
   getSexFilter,
   getProvinceFilter,
   getCategoryFilter
-} from "../../controllers/filterController";
+} from "../../../controllers/filterController";
 
-class LeaderboardFilter extends React.Component {
+class PlayerFilter extends Component {
   constructor(props) {
     super(props);
 
@@ -96,4 +96,4 @@ class LeaderboardFilter extends React.Component {
   };
 }
 
-export default LeaderboardFilter;
+export default PlayerFilter;

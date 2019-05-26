@@ -1,21 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
 import RowView from "./rowView/RowView";
 import TableHeader from "./TableHeader";
 
 const LIMIT = 15;
 let idx = 0;
 
-class TableView extends React.Component {
+class TableView extends Component {
   render = () => {
     const { styling, headers, rows } = this.props;
-    console.log(rows);
     const displayRows = rows.splice(idx, LIMIT + idx);
     let count = 0;
-
     return (
-      <table className="table" style={styling}>
+      <table className="table">
         <TableHeader header={headers} />
         <tbody>
           {displayRows.map(row => {

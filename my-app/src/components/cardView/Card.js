@@ -1,5 +1,4 @@
-import React from "react";
-import PlayerOverviewDialog from "../playerOverviewDialog/PlayerOverviewDialog";
+import React, { Component } from "react";
 
 const CardStyle = {
   width: "90%",
@@ -7,48 +6,23 @@ const CardStyle = {
   textAlign: "center"
 };
 
-class Card extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false
-    };
-  }
-
-  handleModalShow = playerId => {
-    this.setState({
-      open: playerId
-    });
-  };
-
-  handleModalClose = () => {
-    this.setState({
-      open: ""
-    });
-  };
-
+class Card extends Component {
   render = () => {
-    const { player } = this.props;
+    const { card, open, action } = this.props;
     return (
-      <div key={player.id} className="col-sm-3">
+      <div key={card.id} className="col-sm-3">
         <div className="card" style={CardStyle}>
           <div className="card-body">
-            <h5 className="card-title">{player.name}</h5>
-            <p className="card-text">{player.rating}</p>
+            <h5 className="card-title">{card.title}</h5>
+            <p className="card-text">{card.content}</p>
             <button
               type="button"
               className="btn btn-outline-info"
-              onClick={() => this.handleModalShow(player.id)}
+              onClick={open}
             >
-              View Player Overview
+              {card.text}
             </button>
-            <PlayerOverviewDialog
-              key={player.id}
-              open={this.state.open === player.id ? true : false}
-              player={player}
-              onClose={this.handleModalClose}
-            />
+            {action}
           </div>
         </div>
       </div>

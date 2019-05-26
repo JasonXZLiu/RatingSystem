@@ -24,6 +24,29 @@ function getMatchHistoryById(params) {
   return player;
 }
 
+function searchByStringValue(value, target) {
+  return (
+    target === "undefined" || value.toLowerCase().includes(target.toLowerCase())
+  );
+}
+function searchByNumberValue(value, target) {
+  return target === "undefined" || value <= parseInt(target);
+}
+
+function filterRatings(ratings, params) {
+  return (
+    ratings
+      .filter(rating => searchByStringValue(rating.name, params.searchValue))
+      .filter(rating => searchByStringValue(rating.sex, params.sexValue))
+      .filter(rating =>
+        searchByStringValue(rating.province, params.provinceValue)
+      )
+      .filter(rating =>
+        searchByNumberValue(rating.age, params.categoryValue)
+      ) || []
+  );
+}
+
 function getRatings(params) {
   const data = JSON.parse(getJSON());
   let players = data.players;
@@ -38,10 +61,11 @@ function getRatings(params) {
   let count = 0;
   players.map(player => {
     count++;
-    player.lastplayed = player.matchHistory && player.matchHistory[0].date;
+    player.lastPlayed = player.matchHistory && player.matchHistory[0].date;
     player.ranking = count;
   });
-  return players;
+  if (params) return filterRatings(players, params);
+  else return players;
 }
 
 module.exports = {

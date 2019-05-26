@@ -32,6 +32,15 @@ app.get("/ratings", (req, res) => {
   res.json(getData(RATINGS));
 });
 
+app.get(
+  "/ratings/search=:searchValue&sex=:sexValue&province=:provinceValue&category=:categoryValue",
+  (req, res) => {
+    res.type("json");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.json(getData(RATINGS, req.params));
+  }
+);
+
 app.get("/filter/sex", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
