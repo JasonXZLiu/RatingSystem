@@ -1,21 +1,23 @@
-const playerRepository = require("./playerRepository/playerRepository");
-const getPlayers = playerRepository.getPlayers;
-const getPlayerById = playerRepository.getPlayerById;
-const getMatchHistoryById = playerRepository.getMatchHistoryById;
-const getRatings = playerRepository.getRatings;
-const filterRepository = require("./filterRepository/filterRepository");
-const getSex = filterRepository.getSex;
-const getCategory = filterRepository.getCategory;
-const getProvince = filterRepository.getProvince;
+import {
+  getPlayers,
+  getPlayerById,
+  getMatchHistoryById,
+  getRatings
+} from "./core/playerRepository/playerRepository";
+import {
+  getSex,
+  getCategory,
+  getProvince
+} from "./core/filterRepository/filterRepository";
 
-const PLAYERS = "PLAYERS";
-const PLAYER_BY_ID = "PLAYER_BY_ID";
-const RATINGS = "RATINGS";
-const SEX_FILTER = "SEX_FILTER";
-const PROVINCE_FILTER = "PROVINCE_FILTER";
-const CATEGORY_FILTER = "CATEGORY_FILTER";
+export const PLAYERS = "PLAYERS";
+export const PLAYER_BY_ID = "PLAYER_BY_ID";
+export const RATINGS = "RATINGS";
+export const SEX_FILTER = "SEX_FILTER";
+export const PROVINCE_FILTER = "PROVINCE_FILTER";
+export const CATEGORY_FILTER = "CATEGORY_FILTER";
 
-function getData(request, params) {
+export const getData = (request, params) => {
   switch (request) {
     case PLAYERS:
       return getPlayers();
@@ -32,6 +34,4 @@ function getData(request, params) {
     default:
       return "NOTHING HERE";
   }
-}
-
-module.exports = getData;
+};

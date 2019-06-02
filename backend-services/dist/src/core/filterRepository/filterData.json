@@ -1,6 +1,6 @@
 {
   "sex": {
-    "title": "sex",
+    "title": "Sex",
     "options": [
       { "label": "Male", "value": "M" },
       { "label": "Female", "value": "F" }

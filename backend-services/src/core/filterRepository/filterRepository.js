@@ -1,27 +1,21 @@
-const fs = require("fs");
+import fs from "fs";
 
-function getJSON() {
+export function getJSON() {
   var data = fs.readFileSync("./src/filterRepository/filterData.json", "utf8");
   return data;
 }
 
-function getSex(params) {
+export function getSex(params) {
   const data = JSON.parse(getJSON());
   return data.sex;
 }
 
-function getProvince(params) {
+export function getProvince(params) {
   const data = JSON.parse(getJSON());
   return data.province;
 }
 
-function getCategory(params) {
+export function getCategory(params) {
   const data = JSON.parse(getJSON());
   return data.category;
 }
-
-module.exports = {
-  getSex: getSex,
-  getProvince: getProvince,
-  getCategory: getCategory
-};

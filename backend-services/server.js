@@ -1,17 +1,43 @@
-const express = require("express");
-const getData = require("./src/repository");
-const app = express();
+import express from "express";
+import restify from "restify";
+import graphqlHTTP from "express-graphql";
+import getData from "./src/repository";
+import {
+  PLAYERS,
+  PLAYER_BY_ID,
+  RATINGS
+} from "./src/core/playerRepository/PlayerRepository";
+import {
+  SEX_FILTER,
+  PROVINCE_FILTER,
+  CATEGORY_FILTER
+} from "./src/core/filterRepository/FilterRepository";
+
+const app = restify.createServer();
 const port = 3030;
 
-const PLAYERS = "PLAYERS";
-const PLAYER_BY_ID = "PLAYER_BY_ID";
-const RATINGS = "RATINGS";
-const SEX_FILTER = "SEX_FILTER";
-const PROVINCE_FILTER = "PROVINCE_FILTER";
-const CATEGORY_FILTER = "CATEGORY_FILTER";
+// GraphQL API
+// app.post(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema: MyGraphQLSchema,
+//     graphiql: false
+//   })
+// );
 
+// app.get(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema: MyGraphQLSchema,
+//     graphiql: true
+//   })
+// );
+
+// REST API
 app.get("/", (req, res) => {
-  res.send({ hi: "hello" });
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(PLAYERS));
 });
 
 app.get("/players", (req, res) => {
