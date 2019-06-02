@@ -7,8 +7,50 @@ function getJSON() {
   return data;
 }
 
+function getPlayers(params) {
+  var data = JSON.parse(getJSON());
+  return data.players;
+}
+
+function getPlayerById(params) {
+  var id = params.playerId;
+  var data = JSON.parse(getJSON());
+  var player = data.players.filter(function (player) {
+    return player.id == id;
+  });
+  return player[0];
+}
+
+function getMatchHistoryById(params) {
+  var id = params.playerId;
+  var data = JSON.parse(getJSON());
+  var player = data.players.filter(function (player) {
+    return player.id == id;
+  });
+  return player;
+}
+
+function searchByStringValue(value, target) {
+  return target === "undefined" || value.toLowerCase().includes(target.toLowerCase());
+}
+function searchByNumberValue(value, target) {
+  return target === "undefined" || value <= parseInt(target);
+}
+
+function filterRatings(ratings, params) {
+  return ratings.filter(function (rating) {
+    return searchByStringValue(rating.name, params.searchValue);
+  }).filter(function (rating) {
+    return searchByStringValue(rating.sex, params.sexValue);
+  }).filter(function (rating) {
+    return searchByStringValue(rating.province, params.provinceValue);
+  }).filter(function (rating) {
+    return searchByNumberValue(rating.age, params.categoryValue);
+  }) || [];
+}
+
 function getRatings(params) {
-  var data = getJSON();
+  var data = JSON.parse(getJSON());
   var players = data.players;
   players.sort(function (a, b) {
     return b.rating - a.rating;
@@ -21,14 +63,15 @@ function getRatings(params) {
   var count = 0;
   players.map(function (player) {
     count++;
-    player.lastplayed = player.matchHistory && player.matchHistory[0].date;
+    player.lastPlayed = player.matchHistory && player.matchHistory[0].date;
     player.ranking = count;
   });
-  return players;
+  if (params) return filterRatings(players, params);else return players;
 }
 
-function getPlayers(params) {
-  return getJSON();
-}
-
-module.exports = getPlayers, getRatings;
+module.exports = {
+  getPlayers: getPlayers,
+  getPlayerById: getPlayerById,
+  getMatchHistoryById: getMatchHistoryById,
+  getRatings: getRatings
+};
