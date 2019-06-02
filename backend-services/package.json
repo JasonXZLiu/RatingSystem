@@ -2,18 +2,31 @@
   "name": "backend-services",
   "version": "1.0.0",
   "description": "",
-  "main": "./index.js",
+  "main": "./server.js",
+  "watch": {
+    "start": {
+      "patterns": "*.js",
+      "ignore": "dist"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/server.js",
+    "watch": "npm-watch",
+    "mongo-mac": "mkdir mongo-db; mongod --dbpath mongo-db",
+    "mongo-win": "C:/Program Files/MongoDb/Server/4.0/bin/mongod.exe"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.15.2",
-    "morgan": "^1.8.1"
+    "express-graphql": "^0.8.0",
+    "graphql": "^14.3.1",
+    "morgan": "^1.8.1",
+    "restify": "^8.3.2",
+    "npm-watch": "^0.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
