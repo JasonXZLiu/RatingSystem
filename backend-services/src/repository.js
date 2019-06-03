@@ -9,6 +9,8 @@ import {
   getCategory,
   getProvince
 } from "./core/filterRepository/filterRepository";
+import { getTournaments } from "./core/tournamentRepository/tournamentRepository";
+import { getCountryCode } from "./core/countryRepository/countryRepository";
 
 export const PLAYERS = "PLAYERS";
 export const PLAYER_BY_ID = "PLAYER_BY_ID";
@@ -16,6 +18,8 @@ export const RATINGS = "RATINGS";
 export const SEX_FILTER = "SEX_FILTER";
 export const PROVINCE_FILTER = "PROVINCE_FILTER";
 export const CATEGORY_FILTER = "CATEGORY_FILTER";
+export const TOURNAMENTS = "TOURNAMENTS";
+export const COUNTRY_CODE = "COUNTRY_CODE";
 
 export const getData = (request, params) => {
   switch (request) {
@@ -31,6 +35,10 @@ export const getData = (request, params) => {
       return getProvince(params);
     case CATEGORY_FILTER:
       return getCategory(params);
+    case TOURNAMENTS:
+      return getTournaments(params);
+    case COUNTRY_CODE:
+      return getCountryCode(params);
     default:
       return "NOTHING HERE";
   }

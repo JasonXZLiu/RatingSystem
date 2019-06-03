@@ -2,7 +2,10 @@ import fs from "fs";
 import { searchByNumberValue, searchByStringValue } from "../util/SearchUtil";
 
 export function getJSON() {
-  var data = fs.readFileSync("./src/playerRepository/playerData.json", "utf8");
+  var data = fs.readFileSync(
+    "./src/core/playerRepository/playerData.json",
+    "utf8"
+  );
   return data;
 }
 

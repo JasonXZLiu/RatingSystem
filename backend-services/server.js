@@ -1,19 +1,19 @@
 import express from "express";
 import restify from "restify";
 import graphqlHTTP from "express-graphql";
-import getData from "./src/repository";
 import {
+  getData,
   PLAYERS,
   PLAYER_BY_ID,
-  RATINGS
-} from "./src/core/playerRepository/PlayerRepository";
-import {
+  RATINGS,
   SEX_FILTER,
   PROVINCE_FILTER,
-  CATEGORY_FILTER
-} from "./src/core/filterRepository/FilterRepository";
+  CATEGORY_FILTER,
+  TOURNAMENTS,
+  COUNTRY_CODE
+} from "./src/repository";
 
-const app = restify.createServer();
+const app = express();
 const port = 3030;
 
 // GraphQL API
@@ -44,6 +44,18 @@ app.get("/players", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.json(getData(PLAYERS));
+});
+
+app.get("/tournaments", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(TOURNAMENTS));
+});
+
+app.get("/countryCode/:countryName", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(COUNTRY_CODE, req.params));
 });
 
 app.get("/players/:playerId", (req, res) => {
