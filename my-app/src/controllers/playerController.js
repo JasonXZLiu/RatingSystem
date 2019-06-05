@@ -7,7 +7,7 @@ export async function getPlayers() {
 }
 
 export async function getLeaders() {
-  return await fetch(basePath + "/leaders").then(res =>
+  return await fetch(basePath + "/players").then(res =>
     res.json().then(data => data)
   );
 }

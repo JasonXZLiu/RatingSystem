@@ -1,7 +1,10 @@
 import fs from "fs";
 
 export function getJSON() {
-  var data = fs.readFileSync("./src/filterRepository/filterData.json", "utf8");
+  var data = fs.readFileSync(
+    "./src/core/filterRepository/filterData.json",
+    "utf8"
+  );
   return data;
 }
 

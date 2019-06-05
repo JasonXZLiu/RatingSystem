@@ -1,9 +1,15 @@
 import { getPlayers, getRatings, getPlayerById } from "./playerController";
+import { getTournaments, getTournamentById } from "./tournamentController";
+
 import { ACTION_REQUEST_RATINGS } from "../pages/ratings/RatingsAction";
 import { ACTION_REQUEST_LEADERS } from "../pages/leaderboard/LeaderboardAction";
 import { ACTION_REQUEST_PLAYER } from "../pages/player/PlayerAction";
+import {
+  ACTION_REQUEST_TOURNAMENTS,
+  ACTION_REQUEST_TOURNAMENT
+} from "../pages/tournament/TournamentAction";
 
-export const basePath = "https://cefcf35d.ngrok.io";
+export const basePath = "https://89a7f8ae.ngrok.io";
 
 export const fetch = (action, params) => {
   switch (action) {
@@ -13,6 +19,10 @@ export const fetch = (action, params) => {
       return getPlayers();
     case ACTION_REQUEST_PLAYER:
       return getPlayerById(params);
+    case ACTION_REQUEST_TOURNAMENTS:
+      return getTournaments(params);
+    case ACTION_REQUEST_TOURNAMENT:
+      return getTournamentById(params);
     default:
       return {};
   }

@@ -1,64 +1,24 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Card from "../../../components/cardView/Card";
+import CardBoardContainer from "../../../containers/CardBoard";
 import PlayerOverviewDialog from "../playerOverviewDialog/PlayerOverviewDialog";
-
-const LIMIT = 8;
-
-const ButtonRowStyle = {
-  margin: "auto"
-};
-
-const ButtonStyle = {
-  margin: "1rem 1rem 1rem 1rem"
-};
+import { findById } from "../../../utils/SearchUtil";
 
 class LeaderboardTable extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      idx: 0,
-      MIN: 0,
-      nextIdx: 0,
-      filteredLeaders: [],
-      open: false
+      open: "",
+      filteredLeaders: []
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      const MIN =
-        LIMIT > this.props.leaders.length ? this.props.leaders.length : LIMIT;
-      const nextIdx = MIN;
-      this.setState({ MIN, nextIdx });
       this.filterPlayers();
     }
   }
-
-  onBack = () => {
-    const { idx, MIN } = this.state;
-    if (idx - MIN >= 0) {
-      const newIdx = idx - MIN;
-      const newNextIdx = newIdx + MIN;
-      this.setState({
-        idx: newIdx,
-        nextIdx: newNextIdx
-      });
-    }
-  };
-
-  onNext = () => {
-    const { idx, MIN, filteredLeaders } = this.state;
-    if (idx + MIN < filteredLeaders.length) {
-      const newIdx = idx + MIN;
-      const newNextIdx = newIdx + MIN;
-      this.setState({
-        idx: newIdx,
-        nextIdx: newNextIdx
-      });
-    }
-  };
 
   handleModalShow = playerId => {
     this.setState({
@@ -94,65 +54,37 @@ class LeaderboardTable extends Component {
     let filterByCategoryValue = filterByProvinceValue.filter(player =>
       this.searchByNumberValue(player.age, this.props.categoryValue)
     );
-    const MIN =
-      LIMIT > filterByCategoryValue.length
-        ? filterByCategoryValue.length
-        : LIMIT;
-    this.setState({ MIN, filteredLeaders: filterByCategoryValue });
+    this.setState({ filteredLeaders: filterByCategoryValue });
   };
 
   render = () => {
-    const { idx, nextIdx, filteredLeaders, open } = this.state;
-    const sublist = filteredLeaders.slice(idx, nextIdx);
+    const { filteredLeaders, open } = this.state;
+    const cards = filteredLeaders.map(leader => {
+      return {
+        id: leader.id,
+        title: leader.name,
+        content: leader.rating,
+        text: "View Player Overview"
+      };
+    });
+    const action = {
+      actionComponent: (
+        <PlayerOverviewDialog
+          key={open}
+          leader={findById(filteredLeaders, open)}
+          onClose={this.handleModalClose}
+        />
+      ),
+      isActionOpen: open,
+      openAction: this.handleModalShow
+    };
     return (
-      <div>
-        <div className="row">
-          {sublist.map(player => {
-            const card = {
-              id: player.id,
-              title: player.name,
-              content: player.rating,
-              text: "View Player Overview"
-            };
-            return (
-              <Card
-                key={player.id}
-                card={card}
-                open={() => this.handleModalShow(player.id)}
-                action={
-                  open === player.id && (
-                    <PlayerOverviewDialog
-                      key={player.id}
-                      leader={player}
-                      onClose={this.handleModalClose}
-                    />
-                  )
-                }
-              />
-            );
-          })}
-        </div>
-        <div className="row">
-          <div style={ButtonRowStyle}>
-            <button
-              type="button"
-              className="btn btn-light"
-              style={ButtonStyle}
-              onClick={this.onBack}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={ButtonStyle}
-              onClick={this.onNext}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
+      <CardBoardContainer
+        filterList={this.filterPlayers}
+        list={cards}
+        rowSize={4}
+        action={action}
+      />
     );
   };
 }

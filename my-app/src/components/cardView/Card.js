@@ -8,10 +8,13 @@ const CardStyle = {
 
 class Card extends Component {
   render = () => {
-    const { card, open, action } = this.props;
+    const { card, cardSize, open, action } = this.props;
+    const rowClass = "col-sm-" + cardSize;
     return (
-      <div key={card.id} className="col-sm-3">
+      <div key={card.id} className={rowClass}>
         <div className="card" style={CardStyle}>
+          {card.header && <div className="card-header">{card.header}</div>}
+          {card.media}
           <div className="card-body">
             <h5 className="card-title">{card.title}</h5>
             <p className="card-text">{card.content}</p>
