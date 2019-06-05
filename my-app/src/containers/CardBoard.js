@@ -52,15 +52,13 @@ class CardBoardContainer extends Component {
 
   render = () => {
     const { idx, nextIdx } = this.state;
-    const { list, rowSize, action, openAction, isActionOpen } = this.props;
+    const { list, rowSize, action } = this.props;
     const sublist = list.slice(idx, nextIdx);
     return (
       <CardBoard
         sublist={sublist}
         rowSize={rowSize}
         action={action}
-        openAction={openAction}
-        isActionOpen={isActionOpen}
         onNext={this.onNext}
         onBack={this.onBack}
       />
@@ -70,7 +68,16 @@ class CardBoardContainer extends Component {
 
 CardBoardContainer.propTypes = {
   filterList: PropTypes.func.isRequired,
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  action: PropTypes.object
+};
+
+CardBoardContainer.defaultProps = {
+  action: {
+    actionComponent: "",
+    isActionOpen: false,
+    openAction: null
+  }
 };
 
 export default CardBoardContainer;

@@ -8,6 +8,7 @@
     "chart.js": "^1.1.1",
     "classnames": "^2.2.6",
     "flag-icon-css": "^3.3.0",
+    "google-map-react": "^1.1.4",
     "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-chartjs": "^1.2.0",
@@ -20,7 +21,8 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "typeface-roboto": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",

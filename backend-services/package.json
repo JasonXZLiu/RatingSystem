@@ -24,9 +24,11 @@
     "express": "^4.15.2",
     "express-graphql": "^0.8.0",
     "graphql": "^14.3.1",
+    "mongodb": "^3.2.6",
+    "mongoose": "^5.5.12",
     "morgan": "^1.8.1",
-    "restify": "^8.3.2",
-    "npm-watch": "^0.6.0"
+    "npm-watch": "^0.6.0",
+    "restify": "^8.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

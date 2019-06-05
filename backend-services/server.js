@@ -9,12 +9,13 @@ import {
   SEX_FILTER,
   PROVINCE_FILTER,
   CATEGORY_FILTER,
+  TOURNAMENT,
   TOURNAMENTS,
   COUNTRY_CODE
 } from "./src/repository";
 
 const app = express();
-const port = 3030;
+const port = 4000;
 
 // GraphQL API
 // app.post(
@@ -40,30 +41,6 @@ app.get("/", (req, res) => {
   res.json(getData(PLAYERS));
 });
 
-app.get("/players", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.json(getData(PLAYERS));
-});
-
-app.get("/tournaments", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.json(getData(TOURNAMENTS));
-});
-
-app.get("/countryCode/:countryName", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.json(getData(COUNTRY_CODE, req.params));
-});
-
-app.get("/players/:playerId", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.json(getData(PLAYER_BY_ID, req.params));
-});
-
 app.get("/ratings", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -78,6 +55,36 @@ app.get(
     res.json(getData(RATINGS, req.params));
   }
 );
+
+app.get("/players", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(PLAYERS));
+});
+
+app.get("/players/:playerId", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(PLAYER_BY_ID, req.params));
+});
+
+app.get("/tournaments", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(TOURNAMENTS));
+});
+
+app.get("/tournament/:tournamentId", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(TOURNAMENT, req.params));
+});
+
+app.get("/countryCode/:countryName", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.json(getData(COUNTRY_CODE, req.params));
+});
 
 app.get("/filter/sex", (req, res) => {
   res.type("json");

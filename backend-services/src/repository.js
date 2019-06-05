@@ -9,7 +9,10 @@ import {
   getCategory,
   getProvince
 } from "./core/filterRepository/filterRepository";
-import { getTournaments } from "./core/tournamentRepository/tournamentRepository";
+import {
+  getTournaments,
+  getTournamentById
+} from "./core/tournamentRepository/tournamentRepository";
 import { getCountryCode } from "./core/countryRepository/countryRepository";
 
 export const PLAYERS = "PLAYERS";
@@ -19,6 +22,7 @@ export const SEX_FILTER = "SEX_FILTER";
 export const PROVINCE_FILTER = "PROVINCE_FILTER";
 export const CATEGORY_FILTER = "CATEGORY_FILTER";
 export const TOURNAMENTS = "TOURNAMENTS";
+export const TOURNAMENT = "TOURNAMENT";
 export const COUNTRY_CODE = "COUNTRY_CODE";
 
 export const getData = (request, params) => {
@@ -37,6 +41,8 @@ export const getData = (request, params) => {
       return getCategory(params);
     case TOURNAMENTS:
       return getTournaments(params);
+    case TOURNAMENT:
+      return getTournamentById(params);
     case COUNTRY_CODE:
       return getCountryCode(params);
     default:

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CardBoardContainer from "../../../containers/CardBoard";
 import TournamentBoardContent from "./tournamentBoardContent/TournamentBoardContent";
+import TournamentDetailsPage from "../tournamentDetails/TournamentDetailsPage";
 import tournamentPhoto from "../../../resources/tournament.jpg";
 
 class TournamentBoard extends Component {
@@ -20,16 +21,8 @@ class TournamentBoard extends Component {
     }
   }
 
-  handleModalShow = playerId => {
-    this.setState({
-      open: playerId
-    });
-  };
-
-  handleModalClose = () => {
-    this.setState({
-      open: ""
-    });
+  handleViewTournamentClick = tournamentId => {
+    window.location.assign("/tournament/" + tournamentId);
   };
 
   searchByStringValue = (value, target) => {
@@ -56,11 +49,17 @@ class TournamentBoard extends Component {
         text: "View Tournament"
       };
     });
+    const action = {
+      actionComponent: "",
+      isActionOpen: open,
+      openAction: this.handleViewTournamentClick
+    };
     return (
       <CardBoardContainer
         filterList={this.filterTournaments}
         list={cards}
         rowSize={3}
+        action={action}
       />
     );
   };

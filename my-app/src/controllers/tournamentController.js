@@ -11,3 +11,9 @@ export async function getCountryCode(countryName) {
     res.json().then(data => data)
   );
 }
+
+export async function getTournamentById(tournamentId) {
+  return await fetch(basePath + "/tournament/" + tournamentId).then(res =>
+    res.json().then(data => data)
+  );
+}

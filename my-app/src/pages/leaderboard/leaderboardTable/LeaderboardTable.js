@@ -67,20 +67,23 @@ class LeaderboardTable extends Component {
         text: "View Player Overview"
       };
     });
+    const action = {
+      actionComponent: (
+        <PlayerOverviewDialog
+          key={open}
+          leader={findById(filteredLeaders, open)}
+          onClose={this.handleModalClose}
+        />
+      ),
+      isActionOpen: open,
+      openAction: this.handleModalShow
+    };
     return (
       <CardBoardContainer
         filterList={this.filterPlayers}
         list={cards}
         rowSize={4}
-        action={
-          <PlayerOverviewDialog
-            key={open}
-            leader={findById(filteredLeaders, open)}
-            onClose={this.handleModalClose}
-          />
-        }
-        isActionOpen={open}
-        openAction={this.handleModalShow}
+        action={action}
       />
     );
   };

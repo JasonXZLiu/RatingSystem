@@ -48,8 +48,8 @@ class TournamentPage extends Component {
   };
 
   render = () => {
-    const { classes, tournament } = this.props;
-    const { tournaments } = tournament;
+    const { classes, tournamentStore } = this.props;
+    const { tournaments } = tournamentStore;
     const { searchValue, sexValue, provinceValue, categoryValue } = this.state;
     return (
       <div>
@@ -71,8 +71,8 @@ class TournamentPage extends Component {
   };
 }
 
-const mapStateToProps = ({ tournament }) => ({
-  tournament: tournament
+const mapStateToProps = ({ tournamentStore }) => ({
+  tournamentStore: tournamentStore
 });
 
 export default connect(

@@ -19,3 +19,18 @@ export const getTournaments = params => {
   });
   return tournaments;
 };
+
+export const getTournamentById = params => {
+  const data = JSON.parse(getJSON());
+  const tournaments = data.tournaments;
+  const result = tournaments.filter(tournament => {
+    return tournament.id == params.tournamentId;
+  })[0];
+
+  if (!result || result.length === 0) return [];
+
+  result.location.countryCode = getCountryCode({
+    countryName: result.location.country
+  })[0].code;
+  return result;
+};

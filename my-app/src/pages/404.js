@@ -1,9 +1,22 @@
 import React from "react";
+import { Grid } from "@material-ui/core";
+import notFoundPhoto from "../resources/404.gif";
+import NavBar from "../components/NavBar";
 
 const NoMatch = () => {
   return (
     <div>
-      <img src="https://images.unsplash.com/photo-1557626204-59dd03fd2d31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
+      <NavBar />
+      <div class="container">
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Grid item>
+            <img src={notFoundPhoto} />
+          </Grid>
+          <Grid item>
+            <h3>Hmmm...</h3>
+          </Grid>
+        </Grid>
+      </div>
     </div>
   );
 };

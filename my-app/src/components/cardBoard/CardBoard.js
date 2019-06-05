@@ -10,24 +10,9 @@ const ButtonStyle = {
 };
 
 class CardBoardContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false
-    };
-  }
-
   render = () => {
-    const {
-      sublist,
-      action,
-      openAction,
-      isActionOpen,
-      onNext,
-      onBack,
-      rowSize
-    } = this.props;
+    const { sublist, action, onNext, onBack, rowSize } = this.props;
+    const { actionComponent, isActionOpen, openAction } = action;
     return (
       <div>
         <div className="row">
@@ -38,7 +23,7 @@ class CardBoardContainer extends Component {
                 cardSize={12 / rowSize}
                 card={card}
                 open={() => openAction(card.id)}
-                action={card.id === isActionOpen && action}
+                action={card.id === isActionOpen && actionComponent}
               />
             );
           })}
