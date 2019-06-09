@@ -9,7 +9,7 @@ import {
   ACTION_REQUEST_TOURNAMENT
 } from "../pages/tournament/TournamentAction";
 
-export const basePath = "https://89a7f8ae.ngrok.io";
+export const basePath = "https://cb246533.ngrok.io";
 
 export const fetch = (action, params) => {
   switch (action) {

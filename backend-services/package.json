@@ -13,9 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/server.js",
-    "watch": "npm-watch",
-    "mongo-mac": "mkdir mongo-db; mongod --dbpath mongo-db",
-    "mongo-win": "C:/Program Files/MongoDb/Server/4.0/bin/mongod.exe"
+    "watch": "npm-watch"
   },
   "author": "",
   "license": "ISC",
@@ -24,8 +22,7 @@
     "express": "^4.15.2",
     "express-graphql": "^0.8.0",
     "graphql": "^14.3.1",
-    "mongodb": "^3.2.6",
-    "mongoose": "^5.5.12",
+    "mongoose": "^5.5.13",
     "morgan": "^1.8.1",
     "npm-watch": "^0.6.0",
     "restify": "^8.3.2"

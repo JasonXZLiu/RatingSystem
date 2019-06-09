@@ -20,7 +20,7 @@ export async function getMatchHistoryById(playerId) {
 
 export async function getPlayerById(playerId) {
   return await fetch(basePath + "/players/" + playerId).then(res =>
-    res.json().then(data => data)
+    res.json().then(data => data[0])
   );
 }
 
