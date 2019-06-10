@@ -36,7 +36,7 @@ class PlayerOverviewDialog extends Component {
   render = () => {
     const { onClose, classes, leader } = this.props;
     const headers = MATCH_HISTORY_HEADER;
-    const rows = leader.matchHistory;
+    const rows = [];
     let count = 0;
     return (
       <Dialog

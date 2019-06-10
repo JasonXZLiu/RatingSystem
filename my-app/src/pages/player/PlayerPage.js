@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 import NavBar from "../../components/NavBar";
-import { fetchPlayerById } from "./PlayerAction";
+import { fetchPlayerById, fetchPlayerMatchHistory } from "./PlayerAction";
 import profile from "../../resources/profile.jpg";
 import TableView from "../../components/tableView/TableView";
 import PlayerRatingFilter from "./playerRatingFilter/PlayerRatingFilter";
@@ -12,17 +12,21 @@ const MATCH_HISTORY_HEADER = [
   "Tournament",
   "Opponent",
   "Opposing Rating",
-  "Result",
-  "Rating Change"
+  "Result"
 ];
 
 class PlayerPage extends Component {
   constructor(props) {
     super(props);
 
-    const { match, fetchPlayerByIdAction } = this.props;
+    const {
+      match,
+      fetchPlayerByIdAction,
+      fetchPlayerMatchHistoryAction
+    } = this.props;
     const { playerId } = match.params;
     fetchPlayerByIdAction(playerId);
+    fetchPlayerMatchHistoryAction(playerId);
 
     this.goBack = this.goBack.bind(this);
   }
@@ -33,9 +37,10 @@ class PlayerPage extends Component {
 
   render = () => {
     const { playerStore } = this.props;
-    const { player } = playerStore;
+    const { player, matchHistory } = playerStore;
     const headers = MATCH_HISTORY_HEADER;
-    const rows = player.matchHistory || [];
+    const rows = [];
+    console.log(matchHistory);
     const table = {
       headers,
       rows
@@ -85,6 +90,7 @@ const mapStateToProps = ({ playerStore }) => ({
 export default connect(
   mapStateToProps,
   {
-    fetchPlayerByIdAction: fetchPlayerById
+    fetchPlayerByIdAction: fetchPlayerById,
+    fetchPlayerMatchHistoryAction: fetchPlayerMatchHistory
   }
 )(PlayerPage);

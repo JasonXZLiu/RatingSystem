@@ -12,8 +12,13 @@ import {
   CATEGORY_FILTER,
   TOURNAMENT_BY_ID,
   TOURNAMENTS,
-  COUNTRY_CODE
+  COUNTRY_CODE,
+  MATCHES,
+  MATCHES_BY_TOURNAMENT,
+  MATCHES_BY_PLAYER,
+  MATCH_BY_ID
 } from "./src/repository";
+import { setup } from "./src/setup/setup";
 
 const app = express();
 const port = 4000;
@@ -24,7 +29,9 @@ mongoose.connect(uri, options);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {});
+db.once("open", function() {
+  setup();
+});
 
 // GraphQL API
 // app.post(
@@ -55,10 +62,16 @@ app.get("/players", (req, res) => {
   getData(PLAYERS).then(data => res.json(data));
 });
 
-app.get("/players/:id", (req, res) => {
+app.get("/player/:playerId", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(PLAYER_BY_ID, req.params).then(data => res.json(data));
+});
+
+app.get("/player/:playerId/matches", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(MATCHES_BY_PLAYER, req.params).then(data => res.json(data));
 });
 
 app.get("/ratings", (req, res) => {
@@ -82,10 +95,22 @@ app.get("/tournaments", (req, res) => {
   getData(TOURNAMENTS).then(data => res.json(data));
 });
 
-app.get("/tournament/:id", (req, res) => {
+app.get("/tournament/:tournamentId", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(TOURNAMENT_BY_ID, req.params).then(data => res.json(data));
+});
+
+app.get("/tournament/:id/matches", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(MATCHES_BY_TOURNAMENT, req.params).then(data => res.json(data));
+});
+
+app.get("/tournament/:tournamentId/player/:playerId/matches", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(MATCHES_BY_PLAYER, req.params).then(data => res.json(data));
 });
 
 app.get("/countryCode/:countryName", (req, res) => {
@@ -110,6 +135,20 @@ app.get("/filter/category", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(CATEGORY_FILTER).then(data => res.json(data));
+});
+
+app.get("/matches", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(MATCHES).then(data => res.json(data));
+});
+
+app.get("/matches/:id", (req, res) => {
+  getData(MATCH_BY_ID, req.params).then(data => {
+    data.score = ["13-11", "12-10", "11-8"];
+    data.save();
+  });
+  getData(MATCH_BY_ID, req.params).then(data => res.json(data));
 });
 
 app.listen(port, (req, res) => {

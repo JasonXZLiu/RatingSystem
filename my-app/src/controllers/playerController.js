@@ -12,15 +12,15 @@ export async function getLeaders() {
   );
 }
 
-export async function getMatchHistoryById(playerId) {
-  return await fetch(basePath + "/players/" + playerId).then(res =>
+export async function getPlayerById(playerId) {
+  return await fetch(basePath + "/player/" + playerId).then(res =>
     res.json().then(data => data)
   );
 }
 
-export async function getPlayerById(playerId) {
-  return await fetch(basePath + "/players/" + playerId).then(res =>
-    res.json().then(data => data[0])
+export async function getPlayerMatchHistory(playerId) {
+  return await fetch(basePath + "/player/" + playerId + "/matches").then(res =>
+    res.json().then(data => data)
   );
 }
 

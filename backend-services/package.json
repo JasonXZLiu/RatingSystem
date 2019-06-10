@@ -23,6 +23,7 @@
     "express-graphql": "^0.8.0",
     "graphql": "^14.3.1",
     "mongoose": "^5.5.13",
+    "mongoose-trigger": "^1.0.1",
     "morgan": "^1.8.1",
     "npm-watch": "^0.6.0",
     "restify": "^8.3.2"

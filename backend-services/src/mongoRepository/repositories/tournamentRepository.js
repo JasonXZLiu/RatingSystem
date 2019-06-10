@@ -5,5 +5,8 @@ export async function getTournaments(params) {
 }
 
 export async function getTournamentById(params) {
-  return await Tournament.find(params);
+  const findParams = {
+    id: params.tournamentId
+  };
+  return await Tournament.findOne(findParams);
 }

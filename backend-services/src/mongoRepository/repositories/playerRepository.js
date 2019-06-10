@@ -4,15 +4,15 @@ export async function getPlayers() {
   return await Player.find();
 }
 
-export async function getPlayerById(params) {
-  return await Player.find(params);
+export async function getPlayer(params) {
+  return await Player.findOne(params);
 }
 
-export function getMatchHistoryById(params) {
-  const id = params.playerId;
-  const data = JSON.parse(getJSON());
-  const player = data.players.filter(player => player.id == id);
-  return player;
+export async function getPlayerById(params) {
+  const findParams = {
+    id: params.playerId
+  };
+  return await Player.findOne(findParams);
 }
 
 export async function getRatings(params) {
@@ -31,21 +31,5 @@ export async function getRatings(params) {
   }
   console.log("find parameters: ");
   console.log(findParams);
-  return await Player.find(findParams).then(players => {
-    players.sort((a, b) => {
-      return b.rating - a.rating;
-    });
-    players.map(player => {
-      player.matchHistory.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-      });
-    });
-    let count = 0;
-    players.map(player => {
-      count++;
-      player.lastPlayed = player.matchHistory && player.matchHistory[0].date;
-      player.ranking = count;
-    });
-    return players;
-  });
+  return await Player.find(findParams);
 }

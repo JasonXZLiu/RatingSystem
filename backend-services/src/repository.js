@@ -14,6 +14,12 @@ import {
   getTournamentById
 } from "./mongoRepository/repositories/tournamentRepository";
 import { getCountryCode } from "./mongoRepository/repositories/countryCodeRepository";
+import {
+  getMatches,
+  getMatchById,
+  getMatchesByTournamentId,
+  getMatchesByPlayerId
+} from "./mongoRepository/repositories/matchRepository";
 
 export const PLAYERS = "PLAYERS";
 export const PLAYER_BY_ID = "PLAYER_BY_ID";
@@ -24,6 +30,10 @@ export const CATEGORY_FILTER = "CATEGORY_FILTER";
 export const TOURNAMENTS = "TOURNAMENTS";
 export const TOURNAMENT_BY_ID = "TOURNAMENT_BY_ID";
 export const COUNTRY_CODE = "COUNTRY_CODE";
+export const MATCHES = "MATCHES";
+export const MATCH_BY_ID = "MATCH_BY_ID";
+export const MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
+export const MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
 
 export const getData = (request, params) => {
   switch (request) {
@@ -45,6 +55,14 @@ export const getData = (request, params) => {
       return getTournamentById(params);
     case COUNTRY_CODE:
       return getCountryCode(params);
+    case MATCHES:
+      return getMatches();
+    case MATCH_BY_ID:
+      return getMatchById(params);
+    case MATCHES_BY_TOURNAMENT:
+      return getMatchesByTournamentId(params);
+    case MATCHES_BY_PLAYER:
+      return getMatchesByPlayerId(params);
     default:
       return "NOTHING HERE";
   }
