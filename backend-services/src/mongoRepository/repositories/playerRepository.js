@@ -1,4 +1,4 @@
-import { Player } from "../models/player";
+import { Player } from "../schemas/player";
 
 export async function getPlayers() {
   return await Player.find();
@@ -13,6 +13,10 @@ export async function getPlayerById(params) {
     id: params.playerId
   };
   return await Player.findOne(findParams);
+}
+
+export async function getPlayerIdByName(params) {
+  return await Player.findOne(params).then(data => data._id);
 }
 
 export async function getRatings(params) {

@@ -144,7 +144,9 @@ app.get("/matches", (req, res) => {
 });
 
 app.get("/matches/:id", (req, res) => {
+  console.log("here");
   getData(MATCH_BY_ID, req.params).then(data => {
+    console.log("here1");
     data.score = ["13-11", "12-10", "11-8"];
     data.save();
   });

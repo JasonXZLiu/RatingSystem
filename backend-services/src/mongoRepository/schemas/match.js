@@ -5,7 +5,6 @@ const MongooseTrigger = require("mongoose-trigger");
 
 const matchSchema = new mongoose.Schema(
   {
-    _id: Schema.Types.ObjectId,
     tournament: { type: Schema.Types.ObjectId, ref: "Tournament" },
     date: Date,
     winner: { type: Schema.Types.ObjectId, ref: "Player" },
@@ -38,7 +37,7 @@ const matchEvents = MongooseTrigger(matchSchema, {
   }
 });
 
-const updatePlayerMatchHistory = (playerId, matchId) => {
+const insertPlayerMatchHistory = (playerId, matchId) => {
   getPlayer({ _id: playerId }).then(data => {
     if (data.matchHistory && data.matchHistory.length > 0)
       data.matchHistory = [...data.matchHistory, matchId];
@@ -86,7 +85,6 @@ const insertPlayerMatch = data => {
 };
 
 const updatePlayerMatch = data => {
-  console.log(data);
   PlayerMatch.findOneAndUpdate(
     { matchId: data._id },
     {

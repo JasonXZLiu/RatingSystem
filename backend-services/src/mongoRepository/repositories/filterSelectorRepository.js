@@ -1,4 +1,4 @@
-import { FilterSelector } from "../models/filterSelector";
+import { FilterSelector } from "../schemas/filterSelector";
 
 export function getSex() {
   const params = {

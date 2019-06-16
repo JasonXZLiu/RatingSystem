@@ -10,7 +10,6 @@ const locationSchema = new mongoose.Schema({
 });
 
 const tournamentSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
   id: Number,
   name: String,
   startDate: Date,

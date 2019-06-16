@@ -1,4 +1,4 @@
-import { Match } from "../models/match";
+import { Match } from "../schemas/match";
 import { getTournamentById } from "./tournamentRepository";
 import { getPlayerById } from "./playerRepository";
 
@@ -11,7 +11,7 @@ export async function getMatches() {
 
 export async function getMatchById(params) {
   const findParams = {
-    _id: params.id
+    id: params.id
   };
   return await Match.findOne(findParams);
 }

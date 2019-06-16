@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 const playerSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
   id: Number,
   name: String,
   rating: Number,
@@ -13,7 +12,6 @@ const playerSchema = new mongoose.Schema({
 
 const matchFromPlayerPerspectiveSchema = new mongoose.Schema(
   {
-    _id: Schema.Types.ObjectId,
     matchId: { type: Schema.Types.ObjectId, ref: "Match" },
     tournament: String,
     date: Date,

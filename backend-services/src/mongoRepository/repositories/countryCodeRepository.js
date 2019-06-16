@@ -1,4 +1,4 @@
-import { CountryCode } from "../models/countryCode";
+import { CountryCode } from "../schemas/countryCode";
 
 export async function getCountryCode(params) {
   const findParams = {
