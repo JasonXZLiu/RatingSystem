@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CardBoardContainer from "../../../containers/CardBoard";
-import PlayerOverviewDialog from "../playerOverviewDialog/PlayerOverviewDialog";
+import PlayerOverviewDialog from "../../player/playerOverviewDialog/PlayerOverviewDialog";
 import { findById } from "../../../utils/SearchUtil";
 
 class LeaderboardTable extends Component {
@@ -72,6 +72,7 @@ class LeaderboardTable extends Component {
         <PlayerOverviewDialog
           key={open}
           leader={findById(filteredLeaders, open)}
+          playerId={open}
           onClose={this.handleModalClose}
         />
       ),

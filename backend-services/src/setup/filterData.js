@@ -29,5 +29,9 @@ export const filterData = [
       { label: "U18", value: "18" },
       { label: "U21", value: "21" }
     ]
+  },
+  {
+    title: "Result",
+    options: [{ label: "Win", value: "W" }, { label: "Loss", value: "L" }]
   }
 ];

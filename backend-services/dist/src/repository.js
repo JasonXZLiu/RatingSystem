@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getData = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
+exports.getData = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
 
 var _playerRepository = require("./core/playerRepository/playerRepository");
 
@@ -23,6 +23,7 @@ var RATINGS = exports.RATINGS = "RATINGS";
 var SEX_FILTER = exports.SEX_FILTER = "SEX_FILTER";
 var PROVINCE_FILTER = exports.PROVINCE_FILTER = "PROVINCE_FILTER";
 var CATEGORY_FILTER = exports.CATEGORY_FILTER = "CATEGORY_FILTER";
+var RESULT_FILTER = exports.RESULT_FILTER = "RESULT_FILTER";
 var TOURNAMENTS = exports.TOURNAMENTS = "TOURNAMENTS";
 var TOURNAMENT_BY_ID = exports.TOURNAMENT_BY_ID = "TOURNAMENT_BY_ID";
 var COUNTRY_CODE = exports.COUNTRY_CODE = "COUNTRY_CODE";
@@ -30,6 +31,7 @@ var MATCHES = exports.MATCHES = "MATCHES";
 var MATCH_BY_ID = exports.MATCH_BY_ID = "MATCH_BY_ID";
 var MATCHES_BY_TOURNAMENT = exports.MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
 var MATCHES_BY_PLAYER = exports.MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
+var PLAYER_MATCH_HISTORY = exports.PLAYER_MATCH_HISTORY = "PLAYER_MATCH_HISTORY";
 
 var getData = exports.getData = function getData(request, params) {
   switch (request) {
@@ -45,6 +47,8 @@ var getData = exports.getData = function getData(request, params) {
       return (0, _filterSelectorRepository.getProvince)();
     case CATEGORY_FILTER:
       return (0, _filterSelectorRepository.getCategory)();
+    case RESULT_FILTER:
+      return (0, _filterSelectorRepository.getResult)();
     case TOURNAMENTS:
       return (0, _tournamentRepository.getTournaments)(params);
     case TOURNAMENT_BY_ID:
@@ -59,6 +63,8 @@ var getData = exports.getData = function getData(request, params) {
       return (0, _matchRepository.getMatchesByTournamentId)(params);
     case MATCHES_BY_PLAYER:
       return (0, _matchRepository.getMatchesByPlayerId)(params);
+    case PLAYER_MATCH_HISTORY:
+      return (0, _playerRepository2.getPlayerMatchHistory)(params);
     default:
       return "NOTHING HERE";
   }

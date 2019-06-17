@@ -6,7 +6,8 @@ import {
 } from "./PlayerAction";
 
 const initialState = {
-  player: {}
+  player: {},
+  matchHistory: []
 };
 
 export const playerStore = (state = initialState, action) => {

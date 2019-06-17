@@ -1,4 +1,5 @@
 import { basePath } from "./index";
+import { format } from "date-fns";
 
 export async function getPlayers() {
   return await fetch(basePath + "/ratings").then(res =>
@@ -18,9 +19,44 @@ export async function getPlayerById(playerId) {
   );
 }
 
-export async function getPlayerMatchHistory(playerId) {
-  return await fetch(basePath + "/player/" + playerId + "/matches").then(res =>
-    res.json().then(data => data)
+export async function getPlayerMatchHistory(params) {
+  console.log(params);
+  if (!params.searchValue && !params.resultValue) {
+    return await fetch(
+      basePath + "/player/" + params.playerId + "/matchHistory"
+    ).then(res =>
+      res.json().then(data =>
+        data.map(match => {
+          const date = format(new Date(match.date), "MM/DD/YYYY");
+          return {
+            ...match,
+            date
+          };
+        })
+      )
+    );
+  }
+  const searchValue = params.searchValue || "undefined";
+  const resultValue = params.resultValue || "undefined";
+  const path =
+    basePath +
+    "/player/" +
+    params.playerId +
+    "/matchHistory/search=" +
+    searchValue +
+    "&result=" +
+    resultValue;
+  console.log(path);
+  return await fetch(path).then(res =>
+    res.json().then(data =>
+      data.map(match => {
+        const date = format(new Date(match.date), "MM/DD/YYYY");
+        return {
+          ...match,
+          date
+        };
+      })
+    )
   );
 }
 

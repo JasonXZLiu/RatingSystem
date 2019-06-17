@@ -12,11 +12,44 @@ export async function getPlayerById(params) {
   const findParams = {
     id: params.playerId
   };
-  return await Player.findOne(findParams);
+  return await Player.findOne(findParams).populate("matchHistory");
 }
 
 export async function getPlayerIdByName(params) {
   return await Player.findOne(params).then(data => data._id);
+}
+
+export async function getPlayerMatchHistory(params) {
+  const findParams = {
+    id: params.playerId
+  };
+
+  if (!(params.searchValue || params.resultValue)) {
+    return await Player.findOne(findParams)
+      .populate("matchHistory")
+      .then(player => player.matchHistory);
+  }
+
+  return await Player.findOne(findParams)
+    .populate("matchHistory")
+    .then(player =>
+      player.matchHistory.filter(match => {
+        const searchValue =
+          params.searchValue !== "undefined"
+            ? params.searchValue.toLowerCase()
+            : "";
+        const resultValue =
+          params.resultValue !== "undefined" ? params.resultValue : "";
+        console.log(searchValue);
+        if (
+          (match.opponent.toLowerCase().includes(searchValue) ||
+            match.tournament.toLowerCase().includes(searchValue)) &&
+          match.result.includes(resultValue)
+        ) {
+          return match;
+        }
+      })
+    );
 }
 
 export async function getRatings(params) {

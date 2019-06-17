@@ -2,12 +2,14 @@ import { getMatchHistoryById } from "./core/playerRepository/playerRepository";
 import {
   getPlayers,
   getPlayerById,
-  getRatings
+  getRatings,
+  getPlayerMatchHistory
 } from "./mongoRepository/repositories/playerRepository";
 import {
   getSex,
   getCategory,
-  getProvince
+  getProvince,
+  getResult
 } from "./mongoRepository/repositories/filterSelectorRepository";
 import {
   getTournaments,
@@ -27,6 +29,7 @@ export const RATINGS = "RATINGS";
 export const SEX_FILTER = "SEX_FILTER";
 export const PROVINCE_FILTER = "PROVINCE_FILTER";
 export const CATEGORY_FILTER = "CATEGORY_FILTER";
+export const RESULT_FILTER = "RESULT_FILTER";
 export const TOURNAMENTS = "TOURNAMENTS";
 export const TOURNAMENT_BY_ID = "TOURNAMENT_BY_ID";
 export const COUNTRY_CODE = "COUNTRY_CODE";
@@ -34,6 +37,7 @@ export const MATCHES = "MATCHES";
 export const MATCH_BY_ID = "MATCH_BY_ID";
 export const MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
 export const MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
+export const PLAYER_MATCH_HISTORY = "PLAYER_MATCH_HISTORY";
 
 export const getData = (request, params) => {
   switch (request) {
@@ -49,6 +53,8 @@ export const getData = (request, params) => {
       return getProvince();
     case CATEGORY_FILTER:
       return getCategory();
+    case RESULT_FILTER:
+      return getResult();
     case TOURNAMENTS:
       return getTournaments(params);
     case TOURNAMENT_BY_ID:
@@ -63,6 +69,8 @@ export const getData = (request, params) => {
       return getMatchesByTournamentId(params);
     case MATCHES_BY_PLAYER:
       return getMatchesByPlayerId(params);
+    case PLAYER_MATCH_HISTORY:
+      return getPlayerMatchHistory(params);
     default:
       return "NOTHING HERE";
   }

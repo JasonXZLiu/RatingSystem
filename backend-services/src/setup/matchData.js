@@ -1,4 +1,4 @@
-export const matchHistoryData = [
+export const matchData = [
   {
     tournament: "MYTTC Tournament",
     date: "05/08/19",

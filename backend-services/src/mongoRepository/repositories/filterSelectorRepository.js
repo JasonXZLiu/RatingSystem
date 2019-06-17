@@ -29,3 +29,13 @@ export function getCategory() {
   };
   return FilterSelector.findOne(params);
 }
+
+export function getResult() {
+  const params = {
+    title: {
+      $regex: "result",
+      $options: "mi"
+    }
+  };
+  return FilterSelector.findOne(params);
+}

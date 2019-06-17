@@ -1,5 +1,5 @@
 import { playerData } from "./playerData";
-import { matchHistoryData } from "./matchHistoryData";
+import { matchData } from "./matchData";
 import { filterData } from "./filterData";
 import { countryCodeData } from "./countryCodeData";
 import { tournamentData } from "./tournamentData";
@@ -26,16 +26,11 @@ export async function setup() {
     matchCount === 0
   ) {
     await CountryCode.create(countryCodeData);
-    console.log("here");
     await FilterSelector.create(filterData);
-    console.log("here1");
     await Player.create(playerData);
-    console.log("here2");
     await Tournament.create(tournamentData);
-    console.log("here3");
-    const matchData = await toMatchObjects(matchHistoryData);
-    await Match.create(matchData);
-    console.log("here4");
+    const matches = await toMatchObjects(matchData);
+    await Match.create(matches);
     console.log("seed data succeeded");
   } else console.log("database already seeded");
 }

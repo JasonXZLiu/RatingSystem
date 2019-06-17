@@ -10,13 +10,15 @@ import {
   SEX_FILTER,
   PROVINCE_FILTER,
   CATEGORY_FILTER,
+  RESULT_FILTER,
   TOURNAMENT_BY_ID,
   TOURNAMENTS,
   COUNTRY_CODE,
   MATCHES,
   MATCHES_BY_TOURNAMENT,
   MATCHES_BY_PLAYER,
-  MATCH_BY_ID
+  MATCH_BY_ID,
+  PLAYER_MATCH_HISTORY
 } from "./src/repository";
 import { setup } from "./src/setup/setup";
 
@@ -68,6 +70,23 @@ app.get("/player/:playerId", (req, res) => {
   getData(PLAYER_BY_ID, req.params).then(data => res.json(data));
 });
 
+// this is for client perspective
+app.get("/player/:playerId/matchHistory", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(PLAYER_MATCH_HISTORY, req.params).then(data => res.json(data));
+});
+
+app.get(
+  "/player/:playerId/matchHistory/search=:searchValue&result=:resultValue",
+  (req, res) => {
+    res.type("json");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    getData(PLAYER_MATCH_HISTORY, req.params).then(data => res.json(data));
+  }
+);
+
+// this is for admin perspective
 app.get("/player/:playerId/matches", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -137,20 +156,16 @@ app.get("/filter/category", (req, res) => {
   getData(CATEGORY_FILTER).then(data => res.json(data));
 });
 
+app.get("/filter/result", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  getData(RESULT_FILTER).then(data => res.json(data));
+});
+
 app.get("/matches", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(MATCHES).then(data => res.json(data));
-});
-
-app.get("/matches/:id", (req, res) => {
-  console.log("here");
-  getData(MATCH_BY_ID, req.params).then(data => {
-    console.log("here1");
-    data.score = ["13-11", "12-10", "11-8"];
-    data.save();
-  });
-  getData(MATCH_BY_ID, req.params).then(data => res.json(data));
 });
 
 app.listen(port, (req, res) => {

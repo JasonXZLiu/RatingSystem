@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -7,6 +8,7 @@ import {
   DialogContent,
   Grid
 } from "@material-ui/core";
+import { fetchPlayerMatchHistory } from "../PlayerAction";
 import RowView from "../../../components/tableView/rowView/RowView";
 import TableHeader from "../../../components/tableView/TableHeader";
 
@@ -28,15 +30,24 @@ const MATCH_HISTORY_HEADER = [
   "Tournament",
   "Opponent",
   "Opposing Rating",
-  "Result",
-  "Rating Change"
+  "Result"
 ];
 
 class PlayerOverviewDialog extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log(props);
+    const { fetchPlayerMatchHistoryAction } = this.props;
+    const { playerId } = props;
+    fetchPlayerMatchHistoryAction({ playerId });
+  }
+
   render = () => {
-    const { onClose, classes, leader } = this.props;
+    const { onClose, classes, leader, playerStore } = this.props;
+    const { matchHistory } = playerStore;
     const headers = MATCH_HISTORY_HEADER;
-    const rows = [];
+    const rows = matchHistory;
     let count = 0;
     return (
       <Dialog
@@ -81,4 +92,13 @@ PlayerOverviewDialog.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(PlayerOverviewDialog);
+const mapStateToProps = ({ playerStore }) => ({
+  playerStore: playerStore
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchPlayerMatchHistoryAction: fetchPlayerMatchHistory
+  }
+)(withStyles(styles)(PlayerOverviewDialog));

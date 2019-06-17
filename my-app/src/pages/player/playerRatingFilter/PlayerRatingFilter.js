@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Grid, TextField } from "@material-ui/core";
+import { DatePicker } from "@material-ui/pickers";
 import DropdownSelector from "../../../components/selectors/DropdownSelector";
-import {
-  getSexFilter,
-  getProvinceFilter,
-  getCategoryFilter
-} from "../../../controllers/filterController";
+import { getResultFilter } from "../../../controllers/filterController";
 
 class PlayerFilter extends Component {
   constructor(props) {
@@ -16,36 +13,25 @@ class PlayerFilter extends Component {
       options: []
     };
     this.state = {
-      categoryFilter: initialState,
-      sexFilter: initialState,
-      provinceFilter: initialState
+      resultFilter: initialState
     };
   }
 
   componentDidMount() {
-    getSexFilter()
-      .then(response => this.setState({ sexFilter: response }))
-      .then(data =>
-        getProvinceFilter().then(response =>
-          this.setState({ provinceFilter: response })
-        )
-      )
-      .then(
-        getCategoryFilter().then(response =>
-          this.setState({ categoryFilter: response })
-        )
-      );
+    getResultFilter().then(response =>
+      this.setState({ resultFilter: response })
+    );
   }
 
   render = () => {
     const {
       handleSearchFieldChange,
       handleSelectorChange,
-      sexValue,
-      categoryValue,
-      provinceValue
+      handleDateChange,
+      resultValue,
+      dateValue
     } = this.props;
-    const { sexFilter, categoryFilter, provinceFilter } = this.state;
+    const { resultFilter } = this.state;
     return (
       <div style={{ width: "100%", padding: "0 5%", marginBottom: "2rem" }}>
         <Grid
@@ -58,7 +44,7 @@ class PlayerFilter extends Component {
           <Grid item xs={6}>
             <TextField
               id="outlined-search"
-              label="Search by name"
+              label="Search by tournament or opponent"
               type="search"
               margin="normal"
               variant="outlined"
@@ -66,26 +52,20 @@ class PlayerFilter extends Component {
               style={{ width: "80%" }}
             />
           </Grid>
-          <Grid item xs={2}>
-            <DropdownSelector
-              data={categoryFilter}
-              value={categoryValue}
-              handleSelectorChange={handleSelectorChange}
-              style={{ width: "80%" }}
+          <Grid item xs={3}>
+            <DatePicker
+              autoOk
+              animateYearScrolling
+              label="Date"
+              clearable
+              value={dateValue}
+              onChange={handleDateChange}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <DropdownSelector
-              data={provinceFilter}
-              value={provinceValue}
-              handleSelectorChange={handleSelectorChange}
-              style={{ width: "80%" }}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <DropdownSelector
-              data={sexFilter}
-              value={sexValue}
+              data={resultFilter}
+              value={resultValue}
               handleSelectorChange={handleSelectorChange}
               style={{ width: "80%" }}
             />
