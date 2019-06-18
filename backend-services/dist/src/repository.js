@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getData = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
+exports.postData = exports.getData = exports.VERIFY_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
 
 var _playerRepository = require("./core/playerRepository/playerRepository");
 
@@ -12,6 +12,8 @@ var _playerRepository2 = require("./mongoRepository/repositories/playerRepositor
 var _filterSelectorRepository = require("./mongoRepository/repositories/filterSelectorRepository");
 
 var _tournamentRepository = require("./mongoRepository/repositories/tournamentRepository");
+
+var _tournamentService = require("./mongoRepository/services/tournamentService");
 
 var _countryCodeRepository = require("./mongoRepository/repositories/countryCodeRepository");
 
@@ -32,6 +34,8 @@ var MATCH_BY_ID = exports.MATCH_BY_ID = "MATCH_BY_ID";
 var MATCHES_BY_TOURNAMENT = exports.MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
 var MATCHES_BY_PLAYER = exports.MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
 var PLAYER_MATCH_HISTORY = exports.PLAYER_MATCH_HISTORY = "PLAYER_MATCH_HISTORY";
+var SUBMIT_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = "SUBMIT_TOURNAMENT_MATCHES";
+var VERIFY_TOURNAMENT_MATCHES = exports.VERIFY_TOURNAMENT_MATCHES = "VERIFY_TOURNAMENT_MATCHES";
 
 var getData = exports.getData = function getData(request, params) {
   switch (request) {
@@ -67,5 +71,16 @@ var getData = exports.getData = function getData(request, params) {
       return (0, _playerRepository2.getPlayerMatchHistory)(params);
     default:
       return "NOTHING HERE";
+  }
+};
+
+var postData = exports.postData = function postData(request, params) {
+  switch (request) {
+    case VERIFY_TOURNAMENT_MATCHES:
+      return (0, _tournamentService.verifyTournamentMatches)(params);
+    case SUBMIT_TOURNAMENT_MATCHES:
+      return (0, _tournamentService.submitTournamentMatches)(params);
+    default:
+      break;
   }
 };

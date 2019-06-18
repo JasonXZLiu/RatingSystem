@@ -36,3 +36,39 @@ export async function getTournamentById(tournamentId) {
     })
   );
 }
+
+export async function verifyTournamentMatches(params) {
+  const { tournamentId, csv } = params;
+  var map = { matches: csv };
+  const urlParams = Object.keys(map)
+    .map(key => {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(map[key]);
+    })
+    .join("&");
+  return await fetch(
+    basePath + "/tournament/" + tournamentId + "/matches/verify",
+    {
+      method: "POST",
+      headers: {
+        Accept: "text/csv",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: urlParams
+    }
+  ).then(res => res.json().then(data => data));
+}
+
+export async function submitTournamentMatches(params) {
+  const { tournamentId, matches } = params;
+  return await fetch(
+    basePath + "/tournament/" + tournamentId + "/matches/submit",
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: matches
+    }
+  ).then(res => res.json().then(data => data));
+}

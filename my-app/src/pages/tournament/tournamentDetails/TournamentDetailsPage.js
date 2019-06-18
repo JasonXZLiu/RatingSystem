@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withStyles } from "@material-ui/core";
+import { withStyles, Grid, Input } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import "typeface-roboto";
 import NavBar from "../../../components/NavBar";
-import { fetchTournamentById } from "../TournamentAction";
+import { fetchTournamentById, verifyMatches } from "../TournamentAction";
 import longPhoto from "../../../resources/longPhoto.jpg";
 
 const style = {
@@ -38,6 +38,25 @@ class TournamentDetailsPage extends Component {
     fetchTournamentByIdAction(tournamentId);
   }
 
+  handleImportMatches = evt => {
+    const { verifyMatchesAction, match } = this.props;
+    const { tournamentId } = match.params;
+    const files = evt.target.files;
+
+    // only use the first uploaded file for now
+    const file = files[0];
+    var reader = new FileReader();
+    reader.onload = (function(theFile, tournamentId) {
+      return function(e) {
+        verifyMatchesAction({
+          tournamentId: tournamentId,
+          csv: e.target.result
+        });
+      };
+    })(file, tournamentId);
+    reader.readAsBinaryString(file);
+  };
+
   render = () => {
     const { classes, tournamentStore } = this.props;
     const { tournament } = tournamentStore;
@@ -63,9 +82,28 @@ class TournamentDetailsPage extends Component {
           </div>
         </div>
         <div className="container">
-          <Typography variant="h5">
-            <strong>Events:</strong> {tournament.events.join(", ")}
-          </Typography>
+          <Grid container direction="row" justify={"space-between"}>
+            <Grid item>
+              <Typography variant="h5">
+                <strong>Events:</strong> {tournament.events.join(", ")}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <label for="file">Import Matches</label>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                style={{
+                  opacity: 0,
+                  overflow: "hidden",
+                  position: "absolute",
+                  zIndex: "-1"
+                }}
+                onChange={this.handleImportMatches}
+              />
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
@@ -79,6 +117,7 @@ const mapStateToProps = ({ tournamentStore }) => ({
 export default connect(
   mapStateToProps,
   {
-    fetchTournamentByIdAction: fetchTournamentById
+    fetchTournamentByIdAction: fetchTournamentById,
+    verifyMatchesAction: verifyMatches
   }
 )(withStyles(style)(TournamentDetailsPage));

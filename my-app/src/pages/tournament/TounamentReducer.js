@@ -2,7 +2,10 @@ import {
   ACTION_REQUEST_TOURNAMENTS,
   ACTION_RECEIVE_TOURNAMENTS,
   ACTION_REQUEST_TOURNAMENT,
-  ACTION_RECEIVE_TOURNAMENT
+  ACTION_RECEIVE_TOURNAMENT,
+  ACTION_RECEIVE_MATCH_VERIFICATION,
+  ACTION_MATCHES_SUBMITTED,
+  ACTION_SUBMIT_MATCHES_ERROR
 } from "./TournamentAction";
 
 const initialState = {
@@ -36,6 +39,25 @@ export const tournamentStore = (state = initialState, action) => {
         ...state,
         isFetching: false,
         tournament: action.tournament
+      };
+    case ACTION_RECEIVE_MATCH_VERIFICATION:
+      return {
+        ...state,
+        isFetching: false,
+        isSubmitted: false,
+        matches: action.matches
+      };
+    case ACTION_MATCHES_SUBMITTED:
+      return {
+        ...state,
+        isFetching: false,
+        isSubmitted: true,
+        matches: action.matches
+      };
+    case ACTION_SUBMIT_MATCHES_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     default:
       return state;

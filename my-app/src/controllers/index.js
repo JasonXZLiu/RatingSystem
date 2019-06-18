@@ -4,7 +4,12 @@ import {
   getPlayerById,
   getPlayerMatchHistory
 } from "./playerController";
-import { getTournaments, getTournamentById } from "./tournamentController";
+import {
+  getTournaments,
+  getTournamentById,
+  verifyTournamentMatches,
+  submitTournamentMatches
+} from "./tournamentController";
 
 import { ACTION_REQUEST_RATINGS } from "../pages/ratings/RatingsAction";
 import { ACTION_REQUEST_LEADERS } from "../pages/leaderboard/LeaderboardAction";
@@ -14,10 +19,12 @@ import {
 } from "../pages/player/PlayerAction";
 import {
   ACTION_REQUEST_TOURNAMENTS,
-  ACTION_REQUEST_TOURNAMENT
+  ACTION_REQUEST_TOURNAMENT,
+  ACTION_VERIFY_MATCHES,
+  ACTION_SUBMIT_MATCHES
 } from "../pages/tournament/TournamentAction";
 
-export const basePath = "https://ec545e0b.ngrok.io";
+export const basePath = "https://f2f62ae9.ngrok.io";
 
 export const fetch = (action, params) => {
   switch (action) {
@@ -33,6 +40,10 @@ export const fetch = (action, params) => {
       return getTournaments(params);
     case ACTION_REQUEST_TOURNAMENT:
       return getTournamentById(params);
+    case ACTION_VERIFY_MATCHES:
+      return verifyTournamentMatches(params);
+    case ACTION_SUBMIT_MATCHES:
+      return submitTournamentMatches(params);
     default:
       return {};
   }

@@ -16,7 +16,10 @@ export async function getPlayerById(params) {
 }
 
 export async function getPlayerIdByName(params) {
-  return await Player.findOne(params).then(data => data._id);
+  return await Player.find(params).then(data => {
+    if (data.length > 1) return data.map(data => data._id);
+    else return data[0]._id;
+  });
 }
 
 export async function getPlayerMatchHistory(params) {
