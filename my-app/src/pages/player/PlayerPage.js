@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
+import { toISODate } from "@date-io/luxon";
 import NavBar from "../../components/NavBar";
-import { fetchPlayerById } from "./PlayerAction";
+import { fetchPlayerById, fetchPlayerMatchHistory } from "./PlayerAction";
 import profile from "../../resources/profile.jpg";
 import TableView from "../../components/tableView/TableView";
 import PlayerRatingFilter from "./playerRatingFilter/PlayerRatingFilter";
@@ -12,33 +13,86 @@ const MATCH_HISTORY_HEADER = [
   "Tournament",
   "Opponent",
   "Opposing Rating",
-  "Result",
-  "Rating Change"
+  "Result"
 ];
 
 class PlayerPage extends Component {
   constructor(props) {
     super(props);
 
-    const { match, fetchPlayerByIdAction } = this.props;
+    const {
+      match,
+      fetchPlayerByIdAction,
+      fetchPlayerMatchHistoryAction
+    } = this.props;
     const { playerId } = match.params;
     fetchPlayerByIdAction(playerId);
+    fetchPlayerMatchHistoryAction({ playerId });
 
-    this.goBack = this.goBack.bind(this);
+    this.state = {
+      playerId,
+      resultValue: "",
+      dateValue: null
+    };
   }
 
-  goBack() {
+  goBack = () => {
     this.props.history.goBack();
-  }
+  };
+
+  handleSearchFieldChange = e => {
+    const { playerId, resultValue } = this.state;
+    const searchValue = e.target.value;
+    this.props.fetchPlayerMatchHistoryAction({
+      playerId,
+      searchValue,
+      resultValue: resultValue
+    });
+    this.setState({
+      searchValue
+    });
+  };
+
+  handleDateChange = target => {
+    const { playerId, searchValue, resultValue } = this.state;
+    const dateValue = target && target.toISODate();
+    this.props.fetchPlayerMatchHistoryAction({
+      playerId,
+      searchValue,
+      resultValue: resultValue
+    });
+    this.setState({
+      dateValue
+    });
+  };
+
+  handleSelectorChange = (e, title) => {
+    const { playerId, searchValue } = this.state;
+    switch (title) {
+      case "Result":
+        const newResultValue = e.target.value;
+        this.props.fetchPlayerMatchHistoryAction({
+          playerId,
+          searchValue: searchValue,
+          resultValue: newResultValue
+        });
+        this.setState({
+          resultValue: newResultValue
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   render = () => {
     const { playerStore } = this.props;
-    const { player } = playerStore;
+    const { resultValue, dateValue } = this.state;
+    const { player, matchHistory } = playerStore;
     const headers = MATCH_HISTORY_HEADER;
-    const rows = player.matchHistory || [];
     const table = {
       headers,
-      rows
+      rows: matchHistory
     };
     return (
       <div>
@@ -69,7 +123,13 @@ class PlayerPage extends Component {
             </Grid>
           </Grid>
           <Grid item style={{ marginTop: "2rem" }}>
-            <PlayerRatingFilter />
+            <PlayerRatingFilter
+              handleSearchFieldChange={this.handleSearchFieldChange}
+              handleSelectorChange={this.handleSelectorChange}
+              handleDateChange={this.handleDateChange}
+              resultValue={resultValue}
+              dateValue={dateValue}
+            />
             <TableView {...table} />
           </Grid>
         </div>
@@ -85,6 +145,7 @@ const mapStateToProps = ({ playerStore }) => ({
 export default connect(
   mapStateToProps,
   {
-    fetchPlayerByIdAction: fetchPlayerById
+    fetchPlayerByIdAction: fetchPlayerById,
+    fetchPlayerMatchHistoryAction: fetchPlayerMatchHistory
   }
 )(PlayerPage);

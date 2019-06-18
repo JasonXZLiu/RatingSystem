@@ -17,3 +17,9 @@ export async function getCategoryFilter() {
     res.json().then(data => data)
   );
 }
+
+export async function getResultFilter() {
+  return await fetch(basePath + "/filter/result").then(res =>
+    res.json().then(data => data)
+  );
+}

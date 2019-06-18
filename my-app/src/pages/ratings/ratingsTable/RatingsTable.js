@@ -15,14 +15,7 @@ const styles = {
   }
 };
 
-const RATING_HEADER = [
-  "Ranking",
-  "Name",
-  "Province",
-  "Sex",
-  "Rating",
-  "Last Played"
-];
+const RATING_HEADER = ["Ranking", "Name", "Province", "Sex", "Rating"];
 
 const playerUrl = "/player";
 
@@ -59,6 +52,15 @@ class RatingsTable extends Component {
     }
   };
 
+  calculateRanking = sublist => {
+    const { idx } = this.state;
+    let count = idx + 1;
+    sublist.map(row => {
+      row.ranking = count++;
+    });
+    return sublist;
+  };
+
   searchByStringValue = (value, target) => {
     return target === "" || value.toLowerCase().includes(target.toLowerCase());
   };
@@ -71,7 +73,8 @@ class RatingsTable extends Component {
     const { idx, nextIdx } = this.state;
     const { classes, filteredPlayers } = this.props;
     const MIN = filteredPlayers.length > LIMIT ? LIMIT : filteredPlayers.length;
-    const sublist = filteredPlayers.slice(idx, nextIdx === 0 && MIN);
+    let sublist = filteredPlayers.slice(idx, nextIdx === 0 && MIN);
+    sublist = this.calculateRanking(sublist);
     const table = {
       headers: RATING_HEADER,
       url: playerUrl,
