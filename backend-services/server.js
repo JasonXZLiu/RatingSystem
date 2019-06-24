@@ -120,7 +120,7 @@ app.get("/tournaments", (req, res) => {
   getData(TOURNAMENTS).then(data => res.json(data));
 });
 
-app.get("/tournament/:tournamentId", (req, res) => {
+app.get("/tournament/:id", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(TOURNAMENT_BY_ID, req.params).then(data => res.json(data));
@@ -141,12 +141,18 @@ app.post("/tournament/:id/matches/verify", urlEncodedParser, (req, res) => {
       postData(VERIFY_TOURNAMENT_MATCHES, {
         id: req.params.id,
         matches: jsonObject
-      }).then(data => {
-        res.json(data);
-      });
+      })
+        .then(data => {
+          res.json(data);
+        })
+        .catch(error => {
+          console.error(error.stack);
+          res.status(500).send({ error: "could not map csv to object" });
+        });
     })
     .catch(error => {
-      console.log("error");
+      console.error(error.stack);
+      res.status(500).send({ error: "csv is not in correct format" });
     });
 });
 

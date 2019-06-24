@@ -22,6 +22,12 @@ export async function getPlayerIdByName(params) {
   });
 }
 
+export async function getPlayerIdToVerifyByName(params) {
+  return await Player.find(params).then(data =>
+    data.map(data => data.id + " - " + data.name)
+  );
+}
+
 export async function getPlayerMatchHistory(params) {
   const findParams = {
     id: params.playerId

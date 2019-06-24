@@ -9,13 +9,15 @@ let idx = 0;
 
 class TableView extends Component {
   goToUrl = (url, id) => {
+    if (url === "") return;
+
     const { history } = this.props;
     const path = url + "/" + id;
     history.push(path);
   };
 
   render = () => {
-    const { headers, url, rows } = this.props;
+    const { headers, url, rows, action } = this.props;
     const displayRows = rows.splice(idx, LIMIT + idx);
     return (
       <table className="table">
@@ -27,6 +29,7 @@ class TableView extends Component {
                 key={row.id}
                 headers={headers}
                 rowValue={row}
+                action={action}
                 onClick={() => this.goToUrl(url, row.id)}
               />
             );
@@ -39,7 +42,12 @@ class TableView extends Component {
 
 TableView.propTypes = {
   headers: PropTypes.array.isRequired,
-  rows: PropTypes.array.isRequired
+  rows: PropTypes.array.isRequired,
+  url: PropTypes.string
+};
+
+TableView.defaultProps = {
+  url: ""
 };
 
 export default withRouter(TableView);

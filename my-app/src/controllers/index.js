@@ -7,6 +7,7 @@ import {
 import {
   getTournaments,
   getTournamentById,
+  getTournamentMatchesById,
   verifyTournamentMatches,
   submitTournamentMatches
 } from "./tournamentController";
@@ -20,13 +21,20 @@ import {
 import {
   ACTION_REQUEST_TOURNAMENTS,
   ACTION_REQUEST_TOURNAMENT,
+  ACTION_REQUEST_TOURNAMENT_MATCHES,
   ACTION_VERIFY_MATCHES,
   ACTION_SUBMIT_MATCHES
 } from "../pages/tournament/TournamentAction";
 
-export const basePath = "https://f2f62ae9.ngrok.io";
+export const basePath = "https://fa6feb02.ngrok.io";
 
-export const fetch = (action, params) => {
+export const handleResponse = async response => {
+  if (!response.ok)
+    throw new Error(await response.json().then(data => data.error));
+  return await response.json().then(data => data);
+};
+
+const getResponse = (action, params) => {
   switch (action) {
     case ACTION_REQUEST_RATINGS:
       return getRatings(params);
@@ -40,6 +48,8 @@ export const fetch = (action, params) => {
       return getTournaments(params);
     case ACTION_REQUEST_TOURNAMENT:
       return getTournamentById(params);
+    case ACTION_REQUEST_TOURNAMENT_MATCHES:
+      return getTournamentMatchesById(params);
     case ACTION_VERIFY_MATCHES:
       return verifyTournamentMatches(params);
     case ACTION_SUBMIT_MATCHES:
@@ -47,4 +57,8 @@ export const fetch = (action, params) => {
     default:
       return {};
   }
+};
+
+export const fetch = (action, params) => {
+  return getResponse(action, params).then(data => handleResponse(data));
 };

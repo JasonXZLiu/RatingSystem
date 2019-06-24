@@ -1,8 +1,8 @@
-import { getPlayerIdByName } from "../repositories/playerRepository";
+import { getPlayerIdToVerifyByName } from "../repositories/playerRepository";
 
 async function verifyMatch(match) {
-  const winnerId = await getPlayerIdByName({ name: match.winner });
-  const loserId = await getPlayerIdByName({ name: match.loser });
+  const winnerId = await getPlayerIdToVerifyByName({ name: match.winner });
+  const loserId = await getPlayerIdToVerifyByName({ name: match.loser });
   const matchObject = {
     tournament: match.tournament,
     date: match.date,
