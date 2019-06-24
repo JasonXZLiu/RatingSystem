@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   withStyles,
   Typography,
-  FormControl,
   Select,
   MenuItem,
   Icon
@@ -10,7 +9,11 @@ import {
 import { connect } from "react-redux";
 import classNames from "classnames";
 import TableView from "../../../components/tableView/TableView";
-import { cancelSubmitMatches, submitMatches } from "../TournamentAction";
+import {
+  cancelSubmitMatches,
+  submitMatches,
+  updateMatch
+} from "../TournamentAction";
 
 const styles = {
   buttonRowStyle: { margin: "auto" },
@@ -43,41 +46,58 @@ const TOURNAMENT_MATCH_HEADER = [
   }
 ];
 
-const PlayerSelector = ({ cellValues }) => {
+const PlayerSelector = ({ cellValues, onChange }) => {
   const [value, setValue] = React.useState("");
+
   const handleChange = event => {
     setValue(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
-    <FormControl variant="outlined">
-      <Select
-        value={value}
-        onChange={handleChange}
-        style={{ width: "10rem", margin: "0", padding: "-1", fontSize: "1rem" }}
-      >
-        {cellValues.map(value => (
-          <MenuItem value={value}>{value}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Select
+      value={value}
+      onChange={handleChange}
+      style={{ width: "10rem", margin: "0", padding: "-1", fontSize: "1rem" }}
+    >
+      {cellValues.map(value => (
+        <MenuItem value={value}>{value}</MenuItem>
+      ))}
+    </Select>
   );
 };
 
 class ReviewMatchesTable extends Component {
+  constructor(props) {
+    super(props);
+
+    const { tournamentStore } = this.props;
+    const { matches } = tournamentStore;
+    this.state = {
+      matches
+    };
+  }
+
   onCancel = () => {
     const { tournamentId, cancelSubmitMatchesAction } = this.props;
     cancelSubmitMatchesAction(tournamentId);
   };
 
   onSubmit = () => {
-    const { tournamentId, submitMatchesAction } = this.props;
-    submitMatchesAction(tournamentId);
+    const { tournamentId, submitMatchesAction, tournamentStore } = this.props;
+    const { matchesToSubmit } = tournamentStore;
+    submitMatchesAction({ tournamentId, matchesToSubmit });
+  };
+
+  handleSelectorChange = (row, column) => newValue => {
+    const { updateMatchAction } = this.props;
+    updateMatchAction({ row, column, newValue });
   };
 
   render() {
     const { classes, tournamentStore } = this.props;
-    const { matches } = tournamentStore;
+    const { matchesToSubmit, matchesToBeReviewed } = tournamentStore;
+    const matches = [...matchesToSubmit];
     const table = {
       headers: TOURNAMENT_MATCH_HEADER,
       rows: matches
@@ -91,7 +111,12 @@ class ReviewMatchesTable extends Component {
           <TableView
             className={classes.tableView}
             {...table}
-            action={{ selector: PlayerSelector }}
+            action={{
+              selector: {
+                component: PlayerSelector,
+                onChange: this.handleSelectorChange
+              }
+            }}
           />
         </div>
         <div className="row">
@@ -106,6 +131,7 @@ class ReviewMatchesTable extends Component {
             <button
               type="button"
               className={classNames("btn btn-success", classes.buttonStyle)}
+              disabled={matchesToBeReviewed > 0}
               onClick={this.onSubmit}
             >
               Submit
@@ -125,6 +151,7 @@ export default connect(
   mapStateToProps,
   {
     cancelSubmitMatchesAction: cancelSubmitMatches,
-    submitMatchesAction: submitMatches
+    submitMatchesAction: submitMatches,
+    updateMatchAction: updateMatch
   }
 )(withStyles(styles)(ReviewMatchesTable));

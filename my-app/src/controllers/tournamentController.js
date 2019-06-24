@@ -40,7 +40,7 @@ export async function verifyTournamentMatches(params) {
 }
 
 export async function submitTournamentMatches(params) {
-  const { tournamentId, matches } = params;
+  const { tournamentId, matchesToSubmit } = params;
   return await fetch(
     basePath + "/tournament/" + tournamentId + "/matches/submit",
     {
@@ -49,7 +49,7 @@ export async function submitTournamentMatches(params) {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: matches
+      body: JSON.stringify(matchesToSubmit)
     }
   ).then(res => res);
 }

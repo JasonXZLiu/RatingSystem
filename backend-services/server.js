@@ -159,7 +159,7 @@ app.post("/tournament/:id/matches/verify", urlEncodedParser, (req, res) => {
 app.post("/tournament/:id/matches/submit", jsonParser, (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  postData(SUBMIT_TOURNAMENT_MATCHES, req.params).then(data => res.json(data));
+  postData(SUBMIT_TOURNAMENT_MATCHES, req.body).then(data => res.json(data));
 });
 
 app.get("/tournament/:tournamentId/player/:playerId/matches", (req, res) => {

@@ -52,7 +52,7 @@ class TournamentDetailsPage extends Component {
     var reader = new FileReader();
 
     if (file.name.split(".").pop() !== "csv")
-      return toast.error("Submitted file is not a csv");
+      return toast.error("submitted file is not a csv");
 
     reader.onload = (function(theFile, tournamentId) {
       return function(e) {

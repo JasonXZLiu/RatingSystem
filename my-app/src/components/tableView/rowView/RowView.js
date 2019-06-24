@@ -28,7 +28,7 @@ const findCorrespondingEntry = (header, row) => {
   }
 };
 
-const getCellComponent = (count, header, rowValue, action) => {
+const getCellComponent = (count, header, rowValue, action, rowSize) => {
   const headerValue = getHeaderAccessor(header);
   const cellValue = findCorrespondingEntry(headerValue, rowValue);
   if (header.valueFunction) {
@@ -36,10 +36,16 @@ const getCellComponent = (count, header, rowValue, action) => {
   }
   if (header.enableSelect) {
     if (cellValue instanceof Array && cellValue.length > 1) {
-      const ListCellSelector = action.selector;
+      const ListCellSelector = action.selector.component;
       return (
         <td key={count}>
-          <ListCellSelector cellValues={cellValue} />
+          <ListCellSelector
+            onChange={action.selector.onChange(
+              Math.floor(count / rowSize),
+              headerValue
+            )}
+            cellValues={cellValue}
+          />
         </td>
       );
     }
@@ -62,6 +68,7 @@ class RowView extends Component {
   render = () => {
     const { hover } = this.state;
     const { headers, rowValue, onClick, action } = this.props;
+    const rowSize = headers[0].length;
     let count = -1;
     return (
       <tr
@@ -72,7 +79,7 @@ class RowView extends Component {
       >
         {headers.map(header => {
           count++;
-          return getCellComponent(count, header, rowValue, action);
+          return getCellComponent(count, header, rowValue, action, rowSize);
         })}
       </tr>
     );

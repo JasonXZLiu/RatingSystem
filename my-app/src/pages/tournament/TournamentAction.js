@@ -9,6 +9,7 @@ export const ACTION_REQUEST_TOURNAMENT_MATCHES = "REQUEST_TOURNAMENT_MATCHES";
 export const ACTION_RECEIVE_TOURNAMENT_MATCHES = "RECEIVE_TOURNAMENT_MATCHES";
 export const ACTION_VERIFY_MATCHES = "VERIFY_MATCHES";
 export const ACTION_RECEIVE_MATCH_VERIFICATION = "RECEIVE_MATCH_VERIFICATION";
+export const ACTION_UPDATE_MATCHES = "UPDATE_MATCHES";
 export const ACTION_SUBMIT_MATCHES = "SUBMIT_MATCHES";
 export const ACTION_CANCEL_MATCHES = "CANCEL_MATCHES";
 export const ACTION_MATCHES_SUBMITTED = "MATCHES_SUBMITTED";
@@ -54,15 +55,27 @@ export const verifyMatches = params => dispatch => {
     type: ACTION_VERIFY_MATCHES
   });
   return fetch(ACTION_VERIFY_MATCHES, params)
-    .then(matches => {
+    .then(verifiedMatches => {
+      const matches = verifiedMatches.matches;
+      const count = verifiedMatches.count;
       dispatch({
         type: ACTION_RECEIVE_MATCH_VERIFICATION,
-        matches
+        matches,
+        count
       });
     })
     .catch(error => {
       toast.error(error.message);
     });
+};
+
+export const updateMatch = params => dispatch => {
+  dispatch({
+    type: ACTION_UPDATE_MATCHES,
+    row: params.row,
+    column: params.column,
+    newValue: params.newValue
+  });
 };
 
 export const submitMatches = params => dispatch => {
