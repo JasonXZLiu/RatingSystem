@@ -29,6 +29,11 @@ const findCorrespondingEntry = (header, row) => {
   }
 };
 
+const isDate = cellValue => {
+  const date = new Date(cellValue);
+  return parseFloat(cellValue) !== cellValue && !isNaN(date.getMonth());
+};
+
 const getCellComponent = (count, header, rowValue, action, rowSize) => {
   const headerValue = getHeaderAccessor(header);
   const cellValue = findCorrespondingEntry(headerValue, rowValue);
@@ -54,8 +59,7 @@ const getCellComponent = (count, header, rowValue, action, rowSize) => {
   if (cellValue instanceof Array && cellValue.length > 1) {
     return <td key={count}>{cellValue.join(", ")}</td>;
   }
-  const date = new Date(cellValue);
-  if (!isNaN(date.getMonth())) {
+  if (isDate(cellValue)) {
     return <td key={count}>{format(new Date(cellValue), "MM/DD/YYYY")}</td>;
   }
   return <td key={count}>{cellValue}</td>;
