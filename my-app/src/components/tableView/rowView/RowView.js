@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { format } from "date-fns";
 
 const getHeaderAccessor = entry => {
   if (entry instanceof Object) {
@@ -52,6 +53,10 @@ const getCellComponent = (count, header, rowValue, action, rowSize) => {
   }
   if (cellValue instanceof Array && cellValue.length > 1) {
     return <td key={count}>{cellValue.join(", ")}</td>;
+  }
+  const date = new Date(cellValue);
+  if (!isNaN(date.getMonth())) {
+    return <td key={count}>{format(new Date(cellValue), "MM/DD/YYYY")}</td>;
   }
   return <td key={count}>{cellValue}</td>;
 };
