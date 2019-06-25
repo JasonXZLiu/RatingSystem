@@ -1,5 +1,10 @@
 import React from "react";
 
+const getHeaderLabel = entry => {
+  if (entry instanceof Object) return entry.label;
+  return entry;
+};
+
 const TableHeader = props => {
   const { header } = props;
   let count = -1;
@@ -10,7 +15,7 @@ const TableHeader = props => {
           count++;
           return (
             <th scope="col" key={count}>
-              {entry}
+              {getHeaderLabel(entry)}
             </th>
           );
         })}

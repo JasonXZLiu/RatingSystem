@@ -18,7 +18,7 @@ export async function getMatchById(params) {
 
 export async function getMatchesByTournamentId(params) {
   const tournament = await getTournamentById(params);
-  const findQueryString = "this.tournament === '" + tournament._id + "'";
+  const findQueryString = "this.tournament == '" + tournament._id + "'";
   return await Match.find({ $where: findQueryString })
     .populate("tournament")
     .populate("winner")
@@ -28,14 +28,14 @@ export async function getMatchesByTournamentId(params) {
 export async function getMatchesByPlayerId(params) {
   const player = await getPlayerById(params);
   let findQueryString =
-    "(this.loser === '" +
+    "(this.loser == '" +
     player._id +
-    "' || this.winner === '" +
+    "' || this.winner == '" +
     player._id +
     "')";
   if (params.tournamentId) {
     const tournament = await getTournamentById(params);
-    findQueryString += " && this.tournament === '" + tournament._id + "'";
+    findQueryString += " && this.tournament == '" + tournament._id + "'";
   }
   console.log(findQueryString);
   return await Match.find({ $where: findQueryString })

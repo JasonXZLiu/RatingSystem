@@ -20,8 +20,14 @@ const store = createStore(
 );
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <div>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </div>,
   document.getElementById("root")
 );

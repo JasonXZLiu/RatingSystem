@@ -15,6 +15,10 @@ import {
   getTournaments,
   getTournamentById
 } from "./mongoRepository/repositories/tournamentRepository";
+import {
+  verifyTournamentMatches,
+  submitTournamentMatches
+} from "./mongoRepository/services/tournamentService";
 import { getCountryCode } from "./mongoRepository/repositories/countryCodeRepository";
 import {
   getMatches,
@@ -38,6 +42,8 @@ export const MATCH_BY_ID = "MATCH_BY_ID";
 export const MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
 export const MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
 export const PLAYER_MATCH_HISTORY = "PLAYER_MATCH_HISTORY";
+export const SUBMIT_TOURNAMENT_MATCHES = "SUBMIT_TOURNAMENT_MATCHES";
+export const VERIFY_TOURNAMENT_MATCHES = "VERIFY_TOURNAMENT_MATCHES";
 
 export const getData = (request, params) => {
   switch (request) {
@@ -73,5 +79,16 @@ export const getData = (request, params) => {
       return getPlayerMatchHistory(params);
     default:
       return "NOTHING HERE";
+  }
+};
+
+export const postData = (request, params) => {
+  switch (request) {
+    case VERIFY_TOURNAMENT_MATCHES:
+      return verifyTournamentMatches(params);
+    case SUBMIT_TOURNAMENT_MATCHES:
+      return submitTournamentMatches(params);
+    default:
+      break;
   }
 };

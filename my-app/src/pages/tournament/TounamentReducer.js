@@ -2,7 +2,12 @@ import {
   ACTION_REQUEST_TOURNAMENTS,
   ACTION_RECEIVE_TOURNAMENTS,
   ACTION_REQUEST_TOURNAMENT,
-  ACTION_RECEIVE_TOURNAMENT
+  ACTION_RECEIVE_TOURNAMENT,
+  ACTION_RECEIVE_TOURNAMENT_MATCHES,
+  ACTION_RECEIVE_MATCH_VERIFICATION,
+  ACTION_MATCHES_SUBMITTED,
+  ACTION_CANCEL_MATCHES,
+  ACTION_UPDATE_MATCHES
 } from "./TournamentAction";
 
 const initialState = {
@@ -10,7 +15,9 @@ const initialState = {
   tournament: {
     location: {},
     events: []
-  }
+  },
+  currentStep: 1,
+  matches: []
 };
 
 export const tournamentStore = (state = initialState, action) => {
@@ -36,6 +43,37 @@ export const tournamentStore = (state = initialState, action) => {
         ...state,
         isFetching: false,
         tournament: action.tournament
+      };
+    case ACTION_RECEIVE_TOURNAMENT_MATCHES:
+      return {
+        ...state,
+        matches: action.tournament
+      };
+    case ACTION_RECEIVE_MATCH_VERIFICATION:
+      return {
+        ...state,
+        currentStep: 2,
+        matchesToBeReviewed: action.count,
+        matchesToSubmit: action.matches
+      };
+    case ACTION_MATCHES_SUBMITTED:
+      return {
+        ...state,
+        currentStep: 1,
+        matches: action.matches
+      };
+    case ACTION_UPDATE_MATCHES:
+      var matches = [...state.matchesToSubmit];
+      matches[action.row][action.column.toLowerCase()] = action.newValue;
+      return {
+        ...state,
+        matchesToSubmit: matches,
+        matchesToBeReviewed: action.matchesToBeReviewed - 1
+      };
+    case ACTION_CANCEL_MATCHES:
+      return {
+        ...state,
+        currentStep: 1
       };
     default:
       return state;

@@ -1,12 +1,12 @@
 import { getTournamentIdByName } from "../repositories/tournamentRepository";
-import { getPlayerIdByName } from "../repositories/playerRepository";
+import { getPlayerObjectIdById } from "../repositories/playerRepository";
 
-async function toMatchObject(match) {
+export async function toMatchObject(match) {
   const matchObject = {
     tournament: await getTournamentIdByName({ name: match.tournament }),
     date: match.date,
-    winner: await getPlayerIdByName({ name: match.winner }),
-    loser: await getPlayerIdByName({ name: match.loser }),
+    winner: await getPlayerObjectIdById(match.winner),
+    loser: await getPlayerObjectIdById(match.loser),
     score: match.score
   };
   return matchObject;

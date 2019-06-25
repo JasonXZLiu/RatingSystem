@@ -8,6 +8,8 @@ import PlayerPage from "./pages/player/PlayerPage";
 import TournamentPage from "./pages/tournament/TournamentPage";
 import TournamentDetailsPage from "./pages/tournament/tournamentDetails/TournamentDetailsPage";
 import NoMatch from "./pages/404";
+import { ToastContainer } from "react-toastify";
+import CloseToastButton from "./components/toast/closeToastButton";
 
 class App extends Component {
   constructor(props) {
@@ -38,6 +40,10 @@ class App extends Component {
             <Route component={NoMatch} />
           </Switch>
         </BrowserRouter>
+        <ToastContainer
+          position={"bottom-right"}
+          closeButton={<CloseToastButton />}
+        />
       </MuiPickersUtilsProvider>
     );
   };
