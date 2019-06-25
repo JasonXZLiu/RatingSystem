@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import { format } from "date-fns";
 import "typeface-roboto";
 import NavBar from "../../../components/NavBar";
 import { fetchTournamentById, verifyMatches } from "../TournamentAction";
@@ -107,7 +108,8 @@ class TournamentDetailsPage extends Component {
               {tournament.name}{" "}
             </Typography>
             <Typography variant="h5" className={classes.headerText}>
-              {tournament.startDate} - {tournament.endDate}
+              {format(new Date(tournament.startDate), "MM/DD/YYYY")} -{" "}
+              {format(new Date(tournament.endDate), "MM/DD/YYYY")}
             </Typography>
             <Typography variant="h5" className={classes.headerText}>
               {tournament.location.city}, {tournament.location.country}

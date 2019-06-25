@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CardBoardContainer from "../../../containers/CardBoard";
 import TournamentBoardContent from "./tournamentBoardContent/TournamentBoardContent";
-import TournamentDetailsPage from "../tournamentDetails/TournamentDetailsPage";
 import tournamentPhoto from "../../../resources/tournament.jpg";
 
 class TournamentBoard extends Component {

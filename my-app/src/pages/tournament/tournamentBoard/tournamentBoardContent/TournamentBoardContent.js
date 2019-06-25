@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
+import { format } from "date-fns";
 import "flag-icon-css/css/flag-icon.css";
 
 class TournamentBoardContent extends React.Component {
@@ -10,7 +11,8 @@ class TournamentBoardContent extends React.Component {
       <Grid item>
         <div>
           <strong>Date: </strong>
-          {tournament.startDate} - {tournament.endDate}
+          {format(new Date(tournament.startDate), "MM/DD/YYYY")} -{" "}
+          {format(new Date(tournament.endDate), "MM/DD/YYYY")}
         </div>
         <div>
           <strong>Location: </strong>

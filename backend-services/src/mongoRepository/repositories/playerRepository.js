@@ -83,5 +83,5 @@ export async function getRatings(params) {
   }
   console.log("find parameters: ");
   console.log(findParams);
-  return await Player.find(findParams);
+  return await Player.find(findParams).sort({ rating: -1 });
 }
