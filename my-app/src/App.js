@@ -10,7 +10,6 @@ import TournamentDetailsPage from "./pages/tournament/tournamentDetails/Tourname
 import NoMatch from "./pages/404";
 import { ToastContainer } from "react-toastify";
 import CloseToastButton from "./components/toast/closeToastButton";
-import { RatingSystem } from "./pages/home/RatingSystem";
 
 class App extends Component {
   constructor(props) {
