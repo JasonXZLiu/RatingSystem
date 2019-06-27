@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import { format } from "date-fns";
 import "typeface-roboto";
 import NavBar from "../../../components/NavBar";
 import { fetchTournamentById, verifyMatches } from "../TournamentAction";
