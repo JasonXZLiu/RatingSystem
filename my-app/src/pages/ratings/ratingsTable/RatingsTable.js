@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import TableView from "../../../components/tableView/TableView";
-import classNames from "classnames";
 
 const LIMIT = 25;
 
@@ -41,8 +41,9 @@ class RatingsTable extends Component {
   };
 
   onNext = () => {
-    const { idx, MIN, filteredRatings } = this.state;
-    if (idx + MIN < filteredRatings.length) {
+    const { idx, MIN } = this.state;
+    const { filteredPlayers } = this.props;
+    if (idx + MIN < filteredPlayers.length) {
       const newIdx = idx + MIN;
       const newNextIdx = newIdx + MIN;
       this.setState({
@@ -59,14 +60,6 @@ class RatingsTable extends Component {
       row.ranking = count++;
     });
     return sublist;
-  };
-
-  searchByStringValue = (value, target) => {
-    return target === "" || value.toLowerCase().includes(target.toLowerCase());
-  };
-
-  searchByNumberValue = (value, target) => {
-    return target === "" || value <= target;
   };
 
   render = () => {
@@ -90,6 +83,7 @@ class RatingsTable extends Component {
             <button
               type="button"
               className={classNames("btn btn-light", classes.buttonStyle)}
+              disabled={idx === 0}
               onClick={this.onBack}
             >
               Back
@@ -97,6 +91,7 @@ class RatingsTable extends Component {
             <button
               type="button"
               className={classNames("btn btn-primary", classes.buttonStyle)}
+              disabled={idx + MIN >= filteredPlayers.length}
               onClick={this.onNext}
             >
               Next

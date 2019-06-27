@@ -5,7 +5,6 @@ import NavBar from "../../components/NavBar";
 import LeaderboardTable from "./leaderboardTable/LeaderboardTable";
 import LeaderboardFilter from "./leaderboardFilter/LeaderboardFilter";
 import { fetchLeaders } from "./LeaderboardAction";
-import LoadingIndicator from "../../components/loadingIndicator/LoadingIndicator";
 
 const style = {
   leaderboardTitle: {
