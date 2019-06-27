@@ -29,7 +29,15 @@ const style = {
     color: "white",
     textAlign: "center"
   },
-  headerText: { color: "white" }
+  headerText: { color: "white" },
+  importMatchesButton: {
+    background: "#005CB2",
+    color: "white",
+    margin: "0rem 0.5rem",
+    padding: "0.5rem",
+    borderRadius: "0.5rem",
+    cursor: "pointer"
+  }
 };
 
 class TournamentDetailsPage extends Component {
@@ -118,6 +126,7 @@ class TournamentDetailsPage extends Component {
           <Grid
             container
             direction="row"
+            alignItems="center"
             justify={"space-between"}
             style={{ marginBottom: "2rem" }}
           >
@@ -127,7 +136,11 @@ class TournamentDetailsPage extends Component {
               </Typography>
             </Grid>
             <Grid item>
-              <label for="file">Import Matches</label>
+              <label for="file">
+                <div className={classes.importMatchesButton}>
+                  Import Matches
+                </div>
+              </label>
               <input
                 type="file"
                 name="file"

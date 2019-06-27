@@ -76,27 +76,14 @@ class RatingsTable extends Component {
     return (
       <div>
         <div className="row">
-          <TableView className={classes.tableView} {...table} />
-        </div>
-        <div className="row">
-          <div className={classes.buttonRowStyle}>
-            <button
-              type="button"
-              className={classNames("btn btn-light", classes.buttonStyle)}
-              disabled={idx === 0}
-              onClick={this.onBack}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              className={classNames("btn btn-primary", classes.buttonStyle)}
-              disabled={idx + MIN >= filteredPlayers.length}
-              onClick={this.onNext}
-            >
-              Next
-            </button>
-          </div>
+          <TableView
+            className={classes.tableView}
+            {...table}
+            buttonAction={{
+              hasNext: idx + MIN >= filteredPlayers.length,
+              hasBack: idx === 0
+            }}
+          />
         </div>
       </div>
     );
