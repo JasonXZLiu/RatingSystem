@@ -4,8 +4,12 @@ import {
 } from "../repositories/playerRepository";
 import { Match } from "../schemas/match";
 import { toMatchObjects } from "../models/matchDTO";
+import { getTournamentById } from "../repositories/tournamentRepository";
 
-async function verifyMatch(match) {
+async function verifyMatchForTournament(tournament, match) {
+  if (tournament.name !== match.tournament) {
+    throw Error("some matches were submitted for the wrong tournament");
+  }
   const winnerId = await getPlayerIdToVerifyByName({ name: match.winner });
   const loserId = await getPlayerIdToVerifyByName({ name: match.loser });
   const matchObject = {
@@ -19,8 +23,11 @@ async function verifyMatch(match) {
   return matchObject;
 }
 
-async function verifyMatches(data) {
-  const matches = await Promise.all(data.map(match => verifyMatch(match)));
+async function verifyMatchesForTournament(tournamentId, data) {
+  const tournament = await getTournamentById({ id: tournamentId });
+  const matches = await Promise.all(
+    data.map(match => verifyMatchForTournament(tournament, match))
+  );
   var count = 0;
   matches.map(match => {
     if (
@@ -33,8 +40,8 @@ async function verifyMatches(data) {
 }
 
 export const verifyTournamentMatches = async params => {
-  var matches = params.matches;
-  var verifiedMatches = await verifyMatches(matches);
+  var { id, matches } = params;
+  var verifiedMatches = await verifyMatchesForTournament(id, matches);
   return verifiedMatches;
 };
 
@@ -49,7 +56,6 @@ export const submitTournamentMatches = async params => {
   const matchesToSubmit = await Promise.all(
     verifiedMatches.map(match => getMatchFromVerifiedMatches(match))
   );
-  console.log(matchesToSubmit);
   const matches = await toMatchObjects(matchesToSubmit);
   Match.create(matches);
   return matchesToSubmit;

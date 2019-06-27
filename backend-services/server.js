@@ -147,7 +147,7 @@ app.post("/tournament/:id/matches/verify", urlEncodedParser, (req, res) => {
         })
         .catch(error => {
           console.error(error.stack);
-          res.status(500).send({ error: "could not map csv to object" });
+          res.status(500).send({ error: error.message });
         });
     })
     .catch(error => {
