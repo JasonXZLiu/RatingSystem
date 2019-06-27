@@ -30,7 +30,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={LeaderboardPage} />
-            <Route path="/rating" component={RatingsPage} />
+            <Route path="/ratings" component={RatingsPage} />
             <Route path="/player/:playerId" component={PlayerPage} />
             <Route path="/tournaments" component={TournamentPage} />
             <Route

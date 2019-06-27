@@ -41,7 +41,7 @@ class TournamentBoard extends Component {
     const { filteredTournaments, open } = this.state;
     const cards = filteredTournaments.map(tournament => {
       return {
-        media: <img src={tournamentPhoto} className="card-img-top" />,
+        media: <img alt="" src={tournamentPhoto} className="card-img-top" />,
         id: tournament.id,
         title: tournament.name,
         content: <TournamentBoardContent tournament={tournament} />,

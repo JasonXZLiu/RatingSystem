@@ -1,12 +1,18 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import { connect } from "react-redux";
-import { Grid } from "@material-ui/core";
-import { toISODate } from "@date-io/luxon";
+import { Grid, withStyles } from "@material-ui/core";
 import NavBar from "../../components/NavBar";
 import { fetchPlayerById, fetchPlayerMatchHistory } from "./PlayerAction";
 import profile from "../../resources/profile.jpg";
 import TableView from "../../components/tableView/TableView";
 import PlayerRatingFilter from "./playerRatingFilter/PlayerRatingFilter";
+
+const style = {
+  backButton: { marginBottom: "2rem" },
+  profilePhoto: { width: "20rem", borderRadius: "0.5rem" },
+  ratingFilterContainer: { marginTop: "2rem" }
+};
 
 const MATCH_HISTORY_HEADER = [
   "Date",
@@ -86,7 +92,7 @@ class PlayerPage extends Component {
   };
 
   render = () => {
-    const { playerStore } = this.props;
+    const { playerStore, classes } = this.props;
     const { resultValue, dateValue } = this.state;
     const { player, matchHistory } = playerStore;
     const headers = MATCH_HISTORY_HEADER;
@@ -100,18 +106,14 @@ class PlayerPage extends Component {
         <div className="container">
           <button
             type="button"
-            className="btn btn-secondary"
+            className={classNames("btn btn-secondary", classes.backButton)}
             onClick={this.goBack}
-            style={{ marginBottom: "2rem" }}
           >
             Back
           </button>
-          <Grid container direction="row" alignItems="center" spacing={12}>
+          <Grid container direction="row" alignItems="center">
             <Grid item xs={4}>
-              <img
-                src={profile}
-                style={{ width: "20rem", borderRadius: "0.5rem" }}
-              />
+              <img alt="" src={profile} className={classes.profilePhoto} />
             </Grid>
             <Grid item xs={8}>
               <h1>{player.name}</h1>
@@ -122,7 +124,7 @@ class PlayerPage extends Component {
               <h4>Province: {player.province}</h4>
             </Grid>
           </Grid>
-          <Grid item style={{ marginTop: "2rem" }}>
+          <Grid item className={classes.ratingFilterContainer}>
             <PlayerRatingFilter
               handleSearchFieldChange={this.handleSearchFieldChange}
               handleSelectorChange={this.handleSelectorChange}
@@ -148,4 +150,4 @@ export default connect(
     fetchPlayerByIdAction: fetchPlayerById,
     fetchPlayerMatchHistoryAction: fetchPlayerMatchHistory
   }
-)(PlayerPage);
+)(withStyles(style)(PlayerPage));

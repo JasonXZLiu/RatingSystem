@@ -14,7 +14,7 @@ class NavBar extends Component {
         style={NavBarStyle}
       >
         <Link className="navbar-brand" to="/">
-          ReactApp
+          Ranking System
         </Link>
         <button
           className="navbar-toggler"
@@ -48,7 +48,7 @@ class NavBar extends Component {
             <li className="nav-item">
               <Link
                 className="nav-link"
-                to={{ pathname: "/rating", state: "desiredState" }}
+                to={{ pathname: "/ratings", state: "desiredState" }}
               >
                 Ratings
               </Link>

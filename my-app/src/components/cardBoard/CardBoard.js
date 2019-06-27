@@ -1,17 +1,29 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import Card from "../../components/cardView/Card";
+import { withStyles } from "@material-ui/styles";
 
-const ButtonRowStyle = {
-  margin: "auto"
-};
-
-const ButtonStyle = {
-  margin: "1rem 1rem 1rem 1rem"
+const style = {
+  buttonRowStyle: {
+    margin: "auto"
+  },
+  buttonStyle: {
+    margin: "1rem 1rem 1rem 1rem"
+  }
 };
 
 class CardBoardContainer extends Component {
   render = () => {
-    const { sublist, action, onNext, onBack, rowSize } = this.props;
+    const {
+      sublist,
+      action,
+      onNext,
+      onBack,
+      hasNext,
+      hasBack,
+      classes,
+      rowSize
+    } = this.props;
     const { actionComponent, isActionOpen, openAction } = action;
     return (
       <div>
@@ -29,19 +41,19 @@ class CardBoardContainer extends Component {
           })}
         </div>
         <div className="row">
-          <div style={ButtonRowStyle}>
+          <div className={classes.buttonRowStyle}>
             <button
               type="button"
-              className="btn btn-light"
-              style={ButtonStyle}
+              className={classNames("btn btn-light", classes.buttonStyle)}
+              disabled={hasBack}
               onClick={onBack}
             >
               Back
             </button>
             <button
               type="button"
-              className="btn btn-primary"
-              style={ButtonStyle}
+              className={classNames("btn btn-primary", classes.buttonStyle)}
+              disabled={hasNext}
               onClick={onNext}
             >
               Next
@@ -53,4 +65,4 @@ class CardBoardContainer extends Component {
   };
 }
 
-export default CardBoardContainer;
+export default withStyles(style)(CardBoardContainer);

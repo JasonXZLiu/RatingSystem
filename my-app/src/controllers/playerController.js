@@ -1,5 +1,4 @@
 import { basePath } from "./index";
-import { format } from "date-fns";
 
 export async function getPlayers() {
   return await fetch(basePath + "/ratings").then(res => res);

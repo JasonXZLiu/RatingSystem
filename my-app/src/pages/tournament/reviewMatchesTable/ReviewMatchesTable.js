@@ -117,6 +117,7 @@ class ReviewMatchesTable extends Component {
                 onChange: this.handleSelectorChange
               }
             }}
+            buttons={false}
           />
         </div>
         <div className="row">

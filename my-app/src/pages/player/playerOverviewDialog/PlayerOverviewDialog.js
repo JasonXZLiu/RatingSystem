@@ -20,11 +20,6 @@ const styles = {
   }
 };
 
-const tableViewStyle = {
-  width: "95%",
-  margin: "auto"
-};
-
 const MATCH_HISTORY_HEADER = [
   "Date",
   "Tournament",
@@ -37,7 +32,6 @@ class PlayerOverviewDialog extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
     const { fetchPlayerMatchHistoryAction } = this.props;
     const { playerId } = props;
     fetchPlayerMatchHistoryAction({ playerId });

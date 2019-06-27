@@ -59,6 +59,8 @@ class CardBoardContainer extends Component {
         sublist={sublist}
         rowSize={rowSize}
         action={action}
+        hasNext={nextIdx >= list.length}
+        hasBack={idx === 0}
         onNext={this.onNext}
         onBack={this.onBack}
       />

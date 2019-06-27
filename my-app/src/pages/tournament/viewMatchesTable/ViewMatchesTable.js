@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
-import classNames from "classnames";
 import TableView from "../../../components/tableView/TableView";
 import { fetchTournamentMatches } from "../TournamentAction";
 
 const LIMIT = 25;
 
 const styles = {
-  buttonRowStyle: { margin: "auto" },
-  buttonStyle: { margin: "1rem 1rem 1rem 1rem" },
   tableView: {
     width: "80%",
     margin: "auto"
@@ -82,28 +79,15 @@ class ViewMatchesTable extends Component {
     return (
       <div>
         <div className="row">
-          <Typography variant="h5" style={{ color: "#005cb2" }}>
-            <strong>Matches</strong>
-          </Typography>
-          <TableView className={classes.tableView} {...table} />
-        </div>
-        <div className="row">
-          <div className={classes.buttonRowStyle}>
-            <button
-              type="button"
-              className={classNames("btn btn-light", classes.buttonStyle)}
-              onClick={this.onBack}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              className={classNames("btn btn-primary", classes.buttonStyle)}
-              onClick={this.onNext}
-            >
-              Next
-            </button>
-          </div>
+          <TableView
+            className={classes.tableView}
+            tableTitle="Matches"
+            {...table}
+            buttonAction={{
+              hasNext: idx + MIN >= matches.length,
+              hasBack: idx === 0
+            }}
+          />
         </div>
       </div>
     );

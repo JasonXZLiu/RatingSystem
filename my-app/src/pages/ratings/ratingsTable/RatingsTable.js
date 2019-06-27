@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import TableView from "../../../components/tableView/TableView";
-import classNames from "classnames";
 
 const LIMIT = 25;
 
@@ -41,8 +40,9 @@ class RatingsTable extends Component {
   };
 
   onNext = () => {
-    const { idx, MIN, filteredRatings } = this.state;
-    if (idx + MIN < filteredRatings.length) {
+    const { idx, MIN } = this.state;
+    const { filteredPlayers } = this.props;
+    if (idx + MIN < filteredPlayers.length) {
       const newIdx = idx + MIN;
       const newNextIdx = newIdx + MIN;
       this.setState({
@@ -55,18 +55,11 @@ class RatingsTable extends Component {
   calculateRanking = sublist => {
     const { idx } = this.state;
     let count = idx + 1;
-    sublist.map(row => {
-      row.ranking = count++;
-    });
-    return sublist;
-  };
-
-  searchByStringValue = (value, target) => {
-    return target === "" || value.toLowerCase().includes(target.toLowerCase());
-  };
-
-  searchByNumberValue = (value, target) => {
-    return target === "" || value <= target;
+    const newList = sublist.map(row => ({
+      ...row,
+      ranking: count++
+    }));
+    return newList;
   };
 
   render = () => {
@@ -83,25 +76,14 @@ class RatingsTable extends Component {
     return (
       <div>
         <div className="row">
-          <TableView className={classes.tableView} {...table} />
-        </div>
-        <div className="row">
-          <div className={classes.buttonRowStyle}>
-            <button
-              type="button"
-              className={classNames("btn btn-light", classes.buttonStyle)}
-              onClick={this.onBack}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              className={classNames("btn btn-primary", classes.buttonStyle)}
-              onClick={this.onNext}
-            >
-              Next
-            </button>
-          </div>
+          <TableView
+            className={classes.tableView}
+            {...table}
+            buttonAction={{
+              hasNext: idx + MIN >= filteredPlayers.length,
+              hasBack: idx === 0
+            }}
+          />
         </div>
       </div>
     );
