@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CardBoardContainer from "../../../containers/CardBoard";
 import TournamentBoardContent from "./tournamentBoardContent/TournamentBoardContent";
-import TournamentDetailsPage from "../tournamentDetails/TournamentDetailsPage";
 import tournamentPhoto from "../../../resources/tournament.jpg";
 
 class TournamentBoard extends Component {
@@ -42,7 +41,7 @@ class TournamentBoard extends Component {
     const { filteredTournaments, open } = this.state;
     const cards = filteredTournaments.map(tournament => {
       return {
-        media: <img src={tournamentPhoto} className="card-img-top" />,
+        media: <img alt="" src={tournamentPhoto} className="card-img-top" />,
         id: tournament.id,
         title: tournament.name,
         content: <TournamentBoardContent tournament={tournament} />,

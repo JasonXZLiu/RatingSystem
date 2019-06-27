@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
-import classNames from "classnames";
 import TableView from "../../../components/tableView/TableView";
 import { fetchTournamentMatches } from "../TournamentAction";
 

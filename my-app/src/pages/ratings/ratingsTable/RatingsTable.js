@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classNames from "classnames";
 import { withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import TableView from "../../../components/tableView/TableView";
@@ -56,10 +55,11 @@ class RatingsTable extends Component {
   calculateRanking = sublist => {
     const { idx } = this.state;
     let count = idx + 1;
-    sublist.map(row => {
-      row.ranking = count++;
-    });
-    return sublist;
+    const newList = sublist.map(row => ({
+      ...row,
+      ranking: count++
+    }));
+    return newList;
   };
 
   render = () => {

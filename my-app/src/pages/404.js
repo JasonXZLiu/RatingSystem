@@ -10,7 +10,7 @@ const NoMatch = () => {
       <div class="container">
         <Grid container direction="column" justify="center" alignItems="center">
           <Grid item>
-            <img src={notFoundPhoto} />
+            <img alt="" src={notFoundPhoto} />
           </Grid>
           <Grid item>
             <h3>Hmmm...</h3>

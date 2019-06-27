@@ -10,6 +10,7 @@ import TournamentDetailsPage from "./pages/tournament/tournamentDetails/Tourname
 import NoMatch from "./pages/404";
 import { ToastContainer } from "react-toastify";
 import CloseToastButton from "./components/toast/closeToastButton";
+import { RatingSystem } from "./pages/home/RatingSystem";
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={LeaderboardPage} />
-            <Route path="/rating" component={RatingsPage} />
+            <Route path="/ratings" component={RatingsPage} />
             <Route path="/player/:playerId" component={PlayerPage} />
             <Route path="/tournaments" component={TournamentPage} />
             <Route

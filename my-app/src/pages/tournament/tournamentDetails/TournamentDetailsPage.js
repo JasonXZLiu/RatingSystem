@@ -9,27 +9,9 @@ import longPhoto from "../../../resources/longPhoto.jpg";
 import toast from "../../../components/toast/toast";
 import ReviewMatchesTable from "../reviewMatchesTable/ReviewMatchesTable";
 import ViewMatchesTable from "../viewMatchesTable/ViewMatchesTable";
+import BillboardHeader from "../../../components/billboardHeader/BillboardHeader";
 
 const style = {
-  headerDiv: {
-    marginTop: "-1rem",
-    width: "100%",
-    height: "40rem",
-    overflow: "hidden",
-    position: "relative",
-    background: "black",
-    marginBottom: "2rem"
-  },
-  headerImg: { width: "100%", minHeight: "100%", opacity: "0.7" },
-  headerContent: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    color: "white",
-    textAlign: "center"
-  },
-  headerText: { color: "white" },
   importMatchesButton: {
     background: "#005CB2",
     color: "white",
@@ -104,24 +86,14 @@ class TournamentDetailsPage extends Component {
     return (
       <div>
         <NavBar />
-        <div className={classes.headerDiv}>
-          <img className={classes.headerImg} src={longPhoto} />
-          <div className={classes.headerContent}>
-            <Typography
-              variant="h2"
-              className={classes.headerText}
-              gutterBottom
-            >
-              {tournament.name}{" "}
-            </Typography>
-            <Typography variant="h5" className={classes.headerText}>
-              {tournament.startDate} - {tournament.endDate}
-            </Typography>
-            <Typography variant="h5" className={classes.headerText}>
-              {tournament.location.city}, {tournament.location.country}
-            </Typography>
-          </div>
-        </div>
+        <BillboardHeader
+          photoSrc={longPhoto}
+          title={tournament.name}
+          details={[
+            `${tournament.startDate} - ${tournament.endDate}`,
+            `${tournament.location.city}, ${tournament.location.country}`
+          ]}
+        />
         <div className="container">
           <Grid
             container
