@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const playerSchema = new mongoose.Schema({
   id: Number,
   name: String,
-  rating: Number,
+  rating: [Number],
+  previousRating: Number,
   province: String,
   sex: String,
   age: Number,

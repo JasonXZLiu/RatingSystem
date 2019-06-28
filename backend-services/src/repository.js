@@ -1,31 +1,30 @@
-import { getMatchHistoryById } from "./core/playerRepository/playerRepository";
 import {
   getPlayers,
   getPlayerById,
   getRatings,
   getPlayerMatchHistory
-} from "./mongoRepository/repositories/playerRepository";
+} from "./core/repositories/playerRepository";
 import {
   getSex,
   getCategory,
   getProvince,
   getResult
-} from "./mongoRepository/repositories/filterSelectorRepository";
+} from "./core/repositories/filterSelectorRepository";
 import {
   getTournaments,
   getTournamentById
-} from "./mongoRepository/repositories/tournamentRepository";
+} from "./core/repositories/tournamentRepository";
 import {
   verifyTournamentMatches,
   submitTournamentMatches
-} from "./mongoRepository/services/tournamentService";
-import { getCountryCode } from "./mongoRepository/repositories/countryCodeRepository";
+} from "./core/services/tournamentService";
+import { getCountryCode } from "./core/repositories/countryCodeRepository";
 import {
   getMatches,
   getMatchById,
   getMatchesByTournamentId,
   getMatchesByPlayerId
-} from "./mongoRepository/repositories/matchRepository";
+} from "./core/repositories/matchRepository";
 
 export const PLAYERS = "PLAYERS";
 export const PLAYER_BY_ID = "PLAYER_BY_ID";

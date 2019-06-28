@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { getCountryCode } from "../../core/countryRepository/countryRepository";
+import { getSyncCountryCode } from "../repositories/countryCodeRepository";
 
 const locationSchema = new mongoose.Schema({
   address: String,
@@ -19,7 +19,7 @@ const tournamentSchema = new mongoose.Schema({
 });
 
 locationSchema.virtual("countryCode").get(function() {
-  return getCountryCode({
+  return getSyncCountryCode({
     countryName: this.country
   })[0].code;
 });

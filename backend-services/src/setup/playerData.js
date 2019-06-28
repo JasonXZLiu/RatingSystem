@@ -2,7 +2,12 @@ export const playerData = [
   {
     id: 1,
     name: "Icebear",
-    rating: 2100,
+    rating: [
+      {
+        date: "05/01/19",
+        rating: 2100
+      }
+    ],
     province: "ON",
     sex: "F",
     age: 18
@@ -10,7 +15,12 @@ export const playerData = [
   {
     id: 2,
     name: "Icebear1",
-    rating: 400,
+    rating: [
+      {
+        date: "05/01/19",
+        rating: 400
+      }
+    ],
     province: "QC",
     sex: "M",
     age: 15
@@ -18,7 +28,12 @@ export const playerData = [
   {
     id: 3,
     name: "Icebear2",
-    rating: 3030,
+    rating: [
+      {
+        date: "06/01/19",
+        rating: 3030
+      }
+    ],
     province: "BC",
     sex: "F",
     age: 16
@@ -26,7 +41,12 @@ export const playerData = [
   {
     id: 4,
     name: "Icebear3",
-    rating: 600,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 600
+      }
+    ],
     province: "ON",
     sex: "F",
     age: 14
@@ -34,7 +54,12 @@ export const playerData = [
   {
     id: 5,
     name: "Icebear4",
-    rating: 611,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 611
+      }
+    ],
     province: "AB",
     sex: "M",
     age: 28
@@ -42,7 +67,12 @@ export const playerData = [
   {
     id: 6,
     name: "Icebear5",
-    rating: 711,
+    rating: [
+      {
+        date: "06/01/19",
+        rating: 711
+      }
+    ],
     province: "SK",
     sex: "M",
     age: 21
@@ -50,7 +80,12 @@ export const playerData = [
   {
     id: 7,
     name: "Icebear6",
-    rating: 3456,
+    rating: [
+      {
+        date: "05/01/19",
+        rating: 3456
+      }
+    ],
     province: "MB",
     sex: "M",
     age: 26
@@ -58,7 +93,12 @@ export const playerData = [
   {
     id: 8,
     name: "Icebear7",
-    rating: 373,
+    rating: [
+      {
+        date: "06/01/19",
+        rating: 373
+      }
+    ],
     province: "BC",
     sex: "F",
     age: 13
@@ -66,7 +106,12 @@ export const playerData = [
   {
     id: 9,
     name: "Icebear8",
-    rating: 1451,
+    rating: [
+      {
+        date: "01/01/19",
+        rating: 1571
+      }
+    ],
     province: "QC",
     sex: "M",
     age: 31
@@ -74,7 +119,12 @@ export const playerData = [
   {
     id: 10,
     name: "Icebear9",
-    rating: 346,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 346
+      }
+    ],
     province: "ON",
     sex: "F",
     age: 28
@@ -82,7 +132,12 @@ export const playerData = [
   {
     id: 11,
     name: "Icebear10",
-    rating: 16,
+    rating: [
+      {
+        date: "12/01/18",
+        rating: 600
+      }
+    ],
     province: "SK",
     sex: "F",
     age: 72
@@ -90,7 +145,12 @@ export const playerData = [
   {
     id: 12,
     name: "Icebear11",
-    rating: 14,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 123
+      }
+    ],
     province: "NL",
     sex: "M",
     age: 43
@@ -98,7 +158,12 @@ export const playerData = [
   {
     id: 13,
     name: "Icebear12",
-    rating: 324,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 324
+      }
+    ],
     province: "PEI",
     sex: "M",
     age: 12
@@ -106,7 +171,12 @@ export const playerData = [
   {
     id: 14,
     name: "Icebear13",
-    rating: 2100,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 2100
+      }
+    ],
     province: "ON",
     sex: "F",
     age: 18
@@ -114,7 +184,12 @@ export const playerData = [
   {
     id: 15,
     name: "Icebear14",
-    rating: 534,
+    rating: [
+      {
+        date: "03/01/19",
+        rating: 534
+      }
+    ],
     province: "QC",
     sex: "M",
     age: 20
