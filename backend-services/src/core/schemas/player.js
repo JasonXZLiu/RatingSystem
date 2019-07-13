@@ -11,13 +11,12 @@ const playerSchema = new mongoose.Schema({
     }
   ],
   newRating: {
-    lastPlayedDate: Date,
+    periodDate: Date,
     rating: Number
   },
   temporaryRating: {
-    createdDate: Date,
     rating: Number,
-    gamesPlayed: Number
+    matches: [{ type: Schema.Types.ObjectId, ref: "Match" }]
   },
   province: String,
   sex: String,

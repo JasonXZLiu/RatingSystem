@@ -4,6 +4,7 @@ import schedule from "node-schedule";
 import { app } from "./src/middlewares/server";
 import { setup } from "./src/setup/setup";
 import { getRatingCalculation } from "./src/core/repositories/ratingCalculationRepository";
+import { calculateRatings } from "./src/core/services/ratingCalculationService";
 
 const uri = "mongodb://localhost/ratingSystem";
 const options = { useNewUrlParser: true };
@@ -27,15 +28,13 @@ app.listen(port, (req, res) => {
 
 // node schedule
 const rule = new schedule.RecurrenceRule();
-rule.minute = 1;
 
 // run on the 1st of every month at 5:00 PM
-// rule.month = [new schedule.Range(0, 11)];
-// rule.date = 1;
-// rule.hour = 17;
-// rule.minute = 0;
+rule.month = [new schedule.Range(0, 11)];
+rule.date = 1;
+rule.hour = 17;
+rule.minute = 0;
 
-// const j = schedule.scheduleJob("*/10 * * * * *", async function() {
-//   console.log("hello");
-//   console.log(await getRatingCalculation({ pointDifference: 250 }));
-// });
+const calculateRatingsJob = schedule.scheduleJob(rule, async function() {
+  await calculateRatings();
+});

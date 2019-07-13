@@ -1,11 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import { PlayerMatch, Player } from "./player";
 import { getPlayer } from "../repositories/playerRepository";
+import { getPlayerLastMonthRating } from "../services/ratingCalculationService";
 const MongooseTrigger = require("mongoose-trigger");
 
 const matchSchema = new mongoose.Schema(
   {
     tournament: { type: Schema.Types.ObjectId, ref: "Tournament" },
+    calculated: Boolean,
     date: Date,
     winner: { type: Schema.Types.ObjectId, ref: "Player" },
     loser: { type: Schema.Types.ObjectId, ref: "Player" },
@@ -62,7 +64,7 @@ const insertPlayerMatch = data => {
     matchId: data._id,
     date: data.date,
     opponent: data.loser.name,
-    opposingRating: data.loser.rating,
+    opposingRating: getPlayerLastMonthRating(data.loser).rating,
     result: "W",
     score: data.score
   };
@@ -72,7 +74,7 @@ const insertPlayerMatch = data => {
     matchId: data._id,
     date: data.date,
     opponent: data.winner.name,
-    opposingRating: data.winner.rating,
+    opposingRating: getPlayerLastMonthRating(data.winner).rating,
     result: "L",
     score: data.score.map(set => {
       const setArray = set.split("-");
@@ -93,7 +95,7 @@ const updatePlayerMatch = data => {
       matchId: data._id,
       date: data.date,
       opponent: data.loser.name,
-      opposingRating: data.loser.rating,
+      opposingRating: getPlayerLastMonthRating(data.loser).rating,
       result: "W",
       score: data.score
     }
@@ -106,7 +108,7 @@ const updatePlayerMatch = data => {
       matchId: data._id,
       date: data.date,
       opponent: data.winner.name,
-      opposingRating: data.winner.rating,
+      opposingRating: getPlayerLastMonthRating(data.winner).rating,
       result: "L",
       score: data.score.map(set => {
         const setArray = set.split("-");

@@ -4,7 +4,7 @@ export const playerData = [
     name: "Icebear",
     rating: [
       {
-        date: "05/01/19",
+        periodDate: "05/01/19",
         rating: 2100
       }
     ],
@@ -17,7 +17,7 @@ export const playerData = [
     name: "Icebear1",
     rating: [
       {
-        date: "05/01/19",
+        periodDate: "05/01/19",
         rating: 400
       }
     ],
@@ -30,7 +30,7 @@ export const playerData = [
     name: "Icebear2",
     rating: [
       {
-        date: "06/01/19",
+        periodDate: "06/01/19",
         rating: 3030
       }
     ],
@@ -43,7 +43,7 @@ export const playerData = [
     name: "Icebear3",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 600
       }
     ],
@@ -56,7 +56,7 @@ export const playerData = [
     name: "Icebear4",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 611
       }
     ],
@@ -69,7 +69,7 @@ export const playerData = [
     name: "Icebear5",
     rating: [
       {
-        date: "06/01/19",
+        periodDate: "06/01/19",
         rating: 711
       }
     ],
@@ -82,7 +82,7 @@ export const playerData = [
     name: "Icebear6",
     rating: [
       {
-        date: "05/01/19",
+        periodDate: "05/01/19",
         rating: 3456
       }
     ],
@@ -95,7 +95,7 @@ export const playerData = [
     name: "Icebear7",
     rating: [
       {
-        date: "06/01/19",
+        periodDate: "06/01/19",
         rating: 373
       }
     ],
@@ -108,7 +108,7 @@ export const playerData = [
     name: "Icebear8",
     rating: [
       {
-        date: "01/01/19",
+        periodDate: "01/01/19",
         rating: 1571
       }
     ],
@@ -121,7 +121,7 @@ export const playerData = [
     name: "Icebear9",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 346
       }
     ],
@@ -134,7 +134,7 @@ export const playerData = [
     name: "Icebear10",
     rating: [
       {
-        date: "12/01/18",
+        periodDate: "12/01/18",
         rating: 600
       }
     ],
@@ -147,7 +147,7 @@ export const playerData = [
     name: "Icebear11",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 123
       }
     ],
@@ -160,7 +160,7 @@ export const playerData = [
     name: "Icebear12",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 324
       }
     ],
@@ -173,7 +173,7 @@ export const playerData = [
     name: "Icebear13",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 2100
       }
     ],
@@ -186,7 +186,7 @@ export const playerData = [
     name: "Icebear14",
     rating: [
       {
-        date: "03/01/19",
+        periodDate: "03/01/19",
         rating: 534
       }
     ],

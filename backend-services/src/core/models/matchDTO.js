@@ -4,6 +4,7 @@ import { getPlayerObjectIdById } from "../repositories/playerRepository";
 export async function toMatchObject(match) {
   const matchObject = {
     tournament: await getTournamentIdByName({ name: match.tournament }),
+    calculated: match.calculated,
     date: match.date,
     winner: await getPlayerObjectIdById(match.winner),
     loser: await getPlayerObjectIdById(match.loser),

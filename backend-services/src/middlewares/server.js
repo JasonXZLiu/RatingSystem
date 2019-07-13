@@ -23,6 +23,7 @@ import {
   VERIFY_TOURNAMENT_MATCHES,
   SUBMIT_TOURNAMENT_MATCHES
 } from "../repository";
+import { calculateRatings } from "../core/services/ratingCalculationService";
 
 export const app = express();
 
@@ -172,4 +173,10 @@ app.get("/matches", (req, res) => {
   res.type("json");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   getData(MATCHES).then(data => res.json(data));
+});
+
+app.get("/calculateRatings", (req, res) => {
+  res.type("json");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  calculateRatings().then(data => res.json(data));
 });

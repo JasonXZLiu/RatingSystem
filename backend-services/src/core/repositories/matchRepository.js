@@ -47,12 +47,21 @@ export async function getMatchesByPlayerId(params) {
 export async function getMatchesBetweenDates(params) {
   const startDate = params.startDate;
   const endDate = params.endDate;
-  return await Match.find({
-    date: {
-      $gt: startDate,
-      $lt: endDate
-    }
-  })
+  return await Match.find()
+    .populate("tournament")
+    .populate("winner")
+    .populate("loser")
+    .then(data =>
+      data.filter(
+        match =>
+          match.tournament.endDate < endDate &&
+          match.tournament.endDate >= startDate
+      )
+    );
+}
+
+export async function getMatchesToBeCalculated(params) {
+  return await Match.find({ calculated: false })
     .populate("tournament")
     .populate("winner")
     .populate("loser");

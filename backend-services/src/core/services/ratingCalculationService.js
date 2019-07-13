@@ -1,59 +1,143 @@
-import { getMatches } from "../repositories/matchRepository";
+import {
+  getMatches,
+  getMatchesBetweenDates,
+  getMatchesToBeCalculated
+} from "../repositories/matchRepository";
 import { start } from "repl";
+import { getPlayers } from "../repositories/playerRepository";
+import {
+  getRatingCalculation,
+  clearRatingCalculation
+} from "../repositories/ratingCalculationRepository";
 
-const getPlayerPreviousRating = player => {
+const calculateTemporaryRating = (playerId, matches) => {
+  if (matches.length === 1) return 100;
+
+  const lowestLostRating = Math.min(
+    matches.filter(match => match.loser.id).map(match => match.rating)
+  );
+  const highestWinRating = Math.max(
+    matches.filter(match => match.winner.id).map(match => match.rating)
+  );
+  return Math.round((lowestLostRating + highestWinRating) / 2);
+};
+
+const updateTemporaryRating = (player, match) => {
+  const oldMatches = player.temporaryRating
+    ? player.temporaryRating.matches
+    : [];
+  const matches = [...oldMatches, match];
+  const temporaryRating = calculateTemporaryRating(player.id, matches);
+  player.temporaryRating = {
+    rating: temporaryRating,
+    matches: matches
+  };
+  // turns temporary rating to permanent after certain condition
+  if (matches.length === 10) {
+    player.newRating = [
+      {
+        rating: player.temporaryRating.rating,
+        periodDate: new Date()
+      }
+    ];
+    player.temporaryRating = null;
+  }
+  player.save();
+  return player;
+};
+
+export const getPlayerLastMonthRating = player => {
   if (!!player.rating) {
     const ratingHistory = player.rating;
-    return ratingHistory[ratingHistory.length - 1];
+    console.log("last rating", ratingHistory[ratingHistory.length - 1].rating);
+    return ratingHistory[ratingHistory.length - 1].rating;
   }
 
-  if (!!player.temporaryRating) {
-    return player.temporaryRating;
-  }
-
+  // null means no rating (temporary or permanent) ever existed
   return null;
 };
 
-const updatePlayerPreviousRating = (player, newRating) => {};
-
-const calculateRating = match => {
-  const winner = match.winner;
-  const loser = match.loser;
-  const winnerRating = getPlayerPreviousRating(winner);
-  const loserRating = getPlayerPreviousRating(loser);
-
-  // if null, create temporary rating for player (where tempRating = other rating)
-  // if both null, just continue without creating
-
-  // basically, winner or loser rating won't update if one is temporary
-  // other one will update through weighted average
-  // if both temporary, just continue without updating
-
-  // update ratings based off of last played rating (in rating history)
-  // calculate
-  // use new ratings to update newRating field
+const updatePlayerRatingsForMatch = async (
+  winner,
+  loser,
+  winnerRating,
+  loserRating
+) => {
+  const pointDifference = winnerRating - loserRating;
+  const ratingChange = await getRatingCalculation({
+    pointDifference: pointDifference
+  });
+  winner.newRating.rating += ratingChange.winner;
+  loser.newRating.rating -= ratingChange.loser;
+  await winner.save();
+  await loser.save();
 };
 
-const getMatchesForLastMonth = async () => {
-  const startDate = new Date();
-  var endDate = startDate;
-  endDate.setMonth(endDate.getMonth() - 1);
-  return await getMatchesBetweenDates({
-    startDate: startDate,
-    endDate: endDate
-  });
+const calculateRating = async match => {
+  const winner = match.winner;
+  const loser = match.loser;
+  const winnerRating = await getPlayerLastMonthRating(winner);
+  const loserRating = await getPlayerLastMonthRating(loser);
+
+  console.log("calculating rating");
+
+  // if both null, just continue without updating rating for either
+  if (!winnerRating && !loserRating) return;
+
+  // if just one is null, then update temporary ratings
+  if (!winnerRating) await updateTemporaryRating(winner, match);
+  if (!loserRating) await updateTemporaryRating(loser, match);
+
+  // change only newRating field (will be reconciled later at the end)
+  if (winnerRating && loserRating) {
+    console.log("not temporary");
+    await updatePlayerRatingsForMatch(winner, loser, winnerRating, loserRating);
+    console.log("new winner rating", winner.newRating.rating);
+    console.log("new loser rating", loser.newRating.rating);
+  }
+
+  match.calculated = true;
+  await match.save();
 };
 
 export const calculateRatings = async () => {
-  const matches = await getMatchesForLastMonth();
-  matches.map(match => calculateRating(match));
-  reconcileRatings();
+  await setupPlayerNewRatings();
+  await console.log("setup finished");
+  const matches = await getMatchesToBeCalculated();
+  return await Promise.all(matches.map(match => calculateRating(match))).then(
+    async () => {
+      await clearRatingCalculation();
+      return await reconcileRatings();
+    }
+  );
 };
 
-const reconcileRatings = () => {
-  const players = getPlayers();
+const setupNewRating = async player => {
+  if (!!player.temporaryRating && player.temporaryRating.matches.length > 0)
+    return;
+  console.log("rating", await getPlayerLastMonthRating(player));
+  player.newRating = {
+    periodDate: new Date(),
+    rating: await getPlayerLastMonthRating(player)
+  };
+  await console.log(player.newRating);
+  player.save();
+};
 
-  // basically add temporary rating to rating array
-  // remember to add date on the last object of array
-  // remmeber not to clear temporary rating
+const setupPlayerNewRatings = async () => {
+  const players = await getPlayers();
+  await Promise.all(players.map(player => setupNewRating(player)));
+  await console.log(players);
+};
+
+const reconcileRatings = async () => {
+  const players = await getPlayers();
+  players.map(player => {
+    const newRating = player.newRating;
+    console.log(`player ${player.id} newRating`, newRating);
+    player.rating = [...player.rating, newRating];
+    player.newRating = {};
+    player.save();
+  });
+  return players;
 };
