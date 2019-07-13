@@ -26,7 +26,7 @@ import {
   ACTION_SUBMIT_MATCHES
 } from "../pages/tournament/TournamentAction";
 
-export const basePath = "https://d9c81831.ngrok.io";
+export const basePath = "https://fc53367f.ngrok.io";
 
 export const handleResponse = async response => {
   if (!response.ok)

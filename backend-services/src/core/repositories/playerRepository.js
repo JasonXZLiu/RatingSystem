@@ -83,5 +83,33 @@ export async function getRatings(params) {
   }
   console.log("find parameters: ");
   console.log(findParams);
-  return await Player.find(findParams).sort({ rating: -1 });
+  var count = 1;
+  const playerRankings = await Player.find()
+    .sort({ "rating.rating": -1 })
+    .select({ _id: 0 })
+    .then(players =>
+      players.map(player => {
+        return {
+          id: player.id,
+          ranking: count++
+        };
+      })
+    );
+  // TODO: jasonxzliu: switch to es2018 for spread operator
+  return await Player.find(findParams)
+    .sort({ "rating.rating": -1 })
+    .then(players =>
+      players.map(player => {
+        return {
+          id: player.id,
+          name: player.name,
+          province: player.province,
+          sex: player.sex,
+          age: player.age,
+          ranking: playerRankings.filter(ranking => ranking.id === player.id)[0]
+            .ranking,
+          rating: player.rating
+        };
+      })
+    );
 }

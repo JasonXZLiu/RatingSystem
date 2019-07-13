@@ -52,14 +52,15 @@ class RatingsTable extends Component {
     }
   };
 
-  calculateRanking = sublist => {
-    const { idx } = this.state;
-    let count = idx + 1;
-    const newList = sublist.map(row => ({
-      ...row,
-      ranking: count++
-    }));
-    return newList;
+  extractRatings = sublist => {
+    if (!sublist) return [];
+
+    return sublist.map(playerRating => {
+      return {
+        ...playerRating,
+        rating: playerRating.rating[0].rating
+      };
+    });
   };
 
   render = () => {
@@ -67,12 +68,14 @@ class RatingsTable extends Component {
     const { classes, filteredPlayers } = this.props;
     const MIN = filteredPlayers.length > LIMIT ? LIMIT : filteredPlayers.length;
     let sublist = filteredPlayers.slice(idx, nextIdx === 0 && MIN);
-    sublist = this.calculateRanking(sublist);
+    sublist = this.extractRatings(sublist);
+    console.log(sublist);
     const table = {
       headers: RATING_HEADER,
       url: playerUrl,
       rows: sublist
     };
+    console.log(table);
     return (
       <div>
         <div className="row">

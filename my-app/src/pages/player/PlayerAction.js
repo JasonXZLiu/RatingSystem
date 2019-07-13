@@ -14,7 +14,10 @@ export const fetchPlayerById = params => dispatch => {
   return fetch(ACTION_REQUEST_PLAYER, params).then(player => {
     dispatch({
       type: ACTION_RECEIVE_PLAYER,
-      player
+      player: {
+        ...player,
+        rating: player.rating[0].rating
+      }
     });
   });
 };

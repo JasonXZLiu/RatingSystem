@@ -62,7 +62,7 @@ class PlayerOverviewDialog extends Component {
               {leader.name} Match History
             </Grid>
             <Grid item xs={4}>
-              {leader.rating}
+              {leader.rating[0].rating}
             </Grid>
           </Grid>
         </DialogTitle>

@@ -13,7 +13,6 @@ export async function getPlayerById(playerId) {
 }
 
 export async function getPlayerMatchHistory(params) {
-  console.log(params);
   if (!params.searchValue && !params.resultValue) {
     return await fetch(
       basePath + "/player/" + params.playerId + "/matchHistory"

@@ -5,19 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.postData = exports.getData = exports.VERIFY_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
 
-var _playerRepository = require("./core/playerRepository/playerRepository");
+var _playerRepository = require("./core/repositories/playerRepository");
 
-var _playerRepository2 = require("./mongoRepository/repositories/playerRepository");
+var _filterSelectorRepository = require("./core/repositories/filterSelectorRepository");
 
-var _filterSelectorRepository = require("./mongoRepository/repositories/filterSelectorRepository");
+var _tournamentRepository = require("./core/repositories/tournamentRepository");
 
-var _tournamentRepository = require("./mongoRepository/repositories/tournamentRepository");
+var _tournamentService = require("./core/services/tournamentService");
 
-var _tournamentService = require("./mongoRepository/services/tournamentService");
+var _countryCodeRepository = require("./core/repositories/countryCodeRepository");
 
-var _countryCodeRepository = require("./mongoRepository/repositories/countryCodeRepository");
-
-var _matchRepository = require("./mongoRepository/repositories/matchRepository");
+var _matchRepository = require("./core/repositories/matchRepository");
 
 var PLAYERS = exports.PLAYERS = "PLAYERS";
 var PLAYER_BY_ID = exports.PLAYER_BY_ID = "PLAYER_BY_ID";
@@ -40,11 +38,11 @@ var VERIFY_TOURNAMENT_MATCHES = exports.VERIFY_TOURNAMENT_MATCHES = "VERIFY_TOUR
 var getData = exports.getData = function getData(request, params) {
   switch (request) {
     case PLAYERS:
-      return (0, _playerRepository2.getPlayers)();
+      return (0, _playerRepository.getPlayers)();
     case PLAYER_BY_ID:
-      return (0, _playerRepository2.getPlayerById)(params);
+      return (0, _playerRepository.getPlayerById)(params);
     case RATINGS:
-      return (0, _playerRepository2.getRatings)(params);
+      return (0, _playerRepository.getRatings)(params);
     case SEX_FILTER:
       return (0, _filterSelectorRepository.getSex)();
     case PROVINCE_FILTER:
@@ -68,7 +66,7 @@ var getData = exports.getData = function getData(request, params) {
     case MATCHES_BY_PLAYER:
       return (0, _matchRepository.getMatchesByPlayerId)(params);
     case PLAYER_MATCH_HISTORY:
-      return (0, _playerRepository2.getPlayerMatchHistory)(params);
+      return (0, _playerRepository.getPlayerMatchHistory)(params);
     default:
       return "NOTHING HERE";
   }
