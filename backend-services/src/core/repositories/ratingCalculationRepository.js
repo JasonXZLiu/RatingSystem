@@ -13,7 +13,3 @@ export async function getRatingCalculation(params) {
       .then(data => data)
   );
 }
-
-export async function clearRatingCalculation(params) {
-  return await RatingCalculation.remove({}).exec();
-}

@@ -64,7 +64,7 @@ const insertPlayerMatch = data => {
     matchId: data._id,
     date: data.date,
     opponent: data.loser.name,
-    opposingRating: getPlayerLastMonthRating(data.loser).rating,
+    opposingRating: getPlayerLastMonthRating(data.loser),
     result: "W",
     score: data.score
   };
@@ -74,7 +74,7 @@ const insertPlayerMatch = data => {
     matchId: data._id,
     date: data.date,
     opponent: data.winner.name,
-    opposingRating: getPlayerLastMonthRating(data.winner).rating,
+    opposingRating: getPlayerLastMonthRating(data.winner),
     result: "L",
     score: data.score.map(set => {
       const setArray = set.split("-");
@@ -95,7 +95,7 @@ const updatePlayerMatch = data => {
       matchId: data._id,
       date: data.date,
       opponent: data.loser.name,
-      opposingRating: getPlayerLastMonthRating(data.loser).rating,
+      opposingRating: getPlayerLastMonthRating(data.loser),
       result: "W",
       score: data.score
     }
@@ -108,7 +108,7 @@ const updatePlayerMatch = data => {
       matchId: data._id,
       date: data.date,
       opponent: data.winner.name,
-      opposingRating: getPlayerLastMonthRating(data.winner).rating,
+      opposingRating: getPlayerLastMonthRating(data.winner),
       result: "L",
       score: data.score.map(set => {
         const setArray = set.split("-");

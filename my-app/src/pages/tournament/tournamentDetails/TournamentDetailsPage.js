@@ -91,7 +91,8 @@ class TournamentDetailsPage extends Component {
           photoSrc={longPhoto}
           title={tournament.name}
           details={[
-            `${tournament.startDate} - ${tournament.endDate}`,
+            `${format(new Date(tournament.startDate), "MM/DD/YYYY")} - ${" "}
+            ${format(new Date(tournament.endDate), "MM/DD/YYYY")}`,
             `${tournament.location.city}, ${tournament.location.country}`
           ]}
         />

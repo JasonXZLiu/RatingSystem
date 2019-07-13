@@ -49,8 +49,7 @@ const updateTemporaryRating = (player, match) => {
 export const getPlayerLastMonthRating = player => {
   if (!!player.rating) {
     const ratingHistory = player.rating;
-    console.log("last rating", ratingHistory[ratingHistory.length - 1].rating);
-    return ratingHistory[ratingHistory.length - 1].rating;
+    return ratingHistory[0].rating;
   }
 
   // null means no rating (temporary or permanent) ever existed
@@ -80,6 +79,8 @@ const calculateRating = async match => {
   const loserRating = await getPlayerLastMonthRating(loser);
 
   console.log("calculating rating");
+  console.log("last winner rating", winnerRating);
+  console.log("last loser rating", loserRating);
 
   // if both null, just continue without updating rating for either
   if (!winnerRating && !loserRating) return;
@@ -102,11 +103,9 @@ const calculateRating = async match => {
 
 export const calculateRatings = async () => {
   await setupPlayerNewRatings();
-  await console.log("setup finished");
   const matches = await getMatchesToBeCalculated();
   return await Promise.all(matches.map(match => calculateRating(match))).then(
     async () => {
-      await clearRatingCalculation();
       return await reconcileRatings();
     }
   );
@@ -135,7 +134,7 @@ const reconcileRatings = async () => {
   players.map(player => {
     const newRating = player.newRating;
     console.log(`player ${player.id} newRating`, newRating);
-    player.rating = [...player.rating, newRating];
+    player.rating = [newRating, ...player.rating];
     player.newRating = {};
     player.save();
   });

@@ -80,7 +80,8 @@ export const updateMatch = params => dispatch => {
 
 export const submitMatches = params => dispatch => {
   dispatch({
-    type: ACTION_SUBMIT_MATCHES
+    type: ACTION_SUBMIT_MATCHES,
+    matchesToSubmit: params.matchesToSubmit
   });
   return fetch(ACTION_SUBMIT_MATCHES, params)
     .then(matches => {
