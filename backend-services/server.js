@@ -1,29 +1,7 @@
-import express from "express";
-import bodyParser from "body-parser";
-import csv from "csvtojson";
-import restify from "restify";
 import mongoose from "mongoose";
 import graphqlHTTP from "express-graphql";
-import {
-  postData,
-  getData,
-  PLAYERS,
-  PLAYER_BY_ID,
-  RATINGS,
-  SEX_FILTER,
-  PROVINCE_FILTER,
-  CATEGORY_FILTER,
-  RESULT_FILTER,
-  TOURNAMENT_BY_ID,
-  TOURNAMENTS,
-  COUNTRY_CODE,
-  MATCHES,
-  MATCHES_BY_TOURNAMENT,
-  MATCHES_BY_PLAYER,
-  PLAYER_MATCH_HISTORY,
-  VERIFY_TOURNAMENT_MATCHES,
-  SUBMIT_TOURNAMENT_MATCHES
-} from "./src/repository";
+import schedule from "node-schedule";
+import { app } from "./src/middlewares/server";
 import { setup } from "./src/setup/setup";
 import { calculateRatings } from "./src/core/services/ratingCalculationService";
 
@@ -34,28 +12,12 @@ const uri = `mongodb://${MONGO_HOST}:27017/${DB_NAME}`;
 const options = { useNewUrlParser: true };
 mongoose.connect(uri, options);
 
+// mongoose
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
   setup();
 });
-
-// GraphQL API
-// app.post(
-//   "/graphql",
-//   graphqlHTTP({
-//     schema: MyGraphQLSchema,
-//     graphiql: false
-//   })
-// );
-
-// app.get(
-//   "/graphql",
-//   graphqlHTTP({
-//     schema: MyGraphQLSchema,
-//     graphiql: true
-//   })
-// );
 
 // REST API
 const HOST = process.env.SERVER_HOST || "localhost";
@@ -174,30 +136,21 @@ app.get("/filter/sex", (req, res) => {
   getData(SEX_FILTER).then(data => res.json(data));
 });
 
-app.get("/filter/province", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  getData(PROVINCE_FILTER).then(data => res.json(data));
-});
-
-app.get("/filter/category", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  getData(CATEGORY_FILTER).then(data => res.json(data));
-});
-
-app.get("/filter/result", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  getData(RESULT_FILTER).then(data => res.json(data));
-});
-
-app.get("/matches", (req, res) => {
-  res.type("json");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  getData(MATCHES).then(data => res.json(data));
-});
-
 app.listen(port, (req, res) => {
   console.log(`server listening on port: ${port}`);
+});
+
+// GraphQL API
+
+// node schedule
+const rule = new schedule.RecurrenceRule();
+
+// run on the 1st of every month at 5:00 PM
+rule.month = [new schedule.Range(0, 11)];
+rule.date = 1;
+rule.hour = 17;
+rule.minute = 0;
+
+const calculateRatingsJob = schedule.scheduleJob(rule, async function() {
+  await calculateRatings();
 });

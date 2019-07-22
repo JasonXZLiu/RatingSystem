@@ -9,19 +9,17 @@ var _nats = require("nats");
 
 var _nats2 = _interopRequireDefault(_nats);
 
-var _playerRepository = require("./core/playerRepository/playerRepository");
+var _playerRepository = require("./core/repositories/playerRepository");
 
-var _playerRepository2 = require("./mongoRepository/repositories/playerRepository");
+var _filterSelectorRepository = require("./core/repositories/filterSelectorRepository");
 
-var _filterSelectorRepository = require("./mongoRepository/repositories/filterSelectorRepository");
+var _tournamentRepository = require("./core/repositories/tournamentRepository");
 
-var _tournamentRepository = require("./mongoRepository/repositories/tournamentRepository");
+var _tournamentService = require("./core/services/tournamentService");
 
-var _tournamentService = require("./mongoRepository/services/tournamentService");
+var _countryCodeRepository = require("./core/repositories/countryCodeRepository");
 
-var _countryCodeRepository = require("./mongoRepository/repositories/countryCodeRepository");
-
-var _matchRepository = require("./mongoRepository/repositories/matchRepository");
+var _matchRepository = require("./core/repositories/matchRepository");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,11 +45,11 @@ var VERIFY_TOURNAMENT_MATCHES = exports.VERIFY_TOURNAMENT_MATCHES = "VERIFY_TOUR
 var getData = exports.getData = function getData(request, params) {
   switch (request) {
     case PLAYERS:
-      return (0, _playerRepository2.getPlayers)();
+      return (0, _playerRepository.getPlayers)();
     case PLAYER_BY_ID:
-      return (0, _playerRepository2.getPlayerById)(params);
+      return (0, _playerRepository.getPlayerById)(params);
     case RATINGS:
-      return (0, _playerRepository2.getRatings)(params);
+      return (0, _playerRepository.getRatings)(params);
     case SEX_FILTER:
       return (0, _filterSelectorRepository.getSex)();
     case PROVINCE_FILTER:
@@ -75,7 +73,7 @@ var getData = exports.getData = function getData(request, params) {
     case MATCHES_BY_PLAYER:
       return (0, _matchRepository.getMatchesByPlayerId)(params);
     case PLAYER_MATCH_HISTORY:
-      return (0, _playerRepository2.getPlayerMatchHistory)(params);
+      return (0, _playerRepository.getPlayerMatchHistory)(params);
     default:
       return "NOTHING HERE";
   }

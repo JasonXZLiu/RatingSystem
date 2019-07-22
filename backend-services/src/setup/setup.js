@@ -16,6 +16,7 @@ import { toMatchObjects } from "../core/models/matchDTO";
 const checkIfDatabaseSeeded = async () => {
   const countryCodeCount = await CountryCode.estimatedDocumentCount();
   const filterSelectorCount = await FilterSelector.estimatedDocumentCount();
+  const ratingCalculationCount = await RatingCalculation.estimatedDocumentCount();
   const playerCount = await Player.estimatedDocumentCount();
   const tournamentCount = await Tournament.estimatedDocumentCount();
   const matchCount = await Match.estimatedDocumentCount();
@@ -36,6 +37,7 @@ export async function setup() {
   if (checkIfSeeded) {
     await CountryCode.create(countryCodeData);
     await FilterSelector.create(filterData);
+    await RatingCalculation.create(ratingCalculationData);
     await Player.create(playerData);
     await Tournament.create(tournamentData);
     const matches = await toMatchObjects(matchData);

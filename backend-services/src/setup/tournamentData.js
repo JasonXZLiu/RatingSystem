@@ -2,8 +2,8 @@ export const tournamentData = [
   {
     id: 1,
     name: "MYTTC Tournament",
-    startDate: "06/01/2019",
-    endDate: "06/02/2019",
+    startDate: "07/05/2019",
+    endDate: "07/07/2019",
     location: {
       address: "2436 Haines Rd",
       city: "Mississauga",

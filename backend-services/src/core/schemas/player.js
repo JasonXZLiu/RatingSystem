@@ -3,7 +3,21 @@ import mongoose, { Schema } from "mongoose";
 const playerSchema = new mongoose.Schema({
   id: Number,
   name: String,
-  rating: Number,
+  // can extract rating into separate schema
+  rating: [
+    {
+      periodDate: Date,
+      rating: Number
+    }
+  ],
+  newRating: {
+    periodDate: Date,
+    rating: Number
+  },
+  temporaryRating: {
+    rating: Number,
+    matches: [{ type: Schema.Types.ObjectId, ref: "Match" }]
+  },
   province: String,
   sex: String,
   age: Number,

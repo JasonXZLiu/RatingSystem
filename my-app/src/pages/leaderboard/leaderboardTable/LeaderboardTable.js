@@ -63,7 +63,7 @@ class LeaderboardTable extends Component {
       return {
         id: leader.id,
         title: leader.name,
-        content: leader.rating,
+        content: leader.rating[0].rating,
         text: "View Player Overview"
       };
     });
