@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
-import graphqlHTTP from "express-graphql";
 import schedule from "node-schedule";
-import { app } from "./src/middlewares/server";
-import { setup } from "./src/setup/setup";
-import { getRatingCalculation } from "./src/core/repositories/ratingCalculationRepository";
-import { calculateRatings } from "./src/core/services/ratingCalculationService";
+import { calculateRatings } from "./src/services/ratingCalculationService";
+import { subscribeActions } from "./src/actionSubscriber";
 
-const uri = "mongodb://localhost/ratingSystem";
+const uri = `mongodb://${process.env.MONGO_HOST}:27017/${process.env.DB_NAME}`;
 const options = { useNewUrlParser: true };
 mongoose.connect(uri, options);
 
@@ -14,17 +11,10 @@ mongoose.connect(uri, options);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
-  setup();
+  console.log("connected to mongo");
 });
 
-// REST API
-const HOST = process.env.SERVER_HOST || "localhost";
-const PORT = process.env.SERVER_PORT || 4000;
-
-app.listen(PORT, HOST);
-console.log(`server listening on port: ${PORT}`);
-
-// GraphQL API
+subscribeActions();
 
 // node schedule
 const rule = new schedule.RecurrenceRule();
