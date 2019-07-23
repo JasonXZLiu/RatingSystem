@@ -3,7 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postData = exports.getData = exports.VERIFY_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
+exports.insertData = exports.CREATE_RATING_CALCULATION = exports.CREATE_TOURNAMENT = exports.CREATE_MATCH = exports.CREATE_PLAYER = exports.CREATE_FILTER_SELECTOR = exports.CREATE_COUNTRY_CODE = exports.postData = exports.getData = exports.VERIFY_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = exports.CALCULATE_RATINGS = exports.PLAYER_MATCH_HISTORY = exports.MATCHES_BY_PLAYER = exports.MATCHES_BY_TOURNAMENT = exports.MATCH_BY_ID = exports.MATCHES = exports.COUNTRY_CODE = exports.TOURNAMENT_BY_ID = exports.TOURNAMENTS = exports.RESULT_FILTER = exports.CATEGORY_FILTER = exports.PROVINCE_FILTER = exports.SEX_FILTER = exports.RATINGS = exports.PLAYER_BY_ID = exports.PLAYERS = undefined;
+
+var _nats = require("nats");
+
+var _nats2 = _interopRequireDefault(_nats);
 
 var _playerRepository = require("./core/repositories/playerRepository");
 
@@ -16,6 +20,8 @@ var _tournamentService = require("./core/services/tournamentService");
 var _countryCodeRepository = require("./core/repositories/countryCodeRepository");
 
 var _matchRepository = require("./core/repositories/matchRepository");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PLAYERS = exports.PLAYERS = "PLAYERS";
 var PLAYER_BY_ID = exports.PLAYER_BY_ID = "PLAYER_BY_ID";
@@ -32,6 +38,7 @@ var MATCH_BY_ID = exports.MATCH_BY_ID = "MATCH_BY_ID";
 var MATCHES_BY_TOURNAMENT = exports.MATCHES_BY_TOURNAMENT = "MATCHES_BY_TOURNAMENT";
 var MATCHES_BY_PLAYER = exports.MATCHES_BY_PLAYER = "MATCHES_BY_PLAYER";
 var PLAYER_MATCH_HISTORY = exports.PLAYER_MATCH_HISTORY = "PLAYER_MATCH_HISTORY";
+var CALCULATE_RATINGS = exports.CALCULATE_RATINGS = "CALCULATE_RATINGS";
 var SUBMIT_TOURNAMENT_MATCHES = exports.SUBMIT_TOURNAMENT_MATCHES = "SUBMIT_TOURNAMENT_MATCHES";
 var VERIFY_TOURNAMENT_MATCHES = exports.VERIFY_TOURNAMENT_MATCHES = "VERIFY_TOURNAMENT_MATCHES";
 
@@ -80,5 +87,28 @@ var postData = exports.postData = function postData(request, params) {
       return (0, _tournamentService.submitTournamentMatches)(params);
     default:
       break;
+  }
+};
+
+var CREATE_COUNTRY_CODE = exports.CREATE_COUNTRY_CODE = "CREATE_COUNTRY_CODE";
+var CREATE_FILTER_SELECTOR = exports.CREATE_FILTER_SELECTOR = "CREATE_FILTER_SELECTOR";
+var CREATE_PLAYER = exports.CREATE_PLAYER = "CREATE_PLAYER";
+var CREATE_MATCH = exports.CREATE_MATCH = "CREATE_MATCH";
+var CREATE_TOURNAMENT = exports.CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
+var CREATE_RATING_CALCULATION = exports.CREATE_RATING_CALCULATION = "CREATE_RATING_CALCULATION";
+
+// var nc = NATS.connect(process.env.NATS_URI);
+
+var insertData = exports.insertData = function insertData(request, params) {
+  switch (request) {
+    case CREATE_COUNTRY_CODE:
+    case CREATE_FILTER_SELECTOR:
+    case CREATE_MATCH:
+    case CREATE_PLAYER:
+    case CREATE_TOURNAMENT:
+    case CREATE_RATING_CALCULATION:
+      var temp = "hello";
+      console.log("creating something", temp);
+      return temp;
   }
 };

@@ -3,10 +3,12 @@ import graphqlHTTP from "express-graphql";
 import schedule from "node-schedule";
 import { app } from "./src/middlewares/server";
 import { setup } from "./src/setup/setup";
-import { getRatingCalculation } from "./src/core/repositories/ratingCalculationRepository";
 import { calculateRatings } from "./src/core/services/ratingCalculationService";
 
-const uri = "mongodb://localhost/ratingSystem";
+const MONGO_HOST = process.env.MONGO_HOST || "localhost";
+const DB_NAME = process.env.DB_NAME || "ratingsystem";
+
+const uri = `mongodb://${MONGO_HOST}:27017/${DB_NAME}`;
 const options = { useNewUrlParser: true };
 mongoose.connect(uri, options);
 

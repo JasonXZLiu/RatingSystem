@@ -20,9 +20,9 @@ import {
   MATCHES_BY_PLAYER,
   PLAYER_MATCH_HISTORY,
   VERIFY_TOURNAMENT_MATCHES,
-  SUBMIT_TOURNAMENT_MATCHES
+  SUBMIT_TOURNAMENT_MATCHES,
+  CALCULATE_RATINGS
 } from "../repository";
-import { calculateRatings } from "../core/services/ratingCalculationService";
 
 export const app = express();
 
@@ -168,5 +168,5 @@ app.get("/matches", (req, res) => {
 
 app.get("/calculateRatings", (req, res) => {
   res.type("json");
-  calculateRatings().then(data => res.json(data));
+  postData(CALCULATE_RATINGS).then(data => res.json(data));
 });
