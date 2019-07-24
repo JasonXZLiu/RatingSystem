@@ -1,4 +1,4 @@
-version: "3.1"
+version: "2"
 
 volumes:
   mongo_data:
@@ -15,10 +15,11 @@ services:
     hostname: nats
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
+      - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -31,7 +32,7 @@ services:
       - 9200:9200
 
   kibana:
-    image: "docker.elastic.co/kibana/kibana:6.4.1"
+    image: docker.elastic.co/kibana/kibana:7.2.0
     container_name: kibana
     environment:
       SERVER_NAME: kibana.local
@@ -63,23 +64,8 @@ services:
       - client
       - kibana
 
-  elasticsearchhandler:
-    restart: unless-stopped
-    image: elasticsearchhandler:latest
-    volumes:
-      - ./elasticsearchhandler:/usr/src/app
-    links:
-      - elasticsearch
-      - nats
-    command: npm start
-    depends_on:
-      - elasticsearch
-      - nats
-    tty: true
-    stdin_open: true
-
   mongodbhandler:
-    restart: unless-stopped
+    restart: on-failure
     image: mongodbhandler:latest
     volumes:
       - ./mongodbhandler:/usr/src/app
@@ -93,8 +79,24 @@ services:
     tty: true
     stdin_open: true
 
+  elasticsearchhandler:
+    restart: on-failure
+    image: elasticsearchhandler:latest
+    volumes:
+      - ./elasticsearchhandler:/usr/src/app
+    links:
+      - elasticsearch
+      - nats
+    command: npm start
+    depends_on:
+      - mongodbhandler
+      - elasticsearch
+      - nats
+    tty: true
+    stdin_open: true
+
   api:
-    restart: unless-stopped
+    restart: on-failure
     image: api:latest
     ports:
       - 4001:4000
@@ -106,13 +108,14 @@ services:
       - nats
     command: npm start
     depends_on:
+      - elasticsearchhandler
       - mongodbhandler
       - nats
     tty: true
     stdin_open: true
 
   client:
-    restart: unless-stopped
+    restart: on-failure
     image: client:latest
     expose:
       - 3000

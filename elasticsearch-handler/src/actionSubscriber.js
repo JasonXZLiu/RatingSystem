@@ -13,14 +13,14 @@ export const subscribeActions = () => {
 
   // inserting actions
   nc.subscribe(CREATE_MATCH, msg => {
-    insertMatches(msg);
+    insertMatches(JSON.parse(msg));
   });
 
   nc.subscribe(CREATE_PLAYER, msg => {
-    insertPlayers(msg);
+    insertPlayers(JSON.parse(msg));
   });
 
   nc.subscribe(CREATE_TOURNAMENT, msg => {
-    insertTournaments(msg);
+    insertTournaments(JSON.parse(msg));
   });
 };

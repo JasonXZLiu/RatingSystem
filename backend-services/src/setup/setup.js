@@ -41,7 +41,8 @@ export async function setup() {
     await Player.create(playerData);
     await Tournament.create(tournamentData);
     const matches = await toMatchObjects(matchData);
-    await Match.create(matches);
+    await nc.publish(CREATE_MATCH, JSON.stringify(matches));
+
     console.log("seed data succeeded");
   } else console.log("database already seeded");
 }
