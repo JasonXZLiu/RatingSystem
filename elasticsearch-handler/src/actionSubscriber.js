@@ -9,7 +9,6 @@ export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 
 export const subscribeActions = () => {
   var nc = NATS.connect({ url: process.env.NATS_URI });
-  console.log("here");
 
   // inserting actions
   nc.subscribe(CREATE_MATCH, msg => {

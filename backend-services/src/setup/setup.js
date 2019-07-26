@@ -1,3 +1,5 @@
+import { nc } from "../repository";
+
 import { Player } from "../core/schemas/player";
 import { Match } from "../core/schemas/match";
 import { Tournament } from "../core/schemas/tournament";
@@ -12,6 +14,8 @@ import { countryCodeData } from "./countryCodeData";
 import { tournamentData } from "./tournamentData";
 import { ratingCalculationData } from "./ratingCalculationData";
 import { toMatchObjects } from "../core/models/matchDTO";
+
+export const CREATE_MATCH = "CREATE_MATCH";
 
 const checkIfDatabaseSeeded = async () => {
   const countryCodeCount = await CountryCode.estimatedDocumentCount();

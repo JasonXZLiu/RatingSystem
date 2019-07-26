@@ -25,17 +25,18 @@ exports.CREATE_TOURNAMENT = CREATE_TOURNAMENT;
 const subscribeActions = () => {
   var nc = _nats.default.connect({
     url: process.env.NATS_URI
-  }); // inserting actions
-
-
-  nc.subscribe(CREATE_MATCH, async msg => {
-    return await (0, _matchRepository.insertMatches)(msg);
   });
-  nc.subscribe(CREATE_PLAYER, async msg => {
-    return await (0, _playerRepository.insertPlayers)(msg);
+
+  console.log("here"); // inserting actions
+
+  nc.subscribe(CREATE_MATCH, msg => {
+    (0, _matchRepository.insertMatches)(JSON.parse(msg));
   });
-  nc.subscribe(CREATE_TOURNAMENT, async msg => {
-    return await (0, _tournamentRepository.insertTournaments)(msg);
+  nc.subscribe(CREATE_PLAYER, msg => {
+    (0, _playerRepository.insertPlayers)(JSON.parse(msg));
+  });
+  nc.subscribe(CREATE_TOURNAMENT, msg => {
+    (0, _tournamentRepository.insertTournaments)(JSON.parse(msg));
   });
 };
 

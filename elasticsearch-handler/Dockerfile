@@ -5,13 +5,16 @@ WORKDIR /app
 COPY ./package.json ./package.json
 RUN yarn install
 
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
-
-COPY . .
-
 ENV NATS_URI='nats://nats:4222'
 ENV ES_HOST='elasticsearch'
 ENV ES_PORT='9200'
 
-CMD npm start
+COPY . .
+
+RUN apk add --no-cache openssl
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+CMD dockerize -wait tcp://elasticsearch:9200 -wait-retry-interval 5s yarn start

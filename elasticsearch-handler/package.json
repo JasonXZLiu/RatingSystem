@@ -1,5 +1,5 @@
 {
-  "name": "elasticsearch-client",
+  "name": "elasticsearch-handler",
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",

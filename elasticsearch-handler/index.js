@@ -13,42 +13,9 @@ export const client = new Client({ node: uri });
 
 console.log("connected to elastic search");
 
-client.indices.create({
-  index: PLAYER_INDEX,
-  body: {
-    id: { type: "integer" },
-    name: { type: "text" },
-    rating: { type: "integer" },
-    province: { type: "text" },
-    sex: { type: "text" },
-    age: { type: "integer" }
-  }
-});
+const run = async () => {
+  await subscribeActions();
+  await setup();
+};
 
-client.indices.create({
-  index: TOURNAMENT_INDEX,
-  body: {
-    id: { type: "integer" },
-    name: { type: "text" },
-    startDate: { type: "date" },
-    endDate: { type: "date" },
-    location: { type: "text" },
-    events: { type: "text" }
-  }
-});
-
-client.indices.create({
-  index: MATCH_INDEX,
-  body: {
-    tournament: { type: "text" },
-    calculated: { type: "boolean" },
-    date: { type: "date" },
-    winner: { type: "string" },
-    loser: { type: "string" },
-    score: { type: "string" }
-  }
-});
-
-subscribeActions();
-
-setup();
+run();

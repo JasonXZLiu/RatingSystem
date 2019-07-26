@@ -1,4 +1,4 @@
-version: "2"
+version: "3.1"
 
 volumes:
   mongo_data:
@@ -15,13 +15,13 @@ services:
     hostname: nats
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.1
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ulimits:
       memlock:
         soft: -1
@@ -32,13 +32,13 @@ services:
       - 9200:9200
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.2.0
+    image: docker.elastic.co/kibana/kibana:6.8.1
     container_name: kibana
     environment:
       SERVER_NAME: kibana.local
       ELASTICSEARCH_URL: http://elasticsearch:9200
     ports:
-      - "5601:5601"
+      - 5601:5601
     depends_on:
       - elasticsearch
 
@@ -51,18 +51,6 @@ services:
       - 27017:27017
     depends_on:
       - elasticsearch
-
-  nginx:
-    restart: on-failure
-    image: nginx:latest
-    ports:
-      - 80:80
-    links:
-      - client
-      - kibana
-    depends_on:
-      - client
-      - kibana
 
   mongodbhandler:
     restart: on-failure
@@ -87,9 +75,7 @@ services:
     links:
       - elasticsearch
       - nats
-    command: npm start
     depends_on:
-      - mongodbhandler
       - elasticsearch
       - nats
     tty: true
@@ -117,8 +103,6 @@ services:
   client:
     restart: on-failure
     image: client:latest
-    expose:
-      - 3000
     ports:
       - 3000:3000
     volumes:
@@ -130,3 +114,15 @@ services:
     stdin_open: true
     depends_on:
       - api
+
+  nginx:
+    restart: on-failure
+    image: nginx:latest
+    ports:
+      - 80:80
+    links:
+      - client
+      - kibana
+    depends_on:
+      - client
+      - kibana

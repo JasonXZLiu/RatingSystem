@@ -5,10 +5,13 @@ WORKDIR /app
 COPY ./package.json ./package.json
 RUN yarn install
 
-COPY . .
-
 ENV NATS_URI='nats://nats:4222'
-ENV ES_HOST='0.0.0.0'
+ENV ES_HOST='elasticsearch'
 ENV ES_PORT='9200'
 
-CMD npm start
+COPY wait-for-it.sh ./wait-for-it.sh
+RUN chmod +x wait-for-it.sh
+
+COPY . .
+
+CMD ["./wait-for-it.sh" , "elasticsearch:9200" , "--strict" , "--timeout=300" , "--" , "npm start"]
