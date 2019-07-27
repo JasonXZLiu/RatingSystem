@@ -26,7 +26,7 @@ import {
   ACTION_SUBMIT_MATCHES
 } from "../pages/tournament/TournamentAction";
 
-export const basePath = "http://localhost:4001";
+export const basePath = "http://localhost:5001";
 
 export const handleResponse = async response => {
   if (!response.ok)

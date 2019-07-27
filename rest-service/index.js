@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import graphqlHTTP from "express-graphql";
 import schedule from "node-schedule";
-import { app } from "./src/middlewares/server";
+import { app } from "./server";
 import { setup } from "./src/setup/setup";
 import { calculateRatings } from "./src/core/services/ratingCalculationService";
 
@@ -21,12 +20,10 @@ db.once("open", function() {
 
 // REST API
 const HOST = process.env.SERVER_HOST || "localhost";
-const PORT = process.env.SERVER_PORT || 4000;
+const PORT = process.env.SERVER_PORT || 5000;
 
 app.listen(PORT, HOST);
 console.log(`server listening on port: ${PORT}`);
-
-// GraphQL API
 
 // node schedule
 const rule = new schedule.RecurrenceRule();

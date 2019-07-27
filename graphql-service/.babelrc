@@ -1,0 +1,17 @@
+{
+  "presets": ["env"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "test": "./test",
+          "underscore": "lodash"
+        }
+      }
+    ],
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
+    ["transform-runtime"]
+  ]
+}

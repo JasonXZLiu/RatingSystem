@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import Card from "../../components/cardView/Card";
+import Card from "../cardView/Card";
 import { withStyles } from "@material-ui/styles";
 
 const style = {
