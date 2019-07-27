@@ -1,17 +1,15 @@
 {
-  "presets": ["env"],
-  "plugins": [
+  "presets": [
     [
-      "module-resolver",
+      "@babel/preset-env",
       {
-        "root": ["./src"],
-        "alias": {
-          "test": "./test",
-          "underscore": "lodash"
+        "targets": {
+          "node": "current"
         }
       }
-    ],
-    ["transform-object-rest-spread", { "useBuiltIns": true }],
-    ["transform-runtime"]
-  ]
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"],
+  "sourceMaps": "inline",
+  "retainLines": true
 }

@@ -5,7 +5,7 @@ import {
 import { Match } from "../schemas/match";
 import { toMatchObjects } from "../models/matchDTO";
 import { getTournamentById } from "../repositories/tournamentRepository";
-import { nc, CREATE_MATCH } from "../../repository";
+import { nc, CREATE_MATCH } from "../repository";
 
 async function verifyMatchForTournament(tournament, match) {
   if (tournament.name !== match.tournament) {

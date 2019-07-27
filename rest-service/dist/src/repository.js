@@ -9,17 +9,19 @@ var _nats = require("nats");
 
 var _nats2 = _interopRequireDefault(_nats);
 
-var _playerRepository = require("./core/repositories/playerRepository");
+var _playerRepository = require("./repositories/playerRepository");
 
-var _filterSelectorRepository = require("./core/repositories/filterSelectorRepository");
+var _filterSelectorRepository = require("./repositories/filterSelectorRepository");
 
-var _tournamentRepository = require("./core/repositories/tournamentRepository");
+var _tournamentRepository = require("./repositories/tournamentRepository");
 
-var _tournamentService = require("./core/services/tournamentService");
+var _tournamentService = require("./services/tournamentService");
 
-var _countryCodeRepository = require("./core/repositories/countryCodeRepository");
+var _countryCodeRepository = require("./repositories/countryCodeRepository");
 
-var _matchRepository = require("./core/repositories/matchRepository");
+var _matchRepository = require("./repositories/matchRepository");
+
+var _ratingCalculationService = require("./services/ratingCalculationService");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85,6 +87,8 @@ var postData = exports.postData = function postData(request, params) {
       return (0, _tournamentService.verifyTournamentMatches)(params);
     case SUBMIT_TOURNAMENT_MATCHES:
       return (0, _tournamentService.submitTournamentMatches)(params);
+    case CALCULATE_RATINGS:
+      return (0, _ratingCalculationService.calculateRatings)();
     default:
       break;
   }
@@ -97,9 +101,9 @@ var CREATE_MATCH = exports.CREATE_MATCH = "CREATE_MATCH";
 var CREATE_TOURNAMENT = exports.CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 var CREATE_RATING_CALCULATION = exports.CREATE_RATING_CALCULATION = "CREATE_RATING_CALCULATION";
 
-// var nc = NATS.connect(process.env.NATS_URI);
+// export var nc = NATS.connect({ url: process.env.NATS_URI });
 
-var insertData = exports.insertData = function insertData(request, params) {
+var insertData = exports.insertData = async function insertData(request, params) {
   switch (request) {
     case CREATE_COUNTRY_CODE:
     case CREATE_FILTER_SELECTOR:
@@ -107,8 +111,6 @@ var insertData = exports.insertData = function insertData(request, params) {
     case CREATE_PLAYER:
     case CREATE_TOURNAMENT:
     case CREATE_RATING_CALCULATION:
-      var temp = "hello";
-      console.log("creating something", temp);
-      return temp;
+      return nc.publish(request, JSON.stringify(params));
   }
 };

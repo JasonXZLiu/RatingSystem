@@ -4,28 +4,29 @@ import {
   getPlayerById,
   getRatings,
   getPlayerMatchHistory
-} from "./core/repositories/playerRepository";
+} from "./repositories/playerRepository";
 import {
   getSex,
   getCategory,
   getProvince,
   getResult
-} from "./core/repositories/filterSelectorRepository";
+} from "./repositories/filterSelectorRepository";
 import {
   getTournaments,
   getTournamentById
-} from "./core/repositories/tournamentRepository";
+} from "./repositories/tournamentRepository";
 import {
   verifyTournamentMatches,
   submitTournamentMatches
-} from "./core/services/tournamentService";
-import { getCountryCode } from "./core/repositories/countryCodeRepository";
+} from "./services/tournamentService";
+import { getCountryCode } from "./repositories/countryCodeRepository";
 import {
   getMatches,
   getMatchById,
   getMatchesByTournamentId,
   getMatchesByPlayerId
-} from "./core/repositories/matchRepository";
+} from "./repositories/matchRepository";
+import { calculateRatings } from "./services/ratingCalculationService";
 
 export const PLAYERS = "PLAYERS";
 export const PLAYER_BY_ID = "PLAYER_BY_ID";
@@ -89,6 +90,8 @@ export const postData = (request, params) => {
       return verifyTournamentMatches(params);
     case SUBMIT_TOURNAMENT_MATCHES:
       return submitTournamentMatches(params);
+    case CALCULATE_RATINGS:
+      return calculateRatings();
     default:
       break;
   }

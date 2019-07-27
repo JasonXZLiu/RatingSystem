@@ -91,7 +91,6 @@ const calculateRating = async match => {
 
   // change only newRating field (will be reconciled later at the end)
   if (winnerRating && loserRating) {
-    console.log("not temporary");
     await updatePlayerRatingsForMatch(winner, loser, winnerRating, loserRating);
     console.log("new winner rating", winner.newRating.rating);
     console.log("new loser rating", loser.newRating.rating);

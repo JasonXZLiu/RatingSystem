@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import schedule from "node-schedule";
 import { app } from "./server";
 import { setup } from "./src/setup/setup";
-import { calculateRatings } from "./src/core/services/ratingCalculationService";
+import { calculateRatings } from "./src/services/ratingCalculationService";
 
 const MONGO_HOST = process.env.MONGO_HOST || "localhost";
 const DB_NAME = process.env.DB_NAME || "ratingsystem";

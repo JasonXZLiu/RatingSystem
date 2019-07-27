@@ -22,7 +22,7 @@ import {
   VERIFY_TOURNAMENT_MATCHES,
   SUBMIT_TOURNAMENT_MATCHES,
   CALCULATE_RATINGS
-} from "../repository";
+} from "./src/repository";
 
 export const app = express();
 

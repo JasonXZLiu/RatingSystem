@@ -7,7 +7,8 @@ export const typeDefs = gql`
     tournaments: [Tournament]
     tournament(id: ID!): Tournament
     ratings: [Rating]
-    matches: [Match]
+    matches(playerId: Int, tournamentId: Int): [Match]
+    match(id: ID!): Match
   }
 
   type Player {
