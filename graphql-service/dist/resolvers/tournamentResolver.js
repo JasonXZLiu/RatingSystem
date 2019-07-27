@@ -1,0 +1,9 @@
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  Query: {
+    tournaments: (root, args, { dataSources }) =>
+    dataSources.tournamentAPI.getAllTournaments(),
+    tournament: (root, args, { dataSources }) => {
+      const { id } = args;
+      return dataSources.tournamentAPI.getTournamentById({ tournamentId: id });
+    } } };exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9yZXNvbHZlcnMvdG91cm5hbWVudFJlc29sdmVyLmpzIl0sIm5hbWVzIjpbIlF1ZXJ5IiwidG91cm5hbWVudHMiLCJyb290IiwiYXJncyIsImRhdGFTb3VyY2VzIiwidG91cm5hbWVudEFQSSIsImdldEFsbFRvdXJuYW1lbnRzIiwidG91cm5hbWVudCIsImlkIiwiZ2V0VG91cm5hbWVudEJ5SWQiLCJ0b3VybmFtZW50SWQiXSwibWFwcGluZ3MiOiJtSEFBZTtBQUNiQSxFQUFBQSxLQUFLLEVBQUU7QUFDTEMsSUFBQUEsV0FBVyxFQUFFLENBQUNDLElBQUQsRUFBT0MsSUFBUCxFQUFhLEVBQUVDLFdBQUYsRUFBYjtBQUNYQSxJQUFBQSxXQUFXLENBQUNDLGFBQVosQ0FBMEJDLGlCQUExQixFQUZHO0FBR0xDLElBQUFBLFVBQVUsRUFBRSxDQUFDTCxJQUFELEVBQU9DLElBQVAsRUFBYSxFQUFFQyxXQUFGLEVBQWIsS0FBaUM7QUFDM0MsWUFBTSxFQUFFSSxFQUFGLEtBQVNMLElBQWY7QUFDQSxhQUFPQyxXQUFXLENBQUNDLGFBQVosQ0FBMEJJLGlCQUExQixDQUE0QyxFQUFFQyxZQUFZLEVBQUVGLEVBQWhCLEVBQTVDLENBQVA7QUFDRCxLQU5JLEVBRE0sRSIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IHtcclxuICBRdWVyeToge1xyXG4gICAgdG91cm5hbWVudHM6IChyb290LCBhcmdzLCB7IGRhdGFTb3VyY2VzIH0pID0+XHJcbiAgICAgIGRhdGFTb3VyY2VzLnRvdXJuYW1lbnRBUEkuZ2V0QWxsVG91cm5hbWVudHMoKSxcclxuICAgIHRvdXJuYW1lbnQ6IChyb290LCBhcmdzLCB7IGRhdGFTb3VyY2VzIH0pID0+IHtcclxuICAgICAgY29uc3QgeyBpZCB9ID0gYXJncztcclxuICAgICAgcmV0dXJuIGRhdGFTb3VyY2VzLnRvdXJuYW1lbnRBUEkuZ2V0VG91cm5hbWVudEJ5SWQoeyB0b3VybmFtZW50SWQ6IGlkIH0pO1xyXG4gICAgfVxyXG4gIH1cclxufTtcclxuIl19
