@@ -7,20 +7,21 @@ volumes:
 
 services:
   nats:
-    image: "nats:2.0.2"
-    entrypoint: "/nats-server"
+    image: "nats:0.8.0"
+    entrypoint: "/gnatsd -DV"
     ports:
       - 4222:4222
       - 8222:8222
     hostname: nats
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.1
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
+      - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ulimits:
       memlock:
         soft: -1
@@ -31,13 +32,13 @@ services:
       - 9200:9200
 
   kibana:
-    image: "docker.elastic.co/kibana/kibana:6.4.1"
+    image: docker.elastic.co/kibana/kibana:6.8.1
     container_name: kibana
     environment:
       SERVER_NAME: kibana.local
       ELASTICSEARCH_URL: http://elasticsearch:9200
     ports:
-      - "5601:5601"
+      - 5601:5601
     depends_on:
       - elasticsearch
 
@@ -51,20 +52,8 @@ services:
     depends_on:
       - elasticsearch
 
-  nginx:
-    restart: on-failure
-    image: nginx:latest
-    ports:
-      - 80:80
-    links:
-      - client
-      - kibana
-    depends_on:
-      - client
-      - kibana
-
   mongodbhandler:
-    restart: unless-stopped
+    restart: on-failure
     image: mongodbhandler:latest
     volumes:
       - ./mongodbhandler:/usr/src/app
@@ -78,8 +67,22 @@ services:
     tty: true
     stdin_open: true
 
+  elasticsearchhandler:
+    restart: on-failure
+    image: elasticsearchhandler:latest
+    volumes:
+      - ./elasticsearchhandler:/usr/src/app
+    links:
+      - elasticsearch
+      - nats
+    depends_on:
+      - elasticsearch
+      - nats
+    tty: true
+    stdin_open: true
+
   api:
-    restart: unless-stopped
+    restart: on-failure
     image: api:latest
     ports:
       - 4001:4000
@@ -91,16 +94,15 @@ services:
       - nats
     command: npm start
     depends_on:
+      - elasticsearchhandler
       - mongodbhandler
       - nats
     tty: true
     stdin_open: true
 
   client:
-    restart: unless-stopped
+    restart: on-failure
     image: client:latest
-    expose:
-      - 3000
     ports:
       - 3000:3000
     volumes:
@@ -112,3 +114,15 @@ services:
     stdin_open: true
     depends_on:
       - api
+
+  nginx:
+    restart: on-failure
+    image: nginx:latest
+    ports:
+      - 80:80
+    links:
+      - client
+      - kibana
+    depends_on:
+      - client
+      - kibana

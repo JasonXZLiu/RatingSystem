@@ -5,11 +5,11 @@ WORKDIR /app
 COPY ./package.json ./package.json
 RUN yarn install
 
-COPY . .
-
 ENV NATS_URI='nats://nats:4222'
-ENV MONGO_HOST='mongo'
-ENV DB_NAME='ratingSystem'
+ENV ES_HOST='elasticsearch'
+ENV ES_PORT='9200'
+
+COPY . .
 
 RUN apk add --no-cache openssl
 ENV DOCKERIZE_VERSION v0.6.1
@@ -17,4 +17,4 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-CMD dockerize -wait tcp://mongo:27017 -wait-retry-interval 5s npm start
+CMD dockerize -wait tcp://elasticsearch:9200 -wait-retry-interval 5s yarn start
