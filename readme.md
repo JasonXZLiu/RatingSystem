@@ -1,6 +1,6 @@
 # Overview
 
-An end-to-end table tennis rating application built using the MERN stack. Created GraphQL and REST APIs using Apollo and Express.js.
+An end-to-end 🏓 table tennis rating application built using the MERN stack. Created GraphQL and REST APIs using Apollo and Express.js.
 
 * Containerized services using Docker to separate client, web servers, and databases
 * Built an event driven microservices architecture that uses the publish-subscribe pattern
