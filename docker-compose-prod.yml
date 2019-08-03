@@ -1,0 +1,142 @@
+version: "3.1"
+
+volumes:
+  mongo_data:
+  esdata:
+    driver: local
+
+services:
+  nats:
+    image: "nats:0.8.0"
+    entrypoint: "/gnatsd -DV"
+    ports:
+      - 4222:4222
+      - 8222:8222
+    hostname: nats
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.1
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.8.1
+    container_name: kibana
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  mongo:
+    restart: unless-stopped
+    image: mongo:3.6.4
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+    depends_on:
+      - elasticsearch
+
+  mongodbhandler:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:mongodbhandler
+    volumes:
+      - ./mongodbhandler:/usr/src/app
+    links:
+      - mongo
+      - nats
+    command: npm start
+    depends_on:
+      - mongo
+      - nats
+    tty: true
+    stdin_open: true
+
+  elasticsearchhandler:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:elasticsearchhandler
+    volumes:
+      - ./elasticsearchhandler:/usr/src/app
+    links:
+      - elasticsearch
+      - nats
+    depends_on:
+      - elasticsearch
+      - nats
+    tty: true
+    stdin_open: true
+
+  restapi:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:restapi
+    ports:
+      - 5001:5000
+    volumes:
+      - ./restapi:/usr/src/app
+    links:
+      - mongo
+      - nats
+    command: npm start
+    depends_on:
+      - elasticsearchhandler
+      - mongodbhandler
+      - nats
+    tty: true
+    stdin_open: true
+
+  graphqlservice:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:graphqlservice
+    ports:
+      - 4001:4000
+    volumes:
+      - ./graphqlservice:/usr/src/app
+    links:
+      - restapi
+    command: npm start
+    depends_on:
+      - restapi
+    tty: true
+    stdin_open: true
+
+  client:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/usr/src/app
+      - /app/node_modules
+    links:
+      - restapi
+    command: npm start
+    stdin_open: true
+    depends_on:
+      - restapi
+
+  nginx:
+    restart: on-failure
+    image: jasonxzliu/ratingsystem:nginx
+    ports:
+      - 80:80
+    links:
+      - client
+      - kibana
+    depends_on:
+      - client
+      - kibana

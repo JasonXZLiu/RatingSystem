@@ -24,7 +24,8 @@ import {
   getMatches,
   getMatchById,
   getMatchesByTournamentId,
-  getMatchesByPlayerId
+  getMatchesByPlayerId,
+  insertMatches
 } from "./repositories/matchRepository";
 import { calculateRatings } from "./services/ratingCalculationService";
 
@@ -101,6 +102,8 @@ export const CREATE_COUNTRY_CODE = "CREATE_COUNTRY_CODE";
 export const CREATE_FILTER_SELECTOR = "CREATE_FILTER_SELECTOR";
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const CREATE_MATCH = "CREATE_MATCH";
+export const CREATE_ES_MATCH = "CREATE_ES_MATCH";
+export const CREATE_MONGO_MATCH = "CREATE_MONGO_MATCH";
 export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const CREATE_RATING_CALCULATION = "CREATE_RATING_CALCULATION";
 
@@ -110,10 +113,11 @@ export const insertData = async (request, params) => {
   switch (request) {
     case CREATE_COUNTRY_CODE:
     case CREATE_FILTER_SELECTOR:
-    case CREATE_MATCH:
     case CREATE_PLAYER:
     case CREATE_TOURNAMENT:
     case CREATE_RATING_CALCULATION:
       return nc.publish(request, JSON.stringify(params));
+    case CREATE_MATCH:
+      insertMatches(params);
   }
 };

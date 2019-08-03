@@ -57,7 +57,7 @@ export const verifyMatches = params => dispatch => {
   return fetch(ACTION_VERIFY_MATCHES, params)
     .then(verifiedMatches => {
       const matches = verifiedMatches.matches;
-      const count = verifiedMatches.count;
+      const count = matches.count;
       dispatch({
         type: ACTION_RECEIVE_MATCH_VERIFICATION,
         matches,

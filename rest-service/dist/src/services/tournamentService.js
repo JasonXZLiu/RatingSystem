@@ -15,6 +15,8 @@ var _tournamentRepository = require("../repositories/tournamentRepository");
 
 var _repository = require("../repository");
 
+var _matchRepository = require("../repositories/matchRepository");
+
 async function verifyMatchForTournament(tournament, match) {
   if (tournament.name !== match.tournament) {
     throw Error("some matches were submitted for the wrong tournament");
@@ -58,12 +60,48 @@ var getMatchFromVerifiedMatches = function getMatchFromVerifiedMatches(match) {
   return match;
 };
 
+var getAllFieldsFromMatch = async function getAllFieldsFromMatch(matches) {
+  var count = 0;
+  var matchesToReturn = [];
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = matches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var match = _step.value;
+
+      matchesToReturn[count++] = await (0, _matchRepository.getMatchById)(match.id);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return matchesToReturn;
+};
+
+var insertMatches = async function insertMatches(matches) {
+  _repository.nc.publish(CREATE_MONGO_MATCH, JSON.stringify(matches));
+  _repository.nc.publish(CREATE_ES_MATCH, JSON.stringify((await getAllFieldsFromMatch(matches))));
+};
+
 var submitTournamentMatches = exports.submitTournamentMatches = async function submitTournamentMatches(params) {
   var verifiedMatches = params;
   var matchesToSubmit = await Promise.all(verifiedMatches.map(function (match) {
     return getMatchFromVerifiedMatches(match);
   }));
   var matches = await (0, _matchDTO.toMatchObjects)(matchesToSubmit);
-  _repository.nc.publish(_repository.CREATE_MATCH, JSON.stringify(matches));
+  insertMatches(matches);
   return matchesToSubmit;
 };

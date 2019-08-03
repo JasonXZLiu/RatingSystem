@@ -1,11 +1,7 @@
-import {
-  getPlayerIdToVerifyByName,
-  getPlayerObjectIdById
-} from "../repositories/playerRepository";
-import { Match } from "../schemas/match";
-import { toMatchObjects } from "../models/matchDTO";
+import { getPlayerIdToVerifyByName } from "../repositories/playerRepository";
+import { toMatchObjects, toMatchObjectsByPlayerId } from "../models/matchDTO";
 import { getTournamentById } from "../repositories/tournamentRepository";
-import { nc, CREATE_MATCH } from "../repository";
+import { insertData, CREATE_MATCH } from "../repository";
 
 async function verifyMatchForTournament(tournament, match) {
   if (tournament.name !== match.tournament) {
@@ -57,7 +53,7 @@ export const submitTournamentMatches = async params => {
   const matchesToSubmit = await Promise.all(
     verifiedMatches.map(match => getMatchFromVerifiedMatches(match))
   );
-  const matches = await toMatchObjects(matchesToSubmit);
-  nc.publish(CREATE_MATCH, JSON.stringify(matches));
+  const matches = await toMatchObjectsByPlayerId(matchesToSubmit);
+  insertData(CREATE_MATCH, matches);
   return matchesToSubmit;
 };
