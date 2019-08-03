@@ -13,7 +13,7 @@ import { filterData } from "./filterData";
 import { countryCodeData } from "./countryCodeData";
 import { tournamentData } from "./tournamentData";
 import { ratingCalculationData } from "./ratingCalculationData";
-import { toMatchObjects } from "../models/matchDTO";
+import { toMatchObjects, toMatchObjectsByPlayerName } from "../models/matchDTO";
 
 export const CREATE_MATCH = "CREATE_MATCH";
 
@@ -44,7 +44,7 @@ export async function setup() {
     await RatingCalculation.create(ratingCalculationData);
     await Player.create(playerData);
     await Tournament.create(tournamentData);
-    const matches = await toMatchObjects(matchData);
+    const matches = await toMatchObjectsByPlayerName(matchData);
     await insertData(CREATE_MATCH, matches);
 
     console.log("seed data succeeded");

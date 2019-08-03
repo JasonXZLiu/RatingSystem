@@ -28,7 +28,6 @@ export async function getAllFieldsFromMatchesWithIds(matchIds) {
   const matches = await Promise.all(
     matchIds.map(id => getAllFieldsFromMatchById({ id }))
   );
-  console.log(matches);
   return matches;
 }
 

@@ -1,5 +1,5 @@
 import { getPlayerIdToVerifyByName } from "../repositories/playerRepository";
-import { toMatchObjects } from "../models/matchDTO";
+import { toMatchObjects, toMatchObjectsByPlayerId } from "../models/matchDTO";
 import { getTournamentById } from "../repositories/tournamentRepository";
 import { insertData, CREATE_MATCH } from "../repository";
 
@@ -53,7 +53,7 @@ export const submitTournamentMatches = async params => {
   const matchesToSubmit = await Promise.all(
     verifiedMatches.map(match => getMatchFromVerifiedMatches(match))
   );
-  const matches = await toMatchObjects(matchesToSubmit);
+  const matches = await toMatchObjectsByPlayerId(matchesToSubmit);
   insertData(CREATE_MATCH, matches);
   return matchesToSubmit;
 };
