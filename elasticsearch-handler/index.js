@@ -1,8 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
 import { subscribeActions } from "./src/actionSubscriber";
-import { PLAYER_INDEX } from "./src/repositories/playerRepository";
-import { TOURNAMENT_INDEX } from "./src/repositories/tournamentRepository";
-import { MATCH_INDEX } from "./src/repositories/matchRepository";
 import { setup } from "./src/setup/setup";
 
 const ES_HOST = process.env.ES_HOST || "localhost";

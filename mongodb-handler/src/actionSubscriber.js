@@ -8,7 +8,7 @@ import { FilterSelector } from "./schemas/filterSelector";
 
 export const CREATE_COUNTRY_CODE = "CREATE_COUNTRY_CODE";
 export const CREATE_FILTER_SELECTOR = "CREATE_FILTER_SELECTOR";
-export const CREATE_MATCH = "CREATE_MATCH";
+export const CREATE_MONGO_MATCH = "CREATE_MONGO_MATCH";
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const CREATE_RATING_CALCULATION = "CREATE_RATING_CALCULATION";
@@ -27,7 +27,7 @@ export const subscribeActions = () => {
     FilterSelector.create(JSON.parse(msg));
   });
 
-  nc.subscribe(CREATE_MATCH, msg => {
+  nc.subscribe(CREATE_MONGO_MATCH, msg => {
     console.log(msg);
     Match.create(JSON.parse(msg));
     return JSON.parse(msg);

@@ -1,4 +1,4 @@
-import { nc } from "../repository";
+import { nc, insertData } from "../repository";
 
 import { Player } from "../schemas/player";
 import { Match } from "../schemas/match";
@@ -45,7 +45,7 @@ export async function setup() {
     await Player.create(playerData);
     await Tournament.create(tournamentData);
     const matches = await toMatchObjects(matchData);
-    await nc.publish(CREATE_MATCH, JSON.stringify(matches));
+    await insertData(CREATE_MATCH, matches);
 
     console.log("seed data succeeded");
   } else console.log("database already seeded");
